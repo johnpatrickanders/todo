@@ -13,3 +13,23 @@ class User(db.Model, UserMixin):
     firstname = db.Column(db.String(40), nullable=False)
     lastname = db.Column(db.String(40), nullable=False)
     hashed_password = db.Column(db.String(100), nullable=False)
+
+    @property
+    def password(self):
+        return self.hashed_password
+
+    @password.setter
+    def password(self, password):
+        self.hashed_password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+
+class List(db.Model):
+    __tablename__ = 'lists'
+
+    id = db.Column(db.Integer, primary_key=True)
+    userId = db.Column(db.Integer, nullable=False)
+
+    user = db.relationship('User', foreign_keys=userId)
