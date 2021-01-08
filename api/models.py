@@ -30,6 +30,6 @@ class List(db.Model):
     __tablename__ = 'lists'
 
     id = db.Column(db.Integer, primary_key=True)
-    userId = db.Column(db.Integer, nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     user = db.relationship('User', foreign_keys=userId)
