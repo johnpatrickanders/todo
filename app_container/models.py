@@ -32,4 +32,13 @@ class List(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    user = db.relationship('User', foreign_keys=userId)
+    userId = db.relationship('User', foreign_keys=userId)
+
+class Task(db.Model):
+    __tablename__ = 'tasks'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(1000), nullable=False)
+    listId = db.Column(db.Integer, db.ForeignKey('lists.id'), nullable=False)
+
+    listId = db.relationship('List', back_populates='lists')
