@@ -15,28 +15,27 @@ with app.app_context():
 
     seeder = [
         User(
+            email="demo@example.com",
             firstname="demo",
             lastname="user",
-            email="demo@example.com",
             password="password",
         ),
         User(
+            email="second@example.com",
             firstname="second",
             lastname="person",
-            email="second@example.com",
             password="password",
         ),
         User(
+            email="test@test.com",
             firstname="TestFirstName",
             lastname="TestLastName",
             password="password",
-            email="test@test.com",
         ),
         List(userId=1, title="Home"),
         List(userId=1, title="Work"),
         List(userId=1, title="Invest?"),
         List(userId=2, title="School"),
-        List(userId=3, title="Pet"),
         Task(listId=1, title="Do Somthing Cool"),
         Task(listId=1, title="Do Somthing Cool But Safe"),
         Task(listId=1, title="Do Somthing Else Cool"),

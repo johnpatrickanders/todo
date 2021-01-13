@@ -1,10 +1,10 @@
 import os
 import time
 from flask import Flask
-from config import Config
+from app_container.config import Config
 # from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from models import db
+from app_container.models import db, User
 from flask_migrate import Migrate
 
 app = Flask(__name__)

@@ -1,11 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+# from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
 
-class User(db.Model, UserMixin):
+class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -13,6 +13,17 @@ class User(db.Model, UserMixin):
     firstname = db.Column(db.String(40), nullable=False)
     lastname = db.Column(db.String(40), nullable=False)
     hashed_password = db.Column(db.String(100), nullable=False)
+
+    lists = db.relationship("List", back_populates="userId")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "firstname": self.firstname,
+            "lastname": self.lastname,
+            "email": self.email,
+        }
 
     @property
     def password(self):
@@ -33,7 +44,7 @@ class List(db.Model):
     title = db.Column(db.String(1000), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    userId = db.relationship('User', foreign_keys=userId)
+    user = db.relationship('User', back_populates='lists')
 
 class Task(db.Model):
     __tablename__ = 'tasks'
