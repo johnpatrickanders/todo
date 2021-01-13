@@ -1,9 +1,11 @@
 import os
 import time
 from flask import Flask
-from app_container.config import Config
+from config import Config
 # from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from models import db
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 if __name__ == "__main__":
@@ -11,6 +13,8 @@ if __name__ == "__main__":
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.sqlite3'
 app.config.from_object(Config)
+db.init_app(app)
+Migrate(app, db)
 
 
 @app.route('/')
@@ -20,4 +24,6 @@ def home():
 
 @app.route('/time')
 def get_current_time():
+    # my_list = db.List()
+    # db.session.add
     return {'time': time.time()}

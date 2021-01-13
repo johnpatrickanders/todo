@@ -4,9 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+psycopg2-binary = "*"
 
 [packages]
-psycopg2-binary = "*"
+alembic = "*"
+flask-migrate = "*"
 
 [requires]
 python_version = "3.8"
