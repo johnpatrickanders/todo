@@ -1,5 +1,5 @@
 import os
-import time
+# import time
 from flask import Flask
 from app_container.config import Config
 # from flask_cors import CORS
@@ -22,8 +22,8 @@ def home():
     return {'message': 'hope on'}
 
 
-@app.route('/time')
-def get_current_time():
-    # my_list = db.List()
-    # db.session.add
-    return {'time': time.time()}
+# @app.route('/time')
+# def get_current_time():
+#     # my_list = db.List()
+#     # db.session.add
+#     return {'time': time.time()}

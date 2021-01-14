@@ -1,12 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
-# from flask_login import UserMixin
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
 
-class User(db.Model):
-    __tablename__ = 'users'
+class User(db.Model, UserMixin):
+    __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
@@ -14,7 +14,7 @@ class User(db.Model):
     lastname = db.Column(db.String(40), nullable=False)
     hashed_password = db.Column(db.String(100), nullable=False)
 
-    lists = db.relationship("List", back_populates="userId")
+    tasklists = db.relationship("TaskList", back_populates="user")
 
     def to_dict(self):
         return {
@@ -37,20 +37,20 @@ class User(db.Model):
         return check_password_hash(self.password, password)
 
 
-class List(db.Model):
-    __tablename__ = 'lists'
+class TaskList(db.Model):
+    __tablename__ = "tasklists"
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(1000), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    user = db.relationship('User', back_populates='lists')
+    user = db.relationship("User", back_populates="tasklists")
 
 class Task(db.Model):
-    __tablename__ = 'tasks'
+    __tablename__ = "tasks"
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(1000), nullable=False)
-    listId = db.Column(db.Integer, db.ForeignKey('lists.id'), nullable=False)
+    taskListId = db.Column(db.Integer, db.ForeignKey("tasklists.id"), nullable=False)
 
-    listId = db.relationship('List', back_populates='lists')
+    taskList = db.relationship("TaskList", foreign_keys=taskListId)
