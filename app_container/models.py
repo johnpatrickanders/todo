@@ -41,8 +41,8 @@ class TaskList(db.Model):
     __tablename__ = "tasklists"
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(1000), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    title = db.Column(db.String(1000), nullable=False)
 
     user = db.relationship("User", back_populates="tasklists")
 
@@ -50,7 +50,7 @@ class Task(db.Model):
     __tablename__ = "tasks"
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(1000), nullable=False)
     taskListId = db.Column(db.Integer, db.ForeignKey("tasklists.id"), nullable=False)
+    title = db.Column(db.String(1000), nullable=False)
 
     taskList = db.relationship("TaskList", foreign_keys=taskListId)
