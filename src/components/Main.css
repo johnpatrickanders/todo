@@ -1,0 +1,32 @@
+.main {
+  display: grid;
+  justify-items: start;
+  align-items: start;
+  grid-template-columns: 250px auto;
+  grid-template-rows: 100px auto;
+  column-gap: 10px;
+  row-gap: 10px;
+  grid-template-areas:
+    "header header"
+    "lists tasks";
+  border: black;
+  margin: 12px;
+}
+
+.main__header {
+  background-color: red;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+.main__lists {
+  background-color: blue;
+
+}
+
+.main__tasks {
+  background-color: green;
+
+}

@@ -5,7 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Home from './components/Home';
+import Main from './components/Main';
 import './App.css';
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/">
-            <Home />
+            <Main />
           </Route>
         </Switch>
       </div>
