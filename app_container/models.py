@@ -19,7 +19,6 @@ class User(db.Model, UserMixin):
     def to_dict(self):
         return {
             "id": self.id,
-            "username": self.username,
             "firstname": self.firstname,
             "lastname": self.lastname,
             "email": self.email,
@@ -45,6 +44,13 @@ class TaskList(db.Model):
     title = db.Column(db.String(1000), nullable=False)
 
     user = db.relationship("User", back_populates="tasklists")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "userId": self.userId,
+            "title": self.title,
+        }
 
 class Task(db.Model):
     __tablename__ = "tasks"
