@@ -37,5 +37,8 @@ def get_tasklists():
     return {'tasklists': res}
 
 
-# @app.route('/tasks')
-# def
+@app.route('/tasks')
+def get_tasks():
+    tasks = Task.query.filter(Task.taskListId == 1).all()
+    res = [object_as_dict(task) for task in tasks]
+    return {'tasks': res}
