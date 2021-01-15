@@ -2,31 +2,31 @@
   display: grid;
   justify-items: start;
   align-items: start;
-  grid-template-columns: 250px auto;
-  grid-template-rows: 100px auto;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: auto 1fr;
   column-gap: 10px;
-  row-gap: 10px;
+  row-gap: 7px;
   grid-template-areas:
     "header header"
     "lists tasks";
   border: black;
-  margin: 12px;
+  margin: 7px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: large;
 }
 
-.main__header {
-  background-color: red;
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 2;
+.main > div {
+  justify-self: stretch;
 }
+
 
 .main__lists {
   background-color: blue;
-
+  /* align-self: stretch; */
+  height: calc(100vh - 71px);
 }
 
 .main__tasks {
   background-color: green;
-
+  height: calc(100vh - 71px);
 }
