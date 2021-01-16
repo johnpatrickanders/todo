@@ -10,7 +10,7 @@ import './App.css';
 
 function App() {
   const [user, setUser] = useState({});
-  const [lists, setLists] = useState({});
+  const [lists, setLists] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -31,7 +31,7 @@ function App() {
       const res = await fetch('/tasklists');
       if (res.status >= 200 && res.status < 400) {
         const data = await res.json();
-        setLists(data.tasklists);
+        setLists([...data.tasklists]);
       } else {
         console.error('Bad response');
       }
