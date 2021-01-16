@@ -22,9 +22,10 @@ def object_as_dict(obj):
             for c in inspect(obj).mapper.column_attrs}
 
 
-@app.route('/')
+@app.route('/home')
 def home():
     user = User.query.get(int(1)).to_dict()
+    print("Home User:", user)
     return {'user': user}
 
 

@@ -1,7 +1,8 @@
 import './Header.css';
 import todo from '../todo.png';
 
-export default function () {
+export default function (props) {
+
   return (
     <div className="main__header">
       <div className="header__left">Left</div>
