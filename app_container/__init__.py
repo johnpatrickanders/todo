@@ -26,7 +26,7 @@ def object_as_dict(obj):
 def home():
     user = User.query.get(int(1)).to_dict()
     print("Home User:", user)
-    return {'user': user}
+    return user
 
 
 @app.route('/tasklists')

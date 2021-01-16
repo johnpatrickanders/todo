@@ -9,30 +9,34 @@ import Main from './components/Main';
 import './App.css';
 
 function App() {
-  const [user, setCurrentUser] = useState(0);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     // fetch('/home')
     //   .then(res => res.json())
     //   .then(data => setCurrentUser(data))
 
-    (async function fetchData() {
+    async function fetchData() {
       const res = await fetch('/home');
       if (res.status >= 200 && res.status < 400) {
         const data = await res.json();
-        setCurrentUser(data);
+        setUser(data);
       } else {
         console.error('Bad response');
       }
-      console.log(user);
-    })()
-    // console.log(user);
+      // console.log(user);
+    }
+    fetchData();
   }, [])
 
   return (
-    <Router>
-      <div>
-        {/* <nav>
+    <>
+      <p style={{ backgroundColor: "orange", height: "50px" }}>
+        {user ? user.firstname : "loading"}
+      </p>
+      <Router>
+        <div>
+          {/* <nav>
           <ul>
             <li>
               <Link to="/">Home</Link>
@@ -46,15 +50,16 @@ function App() {
           </ul>
         </nav> */}
 
-        {/* A <Switch> looks through its children <Route>s and
+          {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/">
-            <Main />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+          <Switch>
+            <Route path="/">
+              <Main user={user} />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </>
   );
 }
 

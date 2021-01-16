@@ -5,15 +5,13 @@ import Header from './Header';
 import Lists from './Lists';
 import Tasks from './Tasks';
 
-export default function () {
+export default function ({ user }) {
   return (
-    <div className="main">
-      {/* <h1>HELLO WORLD</h1> */}
-      <Header >
+    <div
+      className="main">
+      <Header user={user}>
       </Header>
-      {/* <div className="main__lists"><p>two</p></div> */}
       <Lists ></Lists>
-      {/* <div className="main__tasks"><p>three</p></div> */}
       <Tasks></Tasks>
     </div>
   )
