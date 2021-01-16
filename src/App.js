@@ -10,6 +10,7 @@ import './App.css';
 
 function App() {
   const [user, setUser] = useState({});
+  const [lists, setLists] = useState({});
 
   useEffect(() => {
     async function fetchData() {
@@ -23,6 +24,21 @@ function App() {
     }
     fetchData();
   }, [])
+
+  useEffect(() => {
+    if (!user) return;
+    async function fetchData() {
+      const res = await fetch('/tasklists');
+      if (res.status >= 200 && res.status < 400) {
+        const data = await res.json();
+        setLists(data.tasklists);
+      } else {
+        console.error('Bad response');
+      }
+    }
+    fetchData();
+  }, [])
+  console.log(lists);
 
   return (
     <>
@@ -46,7 +62,7 @@ function App() {
             renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/">
-              <Main user={user} />
+              <Main user={user} lists={lists} />
             </Route>
           </Switch>
         </div>
