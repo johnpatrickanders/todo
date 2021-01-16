@@ -12,10 +12,6 @@ function App() {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    // fetch('/home')
-    //   .then(res => res.json())
-    //   .then(data => setCurrentUser(data))
-
     async function fetchData() {
       const res = await fetch('/home');
       if (res.status >= 200 && res.status < 400) {
@@ -24,16 +20,12 @@ function App() {
       } else {
         console.error('Bad response');
       }
-      // console.log(user);
     }
     fetchData();
   }, [])
 
   return (
     <>
-      <p style={{ backgroundColor: "orange", height: "50px" }}>
-        {user ? user.firstname : "loading"}
-      </p>
       <Router>
         <div>
           {/* <nav>
