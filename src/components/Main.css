@@ -2,7 +2,7 @@
   display: grid;
   justify-items: start;
   align-items: start;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 350px 1fr;
   grid-template-rows: auto 1fr;
   column-gap: 10px;
   row-gap: 7px;
@@ -13,6 +13,8 @@
   margin: 7px;
   font-family: 'Courier New', Courier, monospace;
   font-size: large;
+  color: whitesmoke;
+  font-weight: 550;
 }
 
 .main > div {
@@ -24,9 +26,11 @@
   background-color: blue;
   /* align-self: stretch; */
   height: calc(100vh - 71px);
+  padding: 0px 7px 0px 7px;
 }
 
 .main__tasks {
   background-color: green;
   height: calc(100vh - 71px);
+  padding: 0px 7px 0px 7px;
 }
