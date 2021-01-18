@@ -11,8 +11,8 @@ export default function ({ user, lists, tasks }) {
       className="main">
       <Header user={user}>
       </Header>
-      <Lists lists={lists}></Lists>
-      <Tasks tasks={tasks}></Tasks>
+      <Lists lists={lists} tasks={tasks}></Lists>
+      {/* <Tasks tasks={tasks} taskListId={lists.id}></Tasks> */}
     </div>
   )
 }
