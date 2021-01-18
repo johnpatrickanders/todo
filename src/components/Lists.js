@@ -31,7 +31,7 @@ export default function ({ lists, tasks }) {
           </div>
         ))}
       </div>
-      {listId ? <Tasks tasks={tasks} listId={listId}></Tasks> : null}
+      {<Tasks tasks={tasks} listId={listId}></Tasks>}
     </>
   )
 }
