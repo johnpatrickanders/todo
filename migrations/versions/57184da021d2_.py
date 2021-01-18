@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 2a7f2d74edd9
+Revision ID: 57184da021d2
 Revises: 
-Create Date: 2021-01-14 10:41:17.200231
+Create Date: 2021-01-18 17:02:46.514113
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2a7f2d74edd9'
+revision = '57184da021d2'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,6 +31,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userId', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=1000), nullable=False),
+    sa.Column('created_on', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('updated_on', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -38,6 +40,9 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('taskListId', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=1000), nullable=False),
+    sa.Column('done', sa.Boolean(), nullable=True),
+    sa.Column('created_on', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('updated_on', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.ForeignKeyConstraint(['taskListId'], ['tasklists.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

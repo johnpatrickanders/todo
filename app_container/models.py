@@ -42,6 +42,8 @@ class TaskList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     title = db.Column(db.String(1000), nullable=False)
+    created_on = db.Column(db.DateTime, server_default=db.func.now())
+    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     user = db.relationship("User", back_populates="tasklists")
 
@@ -58,5 +60,8 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     taskListId = db.Column(db.Integer, db.ForeignKey("tasklists.id"), nullable=False)
     title = db.Column(db.String(1000), nullable=False)
+    done = db.Column(db.Boolean, default=False)
+    created_on = db.Column(db.DateTime, server_default=db.func.now())
+    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     taskList = db.relationship("TaskList", foreign_keys=taskListId)
