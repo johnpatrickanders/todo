@@ -14,7 +14,7 @@ export default function ({ lists, tasks }) {
   }
   useEffect(() => {
 
-  }, [listId])
+  }, [listId]);
 
   return (
     <>
