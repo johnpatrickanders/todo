@@ -42,10 +42,10 @@ export default function ({ tasks, listId }) {
       <h3>
         Associated Tasks
       </h3>
-      {tasksState ? tasksState.map(task => (
+      {filteredTasks ? filteredTasks.map(task => (
         <Task task={task}
           done={task.done}
-        // sortByClicked={sortByClicked}
+          sortByClicked={sortByClicked}
         />
       )) : null}
     </div>
