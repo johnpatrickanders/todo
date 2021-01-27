@@ -53,7 +53,7 @@ function App() {
     }
     fetchData();
   }, [])
-  console.log(tasks);
+  console.log("type of (APP):", typeof tasks);
 
   return (
     <>

@@ -1,38 +1,40 @@
 import './Tasks.css';
 import Task from './Task';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function ({ tasks, listId }) {
-  let filteredTasks = tasks.filter(task => task.taskListId === listId);
-  const [tasksState, setTasksState] = useState(tasks);
-  const sortByDone = (tasks) => {
-    for (let i = 0; i < tasks.length; i++) {
-      let task = tasks[i];
-      if (task.done) {
-        const temp = tasks.splice(i, 1);
-        tasks.push(...temp)
-      }
-    }
-    setTasksState(tasks);
-    console.log(tasks)
-  }
-
+  let [tasksState, setTasksState] = useState(tasks);
   const sortByClicked = (taskId) => {
     const temp = null;
-    for (let i = 0; i < filteredTasks.length; i++) {
+    for (let i = 0; i < tasksState.length; i++) {
       let task = tasks[i];
       if (taskId === task.id) {
         temp = tasks.splice(taskId, 1);
-        filteredTasks.push(temp);
-        return;
+        return tasksState.concat(temp);
       }
     }
   }
+  console.log(typeof tasks)
+  const sortByDone = (tasks) => {
+    const tempArr = [];
+    for (let i = 0; i < tasks.length; i++) {
+      let task = tasks[i];
+      if (task.done) {
+        // const temp = tasks.splice(i, 1);
+        tempArr.push(task)
+      } else {
+        tempArr.unshift(task);
+      }
+    }
+    console.log(tempArr);
+    return setTasksState(tempArr);
+  }
 
-  // useEffect(() => {
-  //   setTasksState(tasksState);
-  //   console.log("effect")
-  // }, [tasksState])
+
+  useEffect(() => {
+    setTasksState(tasks);
+    console.log("effect")
+  }, [tasks])
   console.log(tasksState)
 
   return (
@@ -42,10 +44,11 @@ export default function ({ tasks, listId }) {
       <h3>
         Associated Tasks
       </h3>
-      {filteredTasks ? filteredTasks.map(task => (
+      { tasksState ? tasksState.map(task => (
         <Task task={task}
           done={task.done}
-          sortByClicked={sortByClicked}
+          // sortByClicked={sortByClicked}
+          key={task.id}
         />
       )) : null}
     </div>
