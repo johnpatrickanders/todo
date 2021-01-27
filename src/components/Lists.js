@@ -3,18 +3,21 @@ import './Lists.css';
 import Tasks from './Tasks';
 
 export default function ({ lists, tasks }) {
-  const [listId, setListId] = useState(0);
-  const grabListId = (e) => {
-    console.log("KEY:", e.target.listid)
-    setListId(e.target);
+  const [listId, setListId] = useState(1);
+  const [filteredTasks, setFilteredTasks] = useState();
+  const grabListId = (id) => {
+    console.log("KEY:", id)
+    // setListId(id);
+    console.log(tasks)
+    setFilteredTasks(tasks.filter((task) => task.taskListId === id));
   }
-  const showTasks = (listId) => {
-    console.log(listId);
-    return (listId ? <Tasks tasks={tasks} listd={listId}></Tasks> : null)
-  }
+  // const showTasks = (listId) => {
+  //   console.log(listId);
+  //   return (listId ? <Tasks tasks={tasks} listd={listId}></Tasks> : null)
+  // }
   useEffect(() => {
-
-  }, [listId]);
+    setFilteredTasks(tasks);
+  }, []);
 
   return (
     <>
@@ -25,13 +28,13 @@ export default function ({ lists, tasks }) {
         {lists.map((list) => (
           <div
             listid={list.id}
-            onClick={() => setListId(list.id)}
+            onClick={() => grabListId(list.id)}
             className="lists__title">
             {list.title}
           </div>
         ))}
       </div>
-      {<Tasks tasks={tasks} listId={listId}></Tasks>}
+      {<Tasks tasks={filteredTasks} ></Tasks>}
     </>
   )
 }
