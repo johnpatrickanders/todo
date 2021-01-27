@@ -16,18 +16,19 @@ export default function ({ tasks, listId }) {
   }
   console.log(typeof tasks)
   const sortByDone = (tasks) => {
-    const tempArr = [];
+    const tempNorm = [];
+    const tempDone = []
     for (let i = 0; i < tasks.length; i++) {
       let task = tasks[i];
       if (task.done) {
         // const temp = tasks.splice(i, 1);
-        tempArr.push(task)
+        tempDone.push(task);
       } else {
-        tempArr.unshift(task);
+        tempNorm.push(task);
       }
     }
-    console.log(tempArr);
-    return setTasksState(tempArr);
+    // console.log(tempArr);
+    return setTasksState([...tempNorm, ...tempDone]);
   }
 
 
