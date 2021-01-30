@@ -2,3 +2,12 @@
   margin: 7px;
   cursor: pointer;
 }
+
+.lists__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.lists__button {
+  color: green;
+}

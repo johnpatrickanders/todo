@@ -1,0 +1,8 @@
+.tasks__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tasks__button {
+  color: green;
+}

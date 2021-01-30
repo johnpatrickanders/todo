@@ -4,16 +4,6 @@ import React, { useEffect, useState } from 'react';
 
 export default function ({ tasks }) {
   let [tasksState, setTasksState] = useState();
-  // const sortByClicked = (taskId) => {
-  //   const temp = null;
-  //   for (let i = 0; i < tasksState.length; i++) {
-  //     let task = tasks[i];
-  //     if (taskId === task.id) {
-  //       temp = tasks.splice(taskId, 1);
-  //       return tasksState.concat(temp);
-  //     }
-  //   }
-  // }
   const sortByDone = (tasks) => {
     const tempNorm = [];
     const tempDone = []
@@ -28,6 +18,10 @@ export default function ({ tasks }) {
     return setTasksState([...tempNorm, ...tempDone]);
   }
 
+  const createTask = () => {
+    console.log("CREATE TASK");
+  }
+
 
   useEffect(() => {
     setTasksState(tasks);
@@ -37,8 +31,9 @@ export default function ({ tasks }) {
     <div className="main__tasks tasks"
       onClick={() => sortByDone(tasksState)}
     >
-      <h3>
+      <h3 className="tasks__header">
         Associated Tasks
+        <button className="tasks__button" onClick={createTask}>Add Task</button>
       </h3>
       { tasksState ? tasksState.map(task => (
         <Task task={task}
