@@ -1,6 +1,6 @@
 import os
 # import time
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from sqlalchemy import inspect
 from app_container.config import Config
 # from flask_cors import CORS
@@ -43,3 +43,15 @@ def get_tasks():
     tasks = Task.query.filter(Task.taskListId == 1).all()
     res = [object_as_dict(task) for task in tasks]
     return {'tasks': res}
+
+@app.route('/list', methods=["POST"])
+def add_list():
+    data = request.json
+    task_list = TaskList(
+        userId=data["userId"],
+        title=data["title"],
+    )
+    db.session.add(task_list)
+    db.session.commit()
+
+    return {"title": task_list.title}
