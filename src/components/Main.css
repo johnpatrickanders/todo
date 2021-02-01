@@ -42,3 +42,7 @@ button {
   font-family: 'Courier New', Courier, monospace;
   background-color: white;
 }
+
+button:hover {
+  cursor: pointer;
+}
