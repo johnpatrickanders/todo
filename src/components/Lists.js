@@ -11,8 +11,20 @@ export default function ({ lists, tasks }) {
     console.log(tasks)
     setFilteredTasks(tasks.filter((task) => task.taskListId === id));
   }
-  const createList = () => {
+  const createList = async () => {
     console.log("CREATE LIST")
+    const res = await fetch('/list', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: 1,
+        title: "Clicky click"
+      })
+    })
+    if (res.ok) {
+      const list = await res.json();
+      console.log(list)
+    }
   }
   // const showTasks = (listId) => {
   //   console.log(listId);

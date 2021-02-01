@@ -54,4 +54,4 @@ def add_list():
     db.session.add(task_list)
     db.session.commit()
 
-    return {"title": task_list.title}
+    return {"title": task_list.title,}
