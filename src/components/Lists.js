@@ -6,6 +6,7 @@ import DropDown from './DropDown';
 export default function ({ lists, tasks }) {
   const [listId, setListId] = useState(1);
   const [filteredTasks, setFilteredTasks] = useState();
+  const [liveLists, setLiveLists] = useState(lists);
   const grabListId = (id) => {
     console.log("KEY:", id)
     // setListId(id);
@@ -24,12 +25,16 @@ export default function ({ lists, tasks }) {
     })
     if (res.ok) {
       const list = await res.json();
-      console.log(list)
+      console.log(list);
+      setLiveLists([...lists, list]);
     }
   }
   useEffect(() => {
+    console.log("use effect")
     setFilteredTasks(tasks);
-  }, []);
+    setLiveLists(lists);
+    console.log(lists, tasks)
+  }, [lists]);
 
   return (
     <>
@@ -38,7 +43,7 @@ export default function ({ lists, tasks }) {
           My Lists
           <DropDown createList={createList} />
         </h3>
-        {lists.map((list) => (
+        {liveLists.map((list) => (
           <div
             listid={list.id}
             onClick={() => grabListId(list.id)}
