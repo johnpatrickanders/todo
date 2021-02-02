@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ListForm from './ListForm';
 import './DropDown.css';
 
 export default function ({ createList }) {
@@ -6,16 +7,14 @@ export default function ({ createList }) {
 
   const pop = () => {
     console.log("POP")
-    setShowForm(true);
+    setShowForm(!showForm);
   }
 
   return (
     <div className="lists__dropdown">
       <button onClick={pop} className="lists__button">Add List</button>
       <div className="lists__dropdown-content">
-        {showForm ? <h1>
-          Hello There
-        </h1> : null}
+        {showForm ? <ListForm /> : null}
       </div>
     </div>
   )
