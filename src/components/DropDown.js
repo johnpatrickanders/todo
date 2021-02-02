@@ -14,7 +14,7 @@ export default function ({ createList }) {
     <div className="lists__dropdown">
       <button onClick={pop} className="lists__button">Add List</button>
       <div className="lists__dropdown-content">
-        {showForm ? <ListForm /> : null}
+        {showForm ? <ListForm createList={createList} /> : null}
       </div>
     </div>
   )

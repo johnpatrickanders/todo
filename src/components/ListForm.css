@@ -1,0 +1,12 @@
+.dropdown-input {
+  margin: 10px 7px;
+  border-radius: 0%;
+  border-color: red;
+}
+
+.dropdown-button {
+  color: green;
+  margin: 10px 7px;
+  align-self: flex-end;
+  width: min-content;
+}

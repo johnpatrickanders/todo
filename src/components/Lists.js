@@ -12,14 +12,14 @@ export default function ({ lists, tasks }) {
     console.log(tasks)
     setFilteredTasks(tasks.filter((task) => task.taskListId === id));
   }
-  const createList = async () => {
+  const createList = async (title) => {
     console.log("CREATE LIST")
     const res = await fetch('/list', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         userId: 1,
-        title: "Clicky click"
+        title
       })
     })
     if (res.ok) {

@@ -4,7 +4,7 @@
 }
 
 .lists__dropdown-content {
-  /* display: none; */
+  /* display: flex; */
   position: absolute;
   right: 10px;
   background-color: #f1f1f1;
