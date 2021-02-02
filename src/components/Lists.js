@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Lists.css';
 import Tasks from './Tasks';
+import DropDown from './DropDown';
 
 export default function ({ lists, tasks }) {
   const [listId, setListId] = useState(1);
@@ -26,10 +27,6 @@ export default function ({ lists, tasks }) {
       console.log(list)
     }
   }
-  // const showTasks = (listId) => {
-  //   console.log(listId);
-  //   return (listId ? <Tasks tasks={tasks} listd={listId}></Tasks> : null)
-  // }
   useEffect(() => {
     setFilteredTasks(tasks);
   }, []);
@@ -39,7 +36,7 @@ export default function ({ lists, tasks }) {
       <div className="main__lists lists">
         <h3 className="lists__header">
           My Lists
-          <button onClick={createList} className="lists__button">Add List</button>
+          <DropDown createList={createList} />
         </h3>
         {lists.map((list) => (
           <div
