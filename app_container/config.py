@@ -7,3 +7,4 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI')
     SQLALCHEMY_ECHO = True
     FLASK_ENV = os.environ.get('FLASK_ENV')
+    # FLASK_APP = os.environ.get('FLASK_APP')
