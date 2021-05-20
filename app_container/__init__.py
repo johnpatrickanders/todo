@@ -22,7 +22,7 @@ def object_as_dict(obj):
             for c in inspect(obj).mapper.column_attrs}
 
 
-@app.route('/home')
+@app.route('/home') # is used, do not change to "/"
 def home():
     user = User.query.get(int(1)).to_dict()
     print("Home User:", user)
@@ -55,3 +55,15 @@ def add_list():
     db.session.commit()
 
     return {"title": task_list.title,}
+
+@app.route('/task', methods=["POST"]) # may want to reviese model to use userId
+def add_task():
+    data = request.json
+    task = Task(
+        taskListId=data["taskListId"],
+        title=data["title"],
+    )
+    db.session.add(task)
+    db.session.commit()
+
+    return {"title": task.title,}
