@@ -67,3 +67,15 @@ def add_task():
     db.session.commit()
 
     return {"title": task.title,}
+
+@app.route('/task/delete', methods=["DELETE"])
+def delete_task():
+    print("Trying to delete a task...")
+    taskId = request.json["taskId"]
+    taskToDelete = Task.query.filter(Task.id == int(taskId)).first()
+    taskTitle = taskToDelete.title
+    db.session.delete(taskToDelete)
+    db.session.commit()
+    print("Deleting:", taskId, taskTitle)
+
+    return {"deletedTask": taskTitle}
