@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ListForm from './ListForm';
 import './DropDown.css';
 
-export default function ({ createList }) {
+export default function ({ createList, buttonLabel }) {
   const [showForm, setShowForm] = useState(false);
 
   const pop = () => {
@@ -12,9 +12,9 @@ export default function ({ createList }) {
 
   return (
     <div className="lists__dropdown">
-      <button onClick={pop} className="lists__button">Add List</button>
+      <button onClick={pop} className="lists__button">{buttonLabel}</button>
       <div className="lists__dropdown-content">
-        {showForm ? <ListForm createList={createList} setShowForm={setShowForm} /> : null}
+        {showForm ? <ListForm create={createList} setShowForm={setShowForm} /> : null}
       </div>
     </div>
   )

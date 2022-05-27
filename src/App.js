@@ -40,19 +40,19 @@ function App() {
     fetchData();
   }, [])
 
-  useEffect(() => {
-    if (!lists) return;
-    async function fetchData() {
-      const res = await fetch('/tasks');
-      if (res.status >= 200 && res.status < 400) {
-        const data = await res.json();
-        setTasks([...data.tasks]);
-      } else {
-        console.error('Bad response');
-      }
-    }
-    fetchData();
-  }, [])
+  // useEffect(() => {
+  //   if (!lists) return;
+  //   async function fetchData() {
+  //     const res = await fetch('/tasks/?taskListId=');
+  //     if (res.status >= 200 && res.status < 400) {
+  //       const data = await res.json();
+  //       setTasks([...data.tasks]);
+  //     } else {
+  //       console.error('Bad response');
+  //     }
+  //   }
+  //   fetchData();
+  // }, [])
   console.log("type of (APP):", typeof tasks);
 
   return (
