@@ -60,7 +60,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     taskListId = db.Column(db.Integer, db.ForeignKey("tasklists.id"), nullable=False)
     title = db.Column(db.String(1000), nullable=False)
-    done = db.Column(db.Boolean, default=False)
+    status = db.Column(db.String(50), default="Open")
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
