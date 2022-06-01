@@ -4,8 +4,7 @@ import DropDown from './DropDown';
 import React, { useEffect, useState } from 'react';
 
 export default function ({ tasks, taskListId }) {
-  let [tasksState, setTasksState] = useState(tasks);
-  taskListId = 2;
+  let [tasksState, setTasksState] = useState([]);
   const sortByStatus = (tasks) => {
     const tempNorm = [];
     const tempStatus = [];
@@ -30,17 +29,31 @@ export default function ({ tasks, taskListId }) {
       })
     })
     if (res.ok) {
-      const task = await res.json();
-      console.log(task);
+      const { task } = await res.json();
       setTasksState([...tasks, task]);
     }
   }
 
 
   useEffect(() => {
-    console.log("NEW TASKS")
-    setTasksState(tasks);
-  }, [tasks])
+    console.log("NEW TASKS");
+    async function fetchData() {
+      const res = await fetch(`/tasks/${taskListId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      });
+      if (res.ok) {
+        const { tasks } = await res.json();
+        console.log(tasks)
+        setTasksState([...tasks]);
+        console.log(tasksState)
+      } else {
+        console.log("no new tasks loaded");
+      }
+    }
+    fetchData();
+    // setTasksState([...tasks]);
+  }, [taskListId])
 
   return (
     <div className="main__tasks tasks"
@@ -51,13 +64,13 @@ export default function ({ tasks, taskListId }) {
         <DropDown createList={createTask} buttonLabel="Add Task" />
         {/* <button className="tasks__button" onClick={createTask}>Add Task</button> */}
       </h3>
-      {tasksState ? tasksState.map(task => (
+      {tasksState.map((task) => (
         <Task task={task}
           status={task.status}
           // sortByClicked={sortByClicked}
           key={task.id}
         />
-      )) : null}
+      ))}
     </div>
   )
 }

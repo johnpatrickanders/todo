@@ -5,13 +5,27 @@ import DropDown from './DropDown';
 
 export default function ({ lists, tasks }) {
   const [listId, setListId] = useState(1);
-  const [filteredTasks, setFilteredTasks] = useState();
+  const [filteredTasks, setFilteredTasks] = useState([]);
   const [liveLists, setLiveLists] = useState(lists);
   const grabListId = (id) => {
     console.log("KEY:", id)
     setListId(id);
     console.log(tasks)
-    setFilteredTasks(tasks.filter((task) => task.taskListId === id));
+    // async function fetchData() {
+    //   const res = await fetch(`/tasks/${listId}`, {
+    //     method: "GET",
+    //     headers: { "Content-Type": "application/json" }
+    //   });
+    //   if (res.ok) {
+    //     const { tasks } = await res.json();
+    //     console.log(tasks)
+    //     setFilteredTasks([...tasks]);
+    //     console.log(tasks)
+    //   } else {
+    //     console.log("no new tasks loaded");
+    //   }
+    // }
+    // fetchData();
   }
   const createList = async (title) => {
     console.log("CREATE LIST")
