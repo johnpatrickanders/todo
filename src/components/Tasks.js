@@ -5,18 +5,19 @@ import React, { useEffect, useState } from 'react';
 
 export default function ({ tasks, taskListId }) {
   let [tasksState, setTasksState] = useState(tasks);
-  const sortByDone = (tasks) => {
+  taskListId = 2;
+  const sortByStatus = (tasks) => {
     const tempNorm = [];
-    const tempDone = [];
+    const tempStatus = [];
     for (let i = 0; i < tasks.length; i++) {
       let task = tasks[i];
-      if (task.done) {
-        tempDone.push(task);
+      if (task.status == 'Complete') {
+        tempStatus.push(task);
       } else {
         tempNorm.push(task);
       }
     }
-    return setTasksState([...tempNorm, ...tempDone]);
+    return setTasksState([...tempNorm, ...tempStatus]);
   }
 
   const createTask = async (title) => {
@@ -37,12 +38,13 @@ export default function ({ tasks, taskListId }) {
 
 
   useEffect(() => {
+    console.log("NEW TASKS")
     setTasksState(tasks);
   }, [tasks])
 
   return (
     <div className="main__tasks tasks"
-      onClick={() => sortByDone(tasksState)}
+      onClick={() => sortByStatus(tasksState)}
     >
       <h3 className="tasks__header">
         Associated Tasks
@@ -51,7 +53,7 @@ export default function ({ tasks, taskListId }) {
       </h3>
       {tasksState ? tasksState.map(task => (
         <Task task={task}
-          done={task.done}
+          status={task.status}
           // sortByClicked={sortByClicked}
           key={task.id}
         />
