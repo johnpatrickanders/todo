@@ -4,30 +4,13 @@ import Tasks from './Tasks';
 import DropDown from './DropDown';
 import { UserContext } from '../App';
 
-export default function ({ tasks }) {
+export default function () {
   const { lists } = useContext(UserContext);
   const [listId, setListId] = useState(1);
-  const [filteredTasks, setFilteredTasks] = useState([]);
   const [liveLists, setLiveLists] = useState(lists);
   const grabListId = (id) => {
     console.log("KEY:", id)
     setListId(id);
-    console.log(tasks)
-    // async function fetchData() {
-    //   const res = await fetch(`/tasks/${listId}`, {
-    //     method: "GET",
-    //     headers: { "Content-Type": "application/json" }
-    //   });
-    //   if (res.ok) {
-    //     const { tasks } = await res.json();
-    //     console.log(tasks)
-    //     setFilteredTasks([...tasks]);
-    //     console.log(tasks)
-    //   } else {
-    //     console.log("no new tasks loaded");
-    //   }
-    // }
-    // fetchData();
   }
   const createList = async (title) => {
     console.log("CREATE LIST")
@@ -46,10 +29,7 @@ export default function ({ tasks }) {
     }
   }
   useEffect(() => {
-    console.log("use effect")
-    setFilteredTasks(tasks);
     setLiveLists(lists);
-    console.log(lists, tasks)
   }, [lists]);
 
   return (
@@ -68,7 +48,7 @@ export default function ({ tasks }) {
           </div>
         ))}
       </div>
-      {<Tasks tasks={filteredTasks} taskListId={listId} ></Tasks>}
+      {<Tasks taskListId={listId} ></Tasks>}
     </>
   )
 }

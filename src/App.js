@@ -56,7 +56,7 @@ function App() {
           <Switch>
             <Route path="/">
               <UserContext.Provider value={{ user, lists }} >
-                <Main tasks={tasks} />
+                <Main />
               </UserContext.Provider>
             </Route>
           </Switch>

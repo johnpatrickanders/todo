@@ -4,14 +4,13 @@ import Lists from './Lists';
 import Tasks from './Tasks';
 import App from '../App';
 
-export default function ({ tasks }) {
+export default function () {
   return (
     <div
       className="main">
       <Header>
       </Header>
-      <Lists tasks={tasks}></Lists>
-      {/* <Tasks tasks={tasks} taskListId={lists.id}></Tasks> */}
+      <Lists></Lists>
     </div>
   )
 }

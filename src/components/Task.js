@@ -9,7 +9,7 @@ export default function ({ task }) {
     // setDone(!done);
     task.status = task.status === 'Open' ? 'Complete' : 'Open';
     setClassNames(`tasks__task ${task.status === 'Complete' ? " task__done" : ""}`);
-    // console.log(task.status, classNames)
+    console.log(task.status, classNames)
     // sortByClicked(task.id)
   }
 

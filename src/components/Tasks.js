@@ -3,7 +3,7 @@ import Task from './Task';
 import DropDown from './DropDown';
 import React, { useEffect, useState } from 'react';
 
-export default function ({ tasks, taskListId }) {
+export default function ({ taskListId }) {
   let [tasksState, setTasksState] = useState([]);
   const sortByStatus = (tasks) => {
     const tempNorm = [];
@@ -30,7 +30,7 @@ export default function ({ tasks, taskListId }) {
     })
     if (res.ok) {
       const { task } = await res.json();
-      setTasksState([...tasks, task]);
+      setTasksState([...tasksState, task]);
     }
   }
 
