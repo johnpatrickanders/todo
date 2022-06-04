@@ -10,6 +10,8 @@ import './App.css';
 
 export const UserContext = createContext({
   user: null,
+  lists: [],
+  tasks: null,
   value: null
 });
 
@@ -53,8 +55,8 @@ function App() {
             renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/">
-              <UserContext.Provider value={{ user }}>
-                <Main lists={lists} tasks={tasks} />
+              <UserContext.Provider value={{ user, lists }} >
+                <Main tasks={tasks} />
               </UserContext.Provider>
             </Route>
           </Switch>

@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import './Lists.css';
 import Tasks from './Tasks';
 import DropDown from './DropDown';
+import { UserContext } from '../App';
 
-export default function ({ lists, tasks }) {
+export default function ({ tasks }) {
+  const { lists } = useContext(UserContext);
   const [listId, setListId] = useState(1);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [liveLists, setLiveLists] = useState(lists);
