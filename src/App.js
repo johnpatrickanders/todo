@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,6 +7,11 @@ import {
 } from "react-router-dom";
 import Main from './components/Main';
 import './App.css';
+
+export const UserContext = createContext({
+  user: null,
+  value: null
+});
 
 function App() {
   const [user, setUser] = useState({});
@@ -40,44 +45,17 @@ function App() {
     fetchData();
   }, [])
 
-  // useEffect(() => {
-  //   if (!lists) return;
-  //   async function fetchData() {
-  //     const res = await fetch('/tasks/?taskListId=');
-  //     if (res.status >= 200 && res.status < 400) {
-  //       const data = await res.json();
-  //       setTasks([...data.tasks]);
-  //     } else {
-  //       console.error('Bad response');
-  //     }
-  //   }
-  //   fetchData();
-  // }, [])
-  console.log("type of (APP):", typeof tasks);
-
   return (
     <>
       <Router>
         <div>
-          {/* <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-          </ul>
-        </nav> */}
-
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/">
-              <Main user={user} lists={lists} tasks={tasks} />
+              <UserContext.Provider value={{ user }}>
+                <Main lists={lists} tasks={tasks} />
+              </UserContext.Provider>
             </Route>
           </Switch>
         </div>
