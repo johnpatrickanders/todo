@@ -1,5 +1,10 @@
 .tasks__task {
   margin: 7px;
+  border-bottom: 0.25px solid white;
+
+  position: relative;
+  top: 0;
+  transition: top ease 0.5s;
 }
 
 .task__done {
@@ -9,4 +14,5 @@
 
 .tasks__task:hover {
   cursor: pointer;
+  right: -3px;
 }

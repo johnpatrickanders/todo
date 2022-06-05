@@ -1,7 +1,18 @@
 .lists__title {
   margin: 7px;
   cursor: pointer;
+  border-left: 0.25px solid white;
+  padding-left: 7px;
+
+  position: relative;
+  top: 0;
+  transition: top ease 0.5s;
 }
+
+.lists__title:hover {
+  right: -3px;
+}
+
 
 .lists__header {
   display: flex;
