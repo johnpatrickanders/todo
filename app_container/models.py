@@ -43,7 +43,8 @@ class TaskList(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     title = db.Column(db.String(1000), nullable=False)
     created_on = db.Column(db.DateTime, server_default=db.func.now())
-    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+    updated_on = db.Column(
+        db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     user = db.relationship("User", back_populates="tasklists")
 
@@ -54,14 +55,20 @@ class TaskList(db.Model):
             "title": self.title,
         }
 
+
 class Task(db.Model):
     __tablename__ = "tasks"
 
     id = db.Column(db.Integer, primary_key=True)
-    taskListId = db.Column(db.Integer, db.ForeignKey("tasklists.id"), nullable=False)
+    taskListId = db.Column(db.Integer, db.ForeignKey(
+        "tasklists.id"), nullable=False)
     title = db.Column(db.String(1000), nullable=False)
     status = db.Column(db.String(50), default="Open")
-    created_on = db.Column(db.DateTime, server_default=db.func.now())
-    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+    tag = db.Column(db.String(50), default="Open")
+    create_date = db.Column(db.DateTime, server_default=db.func.now())
+    update_date = db.Column(
+        db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+    due_date = db.Column(db.DateTime, server_default=None)
+    remind_date = db.Column(db.DateTime, server_default=None)
 
     taskList = db.relationship("TaskList", foreign_keys=taskListId)

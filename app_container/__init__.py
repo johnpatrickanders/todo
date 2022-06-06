@@ -17,12 +17,13 @@ app.config.from_object(Config)
 db.init_app(app)
 Migrate(app, db)
 
+
 def object_as_dict(obj):
     return {c.key: getattr(obj, c.key)
             for c in inspect(obj).mapper.column_attrs}
 
 
-@app.route('/home') # is used, do not change to "/"
+@app.route('/home')  # is used, do not change to "/"
 def home():
     user = User.query.get(int(1)).to_dict()
     print("Home User:", user)
@@ -40,10 +41,21 @@ def get_tasklists():
 
 @app.route('/tasks/<taskListId>')
 def get_tasks(taskListId):
-    if not taskListId: taskListId = 1
+    if not taskListId:
+        taskListId = 1
     tasks = Task.query.filter(Task.taskListId == int(taskListId)).all()
     res = [object_as_dict(task) for task in tasks]
     return {'tasks': res}
+
+
+@app.route('/tasks/<taskId>/status', methods=["PUT"])
+def update_status(taskId):
+    data = request.json
+    task = Task.query.filter(Task.id == int(taskId)).first()
+    task.status = data["status"]
+    db.session.commit()
+    return {"updatedTask": task.title}
+
 
 @app.route('/list', methods=["POST"])
 def add_list():
@@ -55,9 +67,11 @@ def add_list():
     db.session.add(task_list)
     db.session.commit()
 
-    return {"title": task_list.title,}
+    return {"title": task_list.title, }
 
-@app.route('/task', methods=["POST"]) # may want to reviese model to use userId
+
+# may want to reviese model to use userId
+@app.route('/task', methods=["POST"])
 def add_task():
     data = request.json
     task = Task(
@@ -67,7 +81,8 @@ def add_task():
     db.session.add(task)
     db.session.commit()
 
-    return {"title": task.title,}
+    return {"title": task.title, }
+
 
 @app.route('/task/delete', methods=["DELETE"])
 def delete_task():
