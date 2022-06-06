@@ -4,12 +4,14 @@
   border-left: 0.25px solid white;
   padding-left: 7px;
 
+  /* FOR POP RIGHT EFFECT */
   position: relative;
   top: 0;
   transition: top ease 0.5s;
 }
 
 .lists__title:hover {
+  /* FOR POP RIGHT EFFECT */
   right: -3px;
 }
 

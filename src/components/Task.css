@@ -7,6 +7,11 @@
   transition: top ease 0.5s;
 }
 
+.tasks__right {
+  justify-self: right;
+  align-self: center;
+}
+
 .task__done {
   text-decoration: line-through;
   text-decoration-color: red;
