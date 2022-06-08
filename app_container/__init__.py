@@ -71,11 +71,11 @@ def add_list():
 
 
 # may want to reviese model to use userId
-@app.route('/task', methods=["POST"])
-def add_task():
+@app.route('/task/<taskListId>', methods=["POST"])
+def add_task(taskListId):
     data = request.json
     task = Task(
-        taskListId=data["taskListId"],
+        taskListId=taskListId,
         title=data["title"],
     )
     db.session.add(task)
