@@ -44,15 +44,11 @@ export default function ({ taskListId }) {
       });
       if (res.ok) {
         const { tasks } = await res.json();
-        console.log(tasks)
-        setTasksState([...tasks]);
-        console.log(tasksState)
+        sortByStatus([...tasks]);
       } else {
-        console.log("no new tasks loaded");
       }
     }
     fetchData();
-    // setTasksState([...tasks]);
   }, [taskListId])
 
   return (
@@ -67,7 +63,6 @@ export default function ({ taskListId }) {
       {tasksState.map((task) => (
         <Task task={task}
           status={task.status}
-          // sortByClicked={sortByClicked}
           key={task.id}
         />
       ))}
