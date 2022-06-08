@@ -74,14 +74,16 @@ def add_list():
 @app.route('/task/<taskListId>', methods=["POST"])
 def add_task(taskListId):
     data = request.json
+    print(data)
+    print(taskListId)
     task = Task(
-        taskListId=taskListId,
+        taskListId=int(taskListId),
         title=data["title"],
     )
     db.session.add(task)
     db.session.commit()
 
-    return {"title": task.title, }
+    return {"task": object_as_dict(task)}
 
 
 @app.route('/task/delete', methods=["DELETE"])
