@@ -12,13 +12,15 @@ export const UserContext = createContext({
   user: null,
   lists: [],
   tasks: null,
-  value: null
+  value: null,
+  selectedTask: null
 });
 
 function App() {
   const [user, setUser] = useState({});
   const [lists, setLists] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null)
 
   useEffect(() => {
     async function fetchData() {
@@ -55,7 +57,7 @@ function App() {
             renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/">
-              <UserContext.Provider value={{ user, lists }} >
+              <UserContext.Provider value={{ user, lists, selectedTask, setSelectedTask }} >
                 <Main />
               </UserContext.Provider>
             </Route>

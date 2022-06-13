@@ -8,7 +8,7 @@
   row-gap: 7px;
   grid-template-areas:
     "header header"
-    "lists tasks";
+    "lists tasks selectedtask";
   border: black;
   margin: 7px;
   font-family: 'Courier New', Courier, monospace;
@@ -31,6 +31,12 @@
 
 .main__tasks {
   background-color: green;
+  height: calc(100vh - 71px);
+  padding: 0px 7px 0px 7px;
+}
+
+.main__selectedtask {
+  background-color: red;
   height: calc(100vh - 71px);
   padding: 0px 7px 0px 7px;
 }
