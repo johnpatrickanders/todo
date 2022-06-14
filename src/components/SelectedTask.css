@@ -3,7 +3,7 @@
   height: 150px;
   width: 350px;
   padding: 0px 7px 0px 7px;
-  /* margin: 7px; */
+  color: green;
   z-index: 1000;
   position: fixed;
   border-radius: 5px;
