@@ -48,14 +48,19 @@
   text-decoration-color: red;
 }
 
+/*
 .tasks__task:hover {
   cursor: pointer;
-  right: -3px;
-}
+  right: -5px;
+} */
 
-.tasks__task:hover * {
+.tasks__task:hover,
+.tasks__task .task__dots,
+.task__dots .task__dot,
+.hover {
   opacity: 100;
-  right: -3px;
+  cursor: pointer;
+  right: -5px;
 }
 
 /* .tasks__task:hover > .task__dot {

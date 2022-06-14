@@ -35,12 +35,6 @@
   padding: 0px 7px 0px 7px;
 }
 
-.main__selectedtask {
-  background-color: red;
-  height: calc(100vh - 71px);
-  padding: 0px 7px 0px 7px;
-}
-
 button {
   border-radius: 3px;
   border-color: white;
