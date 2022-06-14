@@ -44,7 +44,7 @@ def get_tasks(taskListId):
     if not taskListId:
         taskListId = 1
     tasks = Task.query.filter(Task.taskListId == int(taskListId)).all()
-    res = [object_as_dict(task) for task in tasks]
+    res = [task.to_dict() for task in tasks]
     return {'tasks': res}
 
 

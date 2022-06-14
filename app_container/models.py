@@ -64,7 +64,7 @@ class Task(db.Model):
         "tasklists.id"), nullable=False)
     title = db.Column(db.String(1000), nullable=False)
     status = db.Column(db.String(50), default="Open")
-    tag = db.Column(db.String(50), default="Open")
+    tag = db.Column(db.String(50), default=None)
     create_date = db.Column(db.DateTime, server_default=db.func.now())
     update_date = db.Column(
         db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
@@ -72,3 +72,18 @@ class Task(db.Model):
     remind_date = db.Column(db.DateTime, server_default=None)
 
     taskList = db.relationship("TaskList", foreign_keys=taskListId)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'listTitle': self.taskList.title,
+            'taskListId': self.taskListId,
+            'title': self.title,
+            'status': self.status,
+            'tag': self.tag,
+            'create_date': self.create_date.strftime('%Y-%m-%d'),
+            'update_date': self.update_date.strftime('%Y-%m-%d'),
+            'due_date': self.due_date.strftime('%Y-%m-%d-%h-%m') if self.due_date else None,
+            'remind_date': self.remind_date.strftime('%Y-%m-%d-%h-%m') if self.remind_date else None,
+            'user_id': self.taskList.userId
+        }
