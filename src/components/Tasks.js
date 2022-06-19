@@ -20,7 +20,6 @@ export default function ({ taskListId }) {
   }
 
   const createTask = async (title) => {
-    console.log("CREATE TASK");
     const res = await fetch(`/task/${taskListId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

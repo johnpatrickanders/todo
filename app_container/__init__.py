@@ -32,7 +32,7 @@ def home():
 
 @app.route('/tasklists')
 def get_tasklists():
-    tasklists = TaskList.query.filter(TaskList.userId == 1).all()
+    tasklists = TaskList.query.filter(TaskList.user_id == 1).all()
     # res = [tasklist.to_dict() for tasklist in tasklists]
     res = [object_as_dict(tasklist) for tasklist in tasklists]
 
@@ -43,7 +43,7 @@ def get_tasklists():
 def get_tasks(taskListId):
     if not taskListId:
         taskListId = 1
-    tasks = Task.query.filter(Task.taskListId == int(taskListId)).all()
+    tasks = Task.query.filter(Task.task_list_id == int(taskListId)).all()
     res = [task.to_dict() for task in tasks]
     return {'tasks': res}
 
@@ -57,11 +57,29 @@ def update_status(taskId):
     return {"updatedTask": task.title}
 
 
+@app.route('/tasks/<taskId>', methods=["PUT"])
+def update_task(taskId):
+    data = request.json
+    task = Task.query.filter(Task.id == int(taskId)).first()
+    if data["title"]:
+        task.title = data["title"]
+    if data["tag"]:
+        task.tag = data["tag"]
+    if data["createDate"]:
+        task.create_date = data["createDate"]
+    if data["dueDate"]:
+        task.due_date = data["dueDate"]
+    if data["remindDate"]:
+        task.remind_date = data["remindDate"]
+    db.session.commit()
+    return {"updatedTask": task.title}
+
+
 @app.route('/list', methods=["POST"])
 def add_list():
     data = request.json
     task_list = TaskList(
-        userId=data["userId"],
+        user_id=data["userId"],
         title=data["title"],
     )
     db.session.add(task_list)
@@ -77,7 +95,7 @@ def add_task(taskListId):
     print(data)
     print(taskListId)
     task = Task(
-        taskListId=int(taskListId),
+        task_list_id=int(taskListId),
         title=data["title"],
     )
     db.session.add(task)

@@ -40,7 +40,7 @@ class TaskList(db.Model):
     __tablename__ = "tasklists"
 
     id = db.Column(db.Integer, primary_key=True)
-    userId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     title = db.Column(db.String(1000), nullable=False)
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(
@@ -51,7 +51,7 @@ class TaskList(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "userId": self.userId,
+            "user_id": self.user_id,
             "title": self.title,
         }
 
@@ -60,7 +60,7 @@ class Task(db.Model):
     __tablename__ = "tasks"
 
     id = db.Column(db.Integer, primary_key=True)
-    taskListId = db.Column(db.Integer, db.ForeignKey(
+    task_list_id = db.Column(db.Integer, db.ForeignKey(
         "tasklists.id"), nullable=False)
     title = db.Column(db.String(1000), nullable=False)
     status = db.Column(db.String(50), default="Open")
@@ -71,19 +71,19 @@ class Task(db.Model):
     due_date = db.Column(db.DateTime, server_default=None)
     remind_date = db.Column(db.DateTime, server_default=None)
 
-    taskList = db.relationship("TaskList", foreign_keys=taskListId)
+    task_list = db.relationship("TaskList", foreign_keys=task_list_id)
 
     def to_dict(self):
         return {
             'id': self.id,
-            'listTitle': self.taskList.title,
-            'taskListId': self.taskListId,
+            'list_title': self.task_list.title,
+            'task_list_id': self.task_list_id,
             'title': self.title,
             'status': self.status,
             'tag': self.tag,
             'create_date': self.create_date.strftime('%Y-%m-%d'),
             'update_date': self.update_date.strftime('%Y-%m-%d'),
             'due_date': self.due_date.strftime('%Y-%m-%d-%h-%m') if self.due_date else None,
-            'remind_date': self.remind_date.strftime('%Y-%m-%d-%h-%m') if self.remind_date else None,
-            'user_id': self.taskList.userId
+            'remind_date': self.remind_date.strftime('%Y-%m-%d-%h-%m') if self.due_date else None,
+            'user_id': self.task_list.user_id
         }

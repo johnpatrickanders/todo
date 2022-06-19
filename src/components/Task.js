@@ -5,9 +5,10 @@ import SelectedTask from './SelectedTask';
 
 export default function ({ task }) {
   const [classNames, setClassNames] = useState(`tasks__task ${task.status === 'Complete' ? " task__done" : ""}`);
-  // const [hover, setHover] = useState('');
+  const [taskTitle, setTaskTitle] = useState(task.title);
   const { selectedTask, setSelectedTask } = useContext(UserContext);
   const handleTitleClick = async () => {
+    if (selectedTask) return;
     task.status = task.status === 'Open' ? 'Complete' : 'Open';
     await fetch(`tasks/${task.id}/status`, {
       method: "PUT",
@@ -24,16 +25,6 @@ export default function ({ task }) {
 
   const handleDotsClick = async (event) => {
     event.stopPropagation();
-    // if (!hover) {
-    //   setHover('.hover');
-    //   setClassNames(classNames + hover);
-    // } else {
-    //   setHover('');
-    //   classNames.split(' ').filter(el => el !== '.hover');
-    //   console.log(classNames)
-    //   setClassNames(classNames);
-    // }
-    // console.log('Clicking dots . . .', task);
     if (selectedTask) {
       setSelectedTask(null);
     } else {
@@ -45,8 +36,9 @@ export default function ({ task }) {
     <div
       className={classNames}
       onClick={handleTitleClick}
+    // onClick={select}
     >
-      {task.title}
+      {taskTitle}
       <div className='task__dots'
         onClick={(e) => handleDotsClick(e)}
       >
@@ -54,7 +46,7 @@ export default function ({ task }) {
         <div className='task__dot'></div>
         <div className='task__dot'></div>
       </div>
-      {selectedTask ? <SelectedTask task={task} selectedTask={selectedTask} /> : <div />}
+      {selectedTask ? <SelectedTask task={task} setTaskTitle={setTaskTitle} selectedTask={selectedTask} setSelectedTask={setSelectedTask} /> : <div />}
     </div>
   )
 }
