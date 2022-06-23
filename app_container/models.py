@@ -40,7 +40,7 @@ class TaskList(db.Model):
     __tablename__ = "tasklists"
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     title = db.Column(db.String(1000), nullable=False)
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(
@@ -84,6 +84,6 @@ class Task(db.Model):
             'create_date': self.create_date.strftime('%Y-%m-%d'),
             'update_date': self.update_date.strftime('%Y-%m-%d'),
             'due_date': self.due_date.strftime('%Y-%m-%d-%h-%m') if self.due_date else None,
-            'remind_date': self.remind_date.strftime('%Y-%m-%d-%h-%m') if self.due_date else None,
+            'remind_date': self.remind_date.strftime('%Y-%m-%d-%h-%m') if self.remind_date else None,
             'user_id': self.task_list.user_id
         }
