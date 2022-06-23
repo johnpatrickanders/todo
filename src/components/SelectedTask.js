@@ -3,7 +3,7 @@ import './SelectedTask.css';
 import DropDown from './DropDown';
 import { useState } from 'react';
 
-export default function ({ task, selectedTask, setTaskTitle }) {
+export default function ({ task, selectedTask, setTaskTitle, setSelectedTask }) {
   const [title, setTitle] = useState(selectedTask.title);
   const [tag, setTag] = useState(selectedTask.tag ? selectedTask.tag : '');
   const [createDate, setCreateDate] = useState(selectedTask.createDate ? selectedTask.createDate : '');
@@ -27,6 +27,7 @@ export default function ({ task, selectedTask, setTaskTitle }) {
       const { task } = await res.json();
       console.log(task);
       setTaskTitle(title);
+      setSelectedTask(null);
     }
   }
   const handleChange = (e, setCallback) => {
