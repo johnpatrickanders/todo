@@ -59,10 +59,13 @@ export default function ({ taskListId }) {
         <DropDown createList={createTask} buttonLabel="Add Task" />
         {/* <button className="tasks__button" onClick={createTask}>Add Task</button> */}
       </h3>
-      {tasksState.map((task) => (
+      {tasksState.map((task, idx) => (
         <Task task={task}
           status={task.status}
-          key={task.id}
+          key={String(task.id) + String(task.title) + String(task.updateDate)}
+          setTasksState={setTasksState}
+          tasksState={tasksState}
+          idx={idx}
         />
       ))}
     </div>

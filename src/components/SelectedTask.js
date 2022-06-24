@@ -1,14 +1,15 @@
 import './Main.css';
 import './SelectedTask.css';
-import DropDown from './DropDown';
 import { useState } from 'react';
 
-export default function ({ task, selectedTask, setTaskTitle, setSelectedTask }) {
+export default function ({
+  task, selectedTask, setTaskTitle, setSelectedTask, setTasksState, tasksState, idx
+}) {
   const [title, setTitle] = useState(selectedTask.title);
   const [tag, setTag] = useState(selectedTask.tag ? selectedTask.tag : '');
   const [createDate, setCreateDate] = useState(selectedTask.createDate ? selectedTask.createDate : '');
   const [dueDate, setDueDate] = useState(selectedTask.dueDate ? selectedTask.dueDate : '');
-  const [remindDate, setRemindDate] = useState(selectedTask.dueDate ? selectedTask.dueDate : '');
+  const [remindDate, setRemindDate] = useState(selectedTask.remindDate ? selectedTask.remindDate : '');
   const [deleteStatus, setDeleteStatus] = useState(false);
   const handleTaskUpdate = async () => {
     console.log("UPDATE TASK");
@@ -24,9 +25,22 @@ export default function ({ task, selectedTask, setTaskTitle, setSelectedTask }) 
       })
     })
     if (res.ok) {
-      const { task } = await res.json();
-      console.log(task);
-      setTaskTitle(title);
+      const { updatedTask } = await res.json();
+      console.log('to update to:', updatedTask);
+      // setTaskTitle(title);
+      // const newTasks = [...tasksState];
+      const newTasks = tasksState.map(el => {
+        if (el.id === updatedTask.id) {
+          console.log("MATCH")
+          return Object.assign({}, updatedTask);
+        } else {
+          return el;
+        }
+      })
+      // newTasks[idx] = Object.assign({}, updatedTask)
+      console.log(newTasks[idx])
+      setTasksState([...newTasks]);
+      console.log(idx, tasksState);
       setSelectedTask(null);
     }
   }
@@ -37,7 +51,7 @@ export default function ({ task, selectedTask, setTaskTitle, setSelectedTask }) 
     setDeleteStatus(!deleteStatus)
   }
   return (
-    selectedTask && selectedTask.id == task.id ?
+    selectedTask && selectedTask.id === task.id ?
       <div
         className="task__selectedtask"
       >

@@ -67,7 +67,7 @@ class Task(db.Model):
     tag = db.Column(db.String(50), default=None)
     create_date = db.Column(db.DateTime, server_default=db.func.now())
     update_date = db.Column(
-        db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+        db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
     due_date = db.Column(db.DateTime, server_default=None)
     remind_date = db.Column(db.DateTime, server_default=None)
 
@@ -76,14 +76,14 @@ class Task(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'list_title': self.task_list.title,
-            'task_list_id': self.task_list_id,
+            'listTitle': self.task_list.title,
+            'taskListId': self.task_list_id,
             'title': self.title,
             'status': self.status,
             'tag': self.tag,
-            'create_date': self.create_date.strftime('%Y-%m-%d'),
-            'update_date': self.update_date.strftime('%Y-%m-%d'),
-            'due_date': self.due_date.strftime('%Y-%m-%d-%h-%m') if self.due_date else None,
-            'remind_date': self.remind_date.strftime('%Y-%m-%d-%h-%m') if self.remind_date else None,
-            'user_id': self.task_list.user_id
+            'createDate': self.create_date.strftime('%Y-%m-%d'),
+            'updateDate': self.update_date,
+            'dueDate': self.due_date.strftime('%Y-%m-%d') if self.due_date else None,
+            'remindDate': self.remind_date.strftime('%Y-%m-%d') if self.remind_date else None,
+            'userId': self.task_list.user_id
         }

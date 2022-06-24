@@ -7,7 +7,6 @@ export default function (
   // { user }
 ) {
   const value = useContext(UserContext);
-  console.log(value)
 
   return (
     <div className="main__header">

@@ -3,7 +3,7 @@ import './Task.css';
 import { UserContext } from '../App';
 import SelectedTask from './SelectedTask';
 
-export default function ({ task }) {
+export default function ({ task, setTasksState, tasksState, idx }) {
   const [classNames, setClassNames] = useState(`tasks__task ${task.status === 'Complete' ? " task__done" : ""}`);
   const [taskTitle, setTaskTitle] = useState(task.title);
   const { selectedTask, setSelectedTask } = useContext(UserContext);
@@ -46,7 +46,7 @@ export default function ({ task }) {
         <div className='task__dot'></div>
         <div className='task__dot'></div>
       </div>
-      {selectedTask ? <SelectedTask task={task} setTaskTitle={setTaskTitle} selectedTask={selectedTask} setSelectedTask={setSelectedTask} /> : <div />}
+      {selectedTask ? <SelectedTask task={task} idx={idx} setTasksState={setTasksState} tasksState={tasksState} setTaskTitle={setTaskTitle} selectedTask={selectedTask} setSelectedTask={setSelectedTask} /> : <div />}
     </div>
   )
 }

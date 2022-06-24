@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 # import time
 from flask import Flask, jsonify, request
 from sqlalchemy import inspect
@@ -71,8 +72,9 @@ def update_task(taskId):
         task.due_date = data["dueDate"]
     if data["remindDate"]:
         task.remind_date = data["remindDate"]
+    # task.update_date = datetime.now()
     db.session.commit()
-    return {"updatedTask": task.title}
+    return {"updatedTask": task.to_dict()}
 
 
 @app.route('/list', methods=["POST"])
