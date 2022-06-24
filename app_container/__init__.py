@@ -106,9 +106,9 @@ def add_task(taskListId):
     return {"task": object_as_dict(task)}
 
 
-@app.route('/task/delete', methods=["DELETE"])
-def delete_task():
-    taskId = request.json["taskId"]
+@app.route('/task/<taskId>', methods=["DELETE"])
+def delete_task(taskId):
+    # taskId = request.json["taskId"]
     taskToDelete = Task.query.filter(Task.id == int(taskId)).first()
     taskTitle = taskToDelete.title
     db.session.delete(taskToDelete)

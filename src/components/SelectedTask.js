@@ -3,7 +3,7 @@ import './SelectedTask.css';
 import { useState } from 'react';
 
 export default function ({
-  task, selectedTask, setTaskTitle, setSelectedTask, setTasksState, tasksState, idx
+  task, selectedTask, setSelectedTask, setTasksState, tasksState, idx
 }) {
   const [title, setTitle] = useState(selectedTask.title);
   const [tag, setTag] = useState(selectedTask.tag ? selectedTask.tag : '');
@@ -26,9 +26,6 @@ export default function ({
     })
     if (res.ok) {
       const { updatedTask } = await res.json();
-      console.log('to update to:', updatedTask);
-      // setTaskTitle(title);
-      // const newTasks = [...tasksState];
       const newTasks = tasksState.map(el => {
         if (el.id === updatedTask.id) {
           console.log("MATCH")
@@ -37,13 +34,30 @@ export default function ({
           return el;
         }
       })
-      // newTasks[idx] = Object.assign({}, updatedTask)
-      console.log(newTasks[idx])
       setTasksState([...newTasks]);
-      console.log(idx, tasksState);
       setSelectedTask(null);
     }
   }
+  const handleTaskDelete = async () => {
+    const res = await fetch(`/task/${selectedTask.id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      // body: JSON.stringify({
+      //   taskId
+      // })
+    });
+    if (res.ok) {
+      const { deletedTask } = await res.json();
+      const newTasks = tasksState.filter(el => {
+        if (el.id !== selectedTask.id) {
+          return el;
+        };
+      });
+      setTasksState([...newTasks]);
+      setSelectedTask(null);
+    };
+  }
+
   const handleChange = (e, setCallback) => {
     setCallback(e.target.value);
   }
@@ -70,10 +84,11 @@ export default function ({
         <div>
           Remind: <input type="date" value={remindDate} onChange={(e) => handleChange(e, setRemindDate)} />
         </div>
-        <div>
+        {/* <div>
           Delete: < input type="checkbox" checked={deleteStatus} onChange={onDeleteClick} />
-        </div>
+        </div> */}
         <button className="lists__button" onClick={handleTaskUpdate}>Update Task</button>
+        <button className="selectedtask__delete" onClick={handleTaskDelete}>Delete Task</button>
       </div>
       :
       <></>
