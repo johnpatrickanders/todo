@@ -1,25 +1,52 @@
 import { useState } from 'react';
 import './ListForm.css'
+import './ImageView.css'
 
 export default function ({ task }) {
-  const [title, setTitle] = useState("");
+  const [selectedFile, setSelectedFile] = useState();
+  const [isFilePicked, setIsFilePicked] = useState(false);
 
+  const changeHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+    setIsFilePicked(true);
+  };
+
+  const handleSubmission = async () => {
+    console.log(selectedFile.name);
+    const res = await fetch('/sign_s3', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fileName: selectedFile.name,
+        fileType: selectedFile.type
+      })
+    });
+    if (res.ok) {
+      const presigned_post = await res.json();
+      const url = presigned_post.url;
+      console.log(url);
+    }
+
+  }
   return (
-    <div className="dropdown-container">
-      <input type="file" id="file_input" />
-      <p id="status">Please select a file</p>
-      <img id="preview" src="/static/default.png" />
-      <form method="POST" action="/submit_form/">
-        <input
-          type="hidden"
-          id="avatar-url"
-          name="avatar-url"
-          defaultValue="/static/default.png"
-        />
-        <input type="text" name="username" placeholder="Username" />
-        <input type="text" name="full-name" placeholder="Full name" />
-        <input type="submit" defaultValue="Update profile" />
-      </form>
+    <div className='image__form'>
+      <input type="file" name="file" onChange={changeHandler} />
+      {isFilePicked ? (
+        <div>
+          <p>Filename: {selectedFile.name}</p>
+          <p>Filetype: {selectedFile.type}</p>
+          <p>Size in bytes: {selectedFile.size}</p>
+          <p>
+            lastModifiedDate:{' '}
+            {selectedFile.lastModifiedDate.toLocaleDateString()}
+          </p>
+        </div>
+      ) : (
+        <p>Select a file to show details</p>
+      )}
+      <div>
+        <button onClick={handleSubmission}>Submit</button>
+      </div>
     </div>
   )
 }
