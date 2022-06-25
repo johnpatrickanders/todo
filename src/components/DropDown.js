@@ -6,7 +6,6 @@ export default function ({ createList, buttonLabel }) {
   const [showForm, setShowForm] = useState(false);
 
   const pop = () => {
-    console.log("POP")
     setShowForm(!showForm);
   }
 

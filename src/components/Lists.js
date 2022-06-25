@@ -42,6 +42,7 @@ export default function () {
         {liveLists.map((list) => (
           <div
             listid={list.id}
+            key={String(list.id) + String(list.updateDate)}
             onClick={() => grabListId(list.id)}
             className="lists__title">
             {list.title}

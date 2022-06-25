@@ -35,7 +35,6 @@ export default function ({ taskListId }) {
 
 
   useEffect(() => {
-    console.log("NEW TASKS");
     async function fetchData() {
       const res = await fetch(`/tasks/${taskListId}`, {
         method: "GET",
