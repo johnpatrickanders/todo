@@ -8,6 +8,7 @@ from app_container.config import Config
 from flask_sqlalchemy import SQLAlchemy
 from app_container.models import db, User, TaskList, Task
 from flask_migrate import Migrate
+import boto3
 
 app = Flask(__name__)
 if __name__ == "__main__":
@@ -33,6 +34,7 @@ def home():
 
 @app.route('/tasklists')
 def get_tasklists():
+    print(boto3.__version__)
     tasklists = TaskList.query.filter(TaskList.user_id == 1).all()
     # res = [tasklist.to_dict() for tasklist in tasklists]
     res = [object_as_dict(tasklist) for tasklist in tasklists]
