@@ -3,19 +3,30 @@ from datetime import datetime
 # import time
 from flask import Flask, jsonify, request
 from sqlalchemy import inspect
-from app_container.config import Config
+from app_container.config import ConfigApp
 # from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from app_container.models import db, User, TaskList, Task
 from flask_migrate import Migrate
 import boto3
+from botocore.config import Config as ConfigBoto
+
+boto_config = ConfigBoto(
+    region_name = 'us-east-1',
+    signature_version = 's3v4',
+    retries = {
+        'max_attempts': 10,
+        'mode': 'standard'
+    }
+)
+
 
 app = Flask(__name__)
 if __name__ == "__main__":
     app.run(debug=True)
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.sqlite3'
-app.config.from_object(Config)
+app.config.from_object(ConfigApp)
 db.init_app(app)
 Migrate(app, db)
 
@@ -123,22 +134,49 @@ def delete_task(taskId):
 def sign_s3():
     S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
     data = request.json
-    print(data)
     file_name = data["fileName"]
     file_type = data["fileType"]
-    s3 = boto3.client('s3')
-    print('file_name:', file_name)
+    s3 = boto3.client(
+        's3', config=boto_config
+        )
+    print(file_name, file_type, S3_BUCKET_NAME)
     presigned_post = s3.generate_presigned_post(
         Bucket=S3_BUCKET_NAME,
         Key=file_name,
-        Fields={"acl": "public-read", "Content-Type": file_type},
+        Fields={
+            'key': file_name,
+            'acl': 'private',
+            'Content-Type': file_type,
+            }
+            ,
         Conditions=[
-            {"acl": "public-read"},
-            {"Content-Type": file_type}
+            {"bucket": S3_BUCKET_NAME},
+            {'acl': 'private'},
+            ['starts-with','$Content-Type', file_type],
+            { 'success_action_status': '201' },
+            {"x-amz-meta-uuid": "14365123651274"},
+            {"x-amz-server-side-encryption": "AES256"},
         ],
-        ExpiresIn=3600
+        ExpiresIn=40000
     )
     return {
-        'data': presigned_post,
+        'fields': presigned_post,
         'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET_NAME, file_name)
     }
+
+@app.route('/get_s3')
+def get_s3():
+    S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
+    s3 = boto3.resource('s3')
+    for bucket in s3.buckets.all():
+        print(bucket.name)
+    # bucket = s3.download_file(S3_BUCKET_NAME, 'demo (1).jpg', 'demo (1).jpg')
+    # print(bucket.name)
+    # for object in bucket:
+    #     print(object)
+
+    # data = open('demo (1).jpg', 'rb')
+    # s3.Bucket('my-bucket').put_object(Key='test.jpg', Body=data)
+    data = open('../public/logo192', 'rb')
+    s3.Bucket(S3_BUCKET_NAME).put_object(Key='test.jpg', Body=data)
+    return {}
