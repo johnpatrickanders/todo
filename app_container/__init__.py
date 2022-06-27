@@ -10,6 +10,7 @@ from app_container.models import db, User, TaskList, Task
 from flask_migrate import Migrate
 import boto3
 from botocore.config import Config as ConfigBoto
+from botocore.exceptions import ClientError
 
 boto_config = ConfigBoto(
     region_name = 'us-east-1',
@@ -180,3 +181,31 @@ def get_s3():
     data = open('../public/logo192', 'rb')
     s3.Bucket(S3_BUCKET_NAME).put_object(Key='test.jpg', Body=data)
     return {}
+
+
+def create_presigned_url(object_name, expiration,bucket_name=os.environ.get('S3_BUCKET_NAME')):
+    """Generate a presigned URL to share an S3 object
+
+    :param bucket_name: string
+    :param object_name: string
+    :param expiration: Time in seconds for the presigned URL to remain valid
+    :return: Presigned URL as string. If error, returns None.
+    """
+
+    # Generate a presigned URL for the S3 object
+    s3_client = boto3.client('s3')
+    try:
+        response = s3_client.generate_presigned_url('get_object',
+                                                    Params={'Bucket': os.environ.get('S3_BUCKET_NAME'),
+                                                            'Key': 'test.jpg'},
+                                                    ExpiresIn=3600)
+    except ClientError as e:
+        print(e)
+        return None
+
+    # The response contains the presigned URL
+    return response
+
+@app.route('/sign_s3_get/<file_name>')
+def get_presigned_url(file_name):
+    return create_presigned_url(object_name=file_name, expiration=3600)
