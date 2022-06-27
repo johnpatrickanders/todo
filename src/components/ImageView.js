@@ -11,6 +11,24 @@ export default function ({ task }) {
     setIsFilePicked(true);
   };
 
+  const getBlob = async (fileUri) => {
+    const resp = await fetch(fileUri);
+    const imageBody = await resp.blob();
+    return imageBody;
+  };
+
+  const uploadToS3 = async (url, fields) => {
+    console.log(selectedFile)
+    const res = await fetch(url, {
+      // method: 'PUT',
+      ...fields,
+      file: selectedFile
+    });
+    if (res.ok) {
+
+    }
+  }
+
   const handleSubmission = async () => {
     console.log(selectedFile.name);
     const res = await fetch('/sign_s3', {
@@ -22,9 +40,10 @@ export default function ({ task }) {
       })
     });
     if (res.ok) {
-      const presigned_post = await res.json();
-      const url = presigned_post.url;
-      console.log(url);
+      const { fields, url } = await res.json();
+      console.log(fields, url);
+
+      uploadToS3(url, fields);
     }
 
   }
