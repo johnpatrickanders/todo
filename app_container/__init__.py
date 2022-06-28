@@ -204,8 +204,56 @@ def create_presigned_url(object_name, expiration,bucket_name=os.environ.get('S3_
         return None
 
     # The response contains the presigned URL
-    return response
+    return {'url': response}
 
 @app.route('/sign_s3_get/<file_name>')
 def get_presigned_url(file_name):
     return create_presigned_url(object_name=file_name, expiration=3600)
+
+
+def create_presigned_post(object_name, bucket_name=os.environ.get('S3_BUCKET_NAME'),
+                          fields=None, conditions=None, expiration=3600):
+    """Generate a presigned URL S3 POST request to upload a file
+
+    :param bucket_name: string
+    :param object_name: string
+    :param fields: Dictionary of prefilled form fields
+    :param conditions: List of conditions to include in the policy
+    :param expiration: Time in seconds for the presigned URL to remain valid
+    :return: Dictionary with the following keys:
+        url: URL to post to
+        fields: Dictionary of form fields and values to submit with the POST
+    :return: None if error.
+    """
+
+    # Generate a presigned S3 POST URL
+    s3_client = boto3.client('s3')
+    try:
+        response = s3_client.generate_presigned_post(bucket_name,
+                                                    object_name,
+                                                     Fields=fields,
+                                                     Conditions=conditions,
+                                                     ExpiresIn=expiration)
+    except ClientError as e:
+        print(e)
+        return None
+
+    # The response contains the presigned URL and required fields
+    print(response)
+    return response
+
+
+@app.route('/sign_s3_post', methods=["POST"])
+def post_presigned_url():
+    data = request.json
+    file_name = data["fileName"]
+    file_type = data["fileType"]
+    print(file_name, file_type)
+    res = create_presigned_post(object_name=file_name,
+                                fields={'key': file_name,
+                                        'acl': 'public-read',
+                                        # 'method': 'POST',
+                                        'Content-Type': file_type,
+                                        'x-amz-acl': 'public-read'})
+    print(res)
+    return res
