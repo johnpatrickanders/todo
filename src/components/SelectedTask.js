@@ -9,6 +9,7 @@ export default function ({
   const [tag, setTag] = useState(selectedTask.tag ? selectedTask.tag : '');
   const [createDate, setCreateDate] = useState(selectedTask.createDate ? selectedTask.createDate : '');
   const [dueDate, setDueDate] = useState(selectedTask.dueDate ? selectedTask.dueDate : '');
+  // const [dueWord, setDueWord] = useState(selectedTask.dueWord ? selectedTask.dueWord : '');
   const [remindDate, setRemindDate] = useState(selectedTask.remindDate ? selectedTask.remindDate : '');
   const [deleteStatus, setDeleteStatus] = useState(false);
   const handleTaskUpdate = async () => {

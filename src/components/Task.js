@@ -47,6 +47,7 @@ export default function ({ task, setTasksState, tasksState, idx }) {
         <div className='task__dot'></div>
       </div>
       {selectedTask ? <SelectedTask task={task} idx={idx} setTasksState={setTasksState} tasksState={tasksState} setTaskTitle={setTaskTitle} selectedTask={selectedTask} setSelectedTask={setSelectedTask} /> : <div />}
+      {task.dueWord}
     </div>
   )
 }

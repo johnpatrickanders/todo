@@ -77,14 +77,15 @@ class Task(db.Model):
     def due_date_descriptor(self):
         due_date_word = None
         if self.due_date:
-            today = datetime.today().strftime('%Y-%m-%d')
-            due_date = self.due_date.strftime('%Y-%m-%d')
-            if today == due_date:
+            today = datetime.today()
+            due_date = self.due_date
+            if today.strftime('%Y-%m-%d') == due_date.strftime('%Y-%m-%d'):
                 due_date_word = 'Today'
-            elif today == due_date - timedelta(days=1):
+            elif today.strftime('%Y-%m-%d') == (due_date - timedelta(days=1)).strftime('%Y-%m-%d'):
                 due_date_word = 'Tomorrow'
             else:
-                due_date_word = due_date - today + ' days'
+                day_count = (due_date - today).days + 1
+                due_date_word = str(day_count) + ' days' if day_count > 1 else 'Tomorrow'
         return due_date_word
 
     def to_dict(self):

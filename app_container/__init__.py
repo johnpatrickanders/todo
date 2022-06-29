@@ -1,7 +1,8 @@
+from email.headerregistry import ContentTypeHeader
 import os
 from datetime import datetime
 # import time
-from flask import Flask, jsonify, request
+from flask import Flask, json, request
 from sqlalchemy import inspect
 from app_container.config import ConfigApp
 # from flask_cors import CORS
@@ -183,6 +184,17 @@ def get_s3():
     return {}
 
 
+@app.route('/put_s3/<fileName>', methods=['POST'])
+def put_s3(fileName):
+    S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
+    s3 = boto3.resource('s3')
+    data = request.json['file']
+    print(data)
+    # print(data['file'], fileName)
+    # file = open(fileName, 'rb')
+    s3.Bucket(S3_BUCKET_NAME).put_object(Key=fileName, Body=data)
+    return {'data': data}
+
 def create_presigned_url(object_name, expiration,bucket_name=os.environ.get('S3_BUCKET_NAME')):
     """Generate a presigned URL to share an S3 object
 
@@ -196,9 +208,9 @@ def create_presigned_url(object_name, expiration,bucket_name=os.environ.get('S3_
     s3_client = boto3.client('s3')
     try:
         response = s3_client.generate_presigned_url('get_object',
-                                                    Params={'Bucket': os.environ.get('S3_BUCKET_NAME'),
-                                                            'Key': 'test.jpg'},
-                                                    ExpiresIn=3600)
+                                                    Params={'Bucket':bucket_name,
+                                                            'Key': object_name},
+                                                    ExpiresIn=expiration)
     except ClientError as e:
         print(e)
         return None
@@ -227,13 +239,14 @@ def create_presigned_post(object_name, bucket_name=os.environ.get('S3_BUCKET_NAM
     """
 
     # Generate a presigned S3 POST URL
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client('s3', config=boto_config)
     try:
         response = s3_client.generate_presigned_post(bucket_name,
                                                     object_name,
                                                      Fields=fields,
                                                      Conditions=conditions,
-                                                     ExpiresIn=expiration)
+                                                     ExpiresIn=expiration,
+                                                     ContentType='html/text')
     except ClientError as e:
         print(e)
         return None
@@ -250,10 +263,11 @@ def post_presigned_url():
     file_type = data["fileType"]
     print(file_name, file_type)
     res = create_presigned_post(object_name=file_name,
-                                fields={'key': file_name,
+                                fields={'key':  file_name,
                                         'acl': 'public-read',
                                         # 'method': 'POST',
+                                        # 'body': None,
                                         'Content-Type': file_type,
                                         'x-amz-acl': 'public-read'})
-    print(res)
+    print("res", res)
     return res
