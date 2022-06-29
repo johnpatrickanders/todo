@@ -38,7 +38,7 @@ export default function ({ task, setTasksState, tasksState, idx }) {
       onClick={handleTitleClick}
     // onClick={select}
     >
-      {taskTitle}
+      <div className='task__title'>{taskTitle}</div>
       <div className='task__left'>
         <div className='task__dots'
           onClick={(e) => handleDotsClick(e)}

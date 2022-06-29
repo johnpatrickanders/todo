@@ -42,8 +42,17 @@
 .task__left {}
 
 .task__done {
+  font-weight: normal;
+}
+
+.task__done>.task__title {
   text-decoration: line-through;
   text-decoration-color: red;
+  font-style: italic;
+}
+
+.task__done>.task__right {
+  font-style: italic;
 }
 
 /*
