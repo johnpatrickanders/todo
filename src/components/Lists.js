@@ -6,11 +6,13 @@ import { UserContext } from '../App';
 
 export default function () {
   const { lists } = useContext(UserContext);
-  const [listId, setListId] = useState(1);
+  const [listId, setListId] = useState();
+  const [listTitle, setListTitle] = useState('Select A List')
   const [liveLists, setLiveLists] = useState(lists);
-  const grabListId = (id) => {
+  const grabListInfo = (id, title) => {
     console.log("KEY:", id)
     setListId(id);
+    setListTitle(title);
   }
   const createList = async (title) => {
     console.log("CREATE LIST")
@@ -43,13 +45,13 @@ export default function () {
           <div
             listid={list.id}
             key={String(list.id) + String(list.updateDate)}
-            onClick={() => grabListId(list.id)}
+            onClick={() => grabListInfo(list.id, list.title)}
             className="lists__title">
             {list.title}
           </div>
         ))}
       </div>
-      {<Tasks taskListId={listId} ></Tasks>}
+      {<Tasks taskListId={listId} taskListTitle={listTitle} ></Tasks>}
     </>
   )
 }

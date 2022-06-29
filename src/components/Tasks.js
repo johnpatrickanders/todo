@@ -3,7 +3,7 @@ import Task from './Task';
 import DropDown from './DropDown';
 import React, { useEffect, useState } from 'react';
 
-export default function ({ taskListId }) {
+export default function ({ taskListId, taskListTitle }) {
   let [tasksState, setTasksState] = useState([]);
   const sortByStatus = (tasks) => {
     const tempNorm = [];
@@ -35,6 +35,7 @@ export default function ({ taskListId }) {
 
 
   useEffect(() => {
+    if (!taskListId) return;
     async function fetchData() {
       const res = await fetch(`/tasks/${taskListId}`, {
         method: "GET",
@@ -54,7 +55,7 @@ export default function ({ taskListId }) {
       onClick={() => sortByStatus(tasksState)}
     >
       <h3 className="tasks__header">
-        Associated Tasks
+        {taskListTitle}
         <DropDown createList={createTask} buttonLabel="Add Task" />
         {/* <button className="tasks__button" onClick={createTask}>Add Task</button> */}
       </h3>
