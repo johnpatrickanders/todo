@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 # from flask_login import UserMixin
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
@@ -73,6 +74,19 @@ class Task(db.Model):
 
     task_list = db.relationship("TaskList", foreign_keys=task_list_id)
 
+    def due_date_descriptor(self):
+        due_date_word = None
+        if self.due_date:
+            today = datetime.today().strftime('%Y-%m-%d')
+            due_date = self.due_date.strftime('%Y-%m-%d')
+            if today == due_date:
+                due_date_word = 'Today'
+            elif today == due_date - timedelta(days=1):
+                due_date_word = 'Tomorrow'
+            else:
+                due_date_word = due_date - today + ' days'
+        return due_date_word
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -85,5 +99,6 @@ class Task(db.Model):
             'updateDate': self.update_date,
             'dueDate': self.due_date.strftime('%Y-%m-%d') if self.due_date else None,
             'remindDate': self.remind_date.strftime('%Y-%m-%d') if self.remind_date else None,
-            'userId': self.task_list.user_id
+            'userId': self.task_list.user_id,
+            'dueWord': self.due_date_descriptor()
         }
