@@ -11,11 +11,11 @@
   justify-content: space-between;
 }
 
-.main__header > div {
+.main__header>div {
   margin: 5px;
 }
 
-.header__center > img {
+.header__center>img {
   position: absolute;
   left: 0;
   right: 0;

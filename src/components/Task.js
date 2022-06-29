@@ -39,15 +39,17 @@ export default function ({ task, setTasksState, tasksState, idx }) {
     // onClick={select}
     >
       {taskTitle}
-      <div className='task__dots'
-        onClick={(e) => handleDotsClick(e)}
-      >
-        <div className='task__dot'></div>
-        <div className='task__dot'></div>
-        <div className='task__dot'></div>
+      <div className='task__left'>
+        <div className='task__dots'
+          onClick={(e) => handleDotsClick(e)}
+        >
+          <div className='task__dot'></div>
+          <div className='task__dot'></div>
+          <div className='task__dot'></div>
+        </div>
+        {selectedTask ? <SelectedTask task={task} idx={idx} setTasksState={setTasksState} tasksState={tasksState} setTaskTitle={setTaskTitle} selectedTask={selectedTask} setSelectedTask={setSelectedTask} /> : <div />}
       </div>
-      {selectedTask ? <SelectedTask task={task} idx={idx} setTasksState={setTasksState} tasksState={tasksState} setTaskTitle={setTaskTitle} selectedTask={selectedTask} setSelectedTask={setSelectedTask} /> : <div />}
-      {task.dueWord}
+      <div className='task__right'>{task.dueWord}</div>
     </div>
   )
 }
