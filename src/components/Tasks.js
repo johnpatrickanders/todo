@@ -4,7 +4,8 @@ import DropDown from './DropDown';
 import React, { useEffect, useState } from 'react';
 
 export default function ({ taskListId, taskListTitle }) {
-  let [tasksState, setTasksState] = useState([]);
+  const [tasksState, setTasksState] = useState([]);
+  const [showCompleted, setShowCompleted] = useState(true);
   const sortByStatus = (tasks) => {
     const tempNorm = [];
     const tempStatus = [];
@@ -33,6 +34,14 @@ export default function ({ taskListId, taskListTitle }) {
     }
   }
 
+  const toggleCompleted = (e) => {
+    console.log(e.target.value);
+    setShowCompleted(!showCompleted);
+  }
+
+  const updateCompletedClass = () => {
+
+  }
 
   useEffect(() => {
     if (!taskListId) return;
@@ -48,7 +57,9 @@ export default function ({ taskListId, taskListTitle }) {
       }
     }
     fetchData();
-  }, [taskListId])
+  }, [taskListId]);
+
+
 
   return (
     <div className="main__tasks tasks"
@@ -56,11 +67,21 @@ export default function ({ taskListId, taskListTitle }) {
     >
       <h3 className="tasks__header">
         {taskListTitle}
+
+        <label className='toggle__completed' for='showCompleted'>Hide Completed</label>
+        <input
+          type='checkbox'
+          name='showCompleted'
+          checked={!showCompleted}
+          value='Toggle Completed'
+          onClick={(e) => toggleCompleted(e)}
+          onChange={updateCompletedClass}
+        />
         <DropDown createList={createTask} buttonLabel="Add Task" />
-        {/* <button className="tasks__button" onClick={createTask}>Add Task</button> */}
       </h3>
       {tasksState.map((task, idx) => (
-        <Task task={task}
+        (showCompleted || task.status !== 'Complete') && <Task
+          task={task}
           status={task.status}
           key={String(task.id) + String(task.title) + String(task.updateDate)}
           setTasksState={setTasksState}

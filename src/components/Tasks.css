@@ -1,8 +1,14 @@
 .tasks__header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-content: center;
 }
 
 .tasks__button {
   color: green;
+}
+
+.toggle__completed {
+  font-weight: normal;
+  text-align: center;
 }
