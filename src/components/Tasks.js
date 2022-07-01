@@ -68,7 +68,7 @@ export default function ({ taskListId, taskListTitle }) {
       <h3 className="tasks__header">
         {taskListTitle}
 
-        <label className='toggle__completed' for='showCompleted'>Hide Completed</label>
+        <label className='toggle__completed' htmlFor='showCompleted'>Hide Completed</label>
         <input
           type='checkbox'
           name='showCompleted'
@@ -79,16 +79,18 @@ export default function ({ taskListId, taskListTitle }) {
         />
         <DropDown createList={createTask} buttonLabel="Add Task" />
       </h3>
-      {tasksState.map((task, idx) => (
-        (showCompleted || task.status !== 'Complete') && <Task
-          task={task}
-          status={task.status}
-          key={String(task.id) + String(task.title) + String(task.updateDate)}
-          setTasksState={setTasksState}
-          tasksState={tasksState}
-          idx={idx}
-        />
-      ))}
-    </div>
+      {
+        tasksState.map((task, idx) => (
+          (showCompleted || task.status !== 'Complete') && <Task
+            task={task}
+            status={task.status}
+            key={String(task.id) + String(task.title) + String(task.updateDate)}
+            setTasksState={setTasksState}
+            tasksState={tasksState}
+            idx={idx}
+          />
+        ))
+      }
+    </div >
   )
 }

@@ -8,20 +8,20 @@ export default function ({ task }) {
   const [returnedGetUrl, setReturnedGetUrl] = useState();
 
   const changeHandler = (e) => {
-    let reader = new FileReader()
-    const rawFile = e.target.files[0];
+    // let reader = new FileReader()
+    // const rawFile = e.target.files[0];
 
-    reader.readAsDataURL(rawFile);
-    reader.onload = () => {
-      setSelectedFile({
-        queryImage: reader.result,
-        name: rawFile.name,
-        type: rawFile.type,
-        size: rawFile.size
-      });
-      setIsFilePicked(true);
-    }
-    // setSelectedFile(event.target.files[0]);
+    // reader.readAsDataURL(rawFile);
+    // reader.onload = () => {
+    //   setSelectedFile({
+    //     queryImage: reader.result,
+    //     name: rawFile.name,
+    //     type: rawFile.type,
+    //     size: rawFile.size
+    //   });
+    setIsFilePicked(true);
+    // }
+    setSelectedFile(e.target.files[0]);
   };
 
   const uploadToS3 = async (url, fields) => {
@@ -78,14 +78,19 @@ export default function ({ task }) {
     // data.append('file', selectedFile.file);
     // data.append('name', selectedFile.name);
     // console.log(selectedFile.name);
+    const formData = new FormData();
+    formData.append('file', selectedFile)
     const res = await fetch(`/put_s3/${selectedFile.name}`, {
       method: "POST",
       headers: {
         // 'Accept': 'application/json',
         // 'ContentEncoding': 'base64',
-        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/json'
+        // 'Content-Type': 'text/json',
+        'Enctype': 'multipart/form-data'
       },
-      body: JSON.stringify({ file: selectedFile.queryImage })
+      // body: JSON.stringify({ file: selectedFile.queryImage })
+      body: formData
     });
     if (res.ok) {
       const data = await res.json();
@@ -119,7 +124,7 @@ export default function ({ task }) {
         <button onClick={handlePut}>Put Test</button>
       </div>
       <img
-        src={`data:image/png;base64, ${returnedGetUrl}`}
+        src={`${returnedGetUrl}`} //data:image/png;base64,
       />
     </div>
   )
