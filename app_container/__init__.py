@@ -77,6 +77,7 @@ def update_status(taskId):
 def update_task(taskId):
     data = request.json
     task = Task.query.filter(Task.id == int(taskId)).first()
+    post_contents = None
     if data["title"]:
         task.title = data["title"]
     if data["tag"]:
@@ -87,9 +88,11 @@ def update_task(taskId):
         task.due_date = data["dueDate"]
     if data["remindDate"]:
         task.remind_date = data["remindDate"]
+    if data["fileName"]:
+        post_contents = create_presigned_post(data['fileName'])
     # task.update_date = datetime.now()
     db.session.commit()
-    return {"updatedTask": task.to_dict()}
+    return {"updatedTask": task.to_dict(), 'preSignedPostS3':post_contents}
 
 
 @app.route('/list', methods=["POST"])
@@ -131,59 +134,7 @@ def delete_task(taskId):
 
     return {"deletedTask": taskTitle}
 
-
-@app.route('/sign_s3', methods=["POST"])
-def sign_s3():
-    S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
-    data = request.json
-    file_name = data["fileName"]
-    file_type = data["fileType"]
-    s3 = boto3.client(
-        's3', config=boto_config
-        )
-    print(file_name, file_type, S3_BUCKET_NAME)
-    presigned_post = s3.generate_presigned_post(
-        Bucket=S3_BUCKET_NAME,
-        Key=file_name,
-        Fields={
-            'key': file_name,
-            'acl': 'private',
-            'Content-Type': file_type,
-            }
-            ,
-        Conditions=[
-            {"bucket": S3_BUCKET_NAME},
-            {'acl': 'private'},
-            ['starts-with','$Content-Type', file_type],
-            { 'success_action_status': '201' },
-            {"x-amz-meta-uuid": "14365123651274"},
-            {"x-amz-server-side-encryption": "AES256"},
-        ],
-        ExpiresIn=40000
-    )
-    return {
-        'fields': presigned_post,
-        'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET_NAME, file_name)
-    }
-
-@app.route('/get_s3')
-def get_s3():
-    S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
-    s3 = boto3.resource('s3')
-    for bucket in s3.buckets.all():
-        print(bucket.name)
-    # bucket = s3.download_file(S3_BUCKET_NAME, 'demo (1).jpg', 'demo (1).jpg')
-    # print(bucket.name)
-    # for object in bucket:
-    #     print(object)
-
-    # data = open('demo (1).jpg', 'rb')
-    # s3.Bucket('my-bucket').put_object(Key='test.jpg', Body=data)
-    data = open('../public/logo192', 'rb')
-    s3.Bucket(S3_BUCKET_NAME).put_object(Key='test.jpg', Body=data)
-    return {}
-
-
+# NOT IN USE: use if want to upload image directly via backent
 @app.route('/put_s3/<fileName>', methods=['POST'])
 def put_s3(fileName):
     S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
@@ -259,14 +210,7 @@ def post_presigned_url():
     file_name = data["fileName"]
     file_type = data["fileType"]
     print(file_name, file_type)
-    res = create_presigned_post(object_name=file_name,
-                                # fields={'key':  file_name,
-                                        # 'Enctype': 'multipart/form-data',
-                                        # 'method': 'POST',
-                                        # 'body': None,
-                                        # 'Content-Type': file_type,
-                                        # }
-                                        )
+    res = create_presigned_post(object_name=file_name)
 
     print("res", res)
     return res
