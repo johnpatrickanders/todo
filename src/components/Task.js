@@ -47,6 +47,7 @@ export default function ({ task, setTasksState, tasksState, idx }) {
           <div className='task__dot'></div>
           <div className='task__dot'></div>
         </div>
+        <i className='fa task__file__icon'>&#xf15b;</i>
         {selectedTask ? <SelectedTask task={task} idx={idx} setTasksState={setTasksState} tasksState={tasksState} setTaskTitle={setTaskTitle} selectedTask={selectedTask} setSelectedTask={setSelectedTask} /> : <div />}
       </div>
       <div className='task__right'>{task.dueWord}</div>

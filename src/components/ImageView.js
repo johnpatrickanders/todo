@@ -58,51 +58,26 @@ export default function ({ task }) {
   }
 
   const handleGet = async () => {
-    const res = await fetch('/sign_s3_get/john-profile-2022.jpg');
+    const res = await fetch(`/sign_s3_get/${selectedFile.name}`);
     if (res.ok) {
       const data = await res.json();
       console.log(data);
       setReturnedGetUrl(data.url);
-      // const file = await fetch(data.url, {
-      //   // headers: {
-      //   //   'Content-Type': 'image/png',
-      //   //   'Content-Disposition': 'inline; filename="picture.png"'
-      //   // }
-      // })
-
-      // console.log(file)
     }
   }
   const handlePut = async (e) => {
-    // const data = new FormData();
-    // data.append('file', selectedFile.file);
-    // data.append('name', selectedFile.name);
-    // console.log(selectedFile.name);
     const formData = new FormData();
     formData.append('file', selectedFile)
     const res = await fetch(`/put_s3/${selectedFile.name}`, {
       method: "POST",
       headers: {
-        // 'Accept': 'application/json',
-        // 'ContentEncoding': 'base64',
-        // 'Content-Type': 'application/json'
-        // 'Content-Type': 'text/json',
         'Enctype': 'multipart/form-data'
       },
-      // body: JSON.stringify({ file: selectedFile.queryImage })
       body: formData
     });
     if (res.ok) {
       const data = await res.json();
       console.log(data);
-      // const file = await fetch(data.url, {
-      //   // headers: {
-      //   //   'Content-Type': 'image/png',
-      //   //   'Content-Disposition': 'inline; filename="picture.png"'
-      //   // }
-      // })
-
-      // console.log(file)
     }
   }
 
@@ -124,7 +99,7 @@ export default function ({ task }) {
         <button onClick={handlePut}>Put Test</button>
       </div>
       <img
-        src={`${returnedGetUrl}`} //data:image/png;base64,
+        src={`${returnedGetUrl}`}
       />
     </div>
   )

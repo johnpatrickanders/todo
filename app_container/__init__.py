@@ -190,10 +190,8 @@ def put_s3(fileName):
     s3 = boto3.resource('s3')
     data = request.files['file']
     print(data)
-    # print(data['file'], fileName)
-    # file = open(fileName, 'rb')
     s3.Bucket(S3_BUCKET_NAME).put_object(Key=fileName, Body=data)
-    return {'data': 'data'}
+    return {'data': fileName + ' uploaded successfully'}
 
 def create_presigned_url(object_name, expiration,bucket_name=os.environ.get('S3_BUCKET_NAME')):
     """Generate a presigned URL to share an S3 object
