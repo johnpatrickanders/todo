@@ -243,8 +243,7 @@ def create_presigned_post(object_name, bucket_name=os.environ.get('S3_BUCKET_NAM
                                                     object_name,
                                                      Fields=fields,
                                                      Conditions=conditions,
-                                                     ExpiresIn=expiration,
-                                                     ContentType='html/text')
+                                                     ExpiresIn=expiration)
     except ClientError as e:
         print(e)
         return None
@@ -261,11 +260,13 @@ def post_presigned_url():
     file_type = data["fileType"]
     print(file_name, file_type)
     res = create_presigned_post(object_name=file_name,
-                                fields={'key':  file_name,
-                                        'acl': 'public-read',
+                                # fields={'key':  file_name,
+                                        # 'Enctype': 'multipart/form-data',
                                         # 'method': 'POST',
                                         # 'body': None,
-                                        'Content-Type': file_type,
-                                        'x-amz-acl': 'public-read'})
+                                        # 'Content-Type': file_type,
+                                        # }
+                                        )
+
     print("res", res)
     return res

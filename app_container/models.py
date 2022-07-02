@@ -71,6 +71,7 @@ class Task(db.Model):
         db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
     due_date = db.Column(db.DateTime, server_default=None)
     remind_date = db.Column(db.DateTime, server_default=None)
+    file_url=db.Column(db.String(1000), default=None)
 
     task_list = db.relationship("TaskList", foreign_keys=task_list_id)
 
@@ -101,5 +102,6 @@ class Task(db.Model):
             'dueDate': self.due_date.strftime('%Y-%m-%d') if self.due_date else None,
             'remindDate': self.remind_date.strftime('%Y-%m-%d') if self.remind_date else None,
             'userId': self.task_list.user_id,
-            'dueWord': self.due_date_descriptor()
+            'dueWord': self.due_date_descriptor(),
+            'fileUrl': self.file_url
         }

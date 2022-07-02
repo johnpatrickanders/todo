@@ -1,6 +1,7 @@
 import './Main.css';
 import './SelectedTask.css';
 import { useState } from 'react';
+import ImageView from './ImageView';
 
 export default function ({
   task, selectedTask, setSelectedTask, setTasksState, tasksState, idx
@@ -76,14 +77,17 @@ export default function ({
         <div className='selectedtask__line' >
           Tag: <input type="text" value={tag} onChange={(e) => handleChange(e, setTag)} />
         </div>
-        <div>
+        <div className='selectedtask__line'>
           Created: <input type="date" value={createDate} onChange={(e) => handleChange(e, setCreateDate)} />
         </div>
-        <div>
+        <div className='selectedtask__line'>
           Due: <input type="date" value={dueDate} onChange={(e) => handleChange(e, setDueDate)} />
         </div>
-        <div>
+        <div className='selectedtask__line'>
           Remind: <input type="date" value={remindDate} onChange={(e) => handleChange(e, setRemindDate)} />
+        </div>
+        <div className='selectedtask__line image__form'>
+          File: <ImageView />
         </div>
         {/* <div>
           Delete: < input type="checkbox" checked={deleteStatus} onChange={onDeleteClick} />

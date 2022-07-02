@@ -8,40 +8,34 @@ export default function ({ task }) {
   const [returnedGetUrl, setReturnedGetUrl] = useState();
 
   const changeHandler = (e) => {
-    // let reader = new FileReader()
-    // const rawFile = e.target.files[0];
-
-    // reader.readAsDataURL(rawFile);
-    // reader.onload = () => {
-    //   setSelectedFile({
-    //     queryImage: reader.result,
-    //     name: rawFile.name,
-    //     type: rawFile.type,
-    //     size: rawFile.size
-    //   });
     setIsFilePicked(true);
-    // }
     setSelectedFile(e.target.files[0]);
   };
 
   const uploadToS3 = async (url, fields) => {
-    console.log(selectedFile);
-    fields['file'] = selectedFile.queryImage;
+    const formData = new FormData();
+    for (const [key, val] of Object.entries(fields)) {
+      formData.append(key, val);
+    }
+    console.log(fields)
+    formData.append('file', selectedFile);
     const res = await fetch(url, {
-      method: 'PUT',
+      method: "POST",
       // headers: {
-      //   'Content-Type': 'application/json',
+      //   'Enctype': 'multipart/form-data'
       // },
-      fields
+      body: formData
     });
     if (res.ok) {
-      console.log("PARTY");
+      // const data = await res.json();
+      // console.log(data);
+      console.log('uploaded...')
     }
   }
 
   const handleSubmission = async () => {
     console.log(selectedFile.file);
-    const res = await fetch('/sign_s3', {
+    const res = await fetch('/sign_s3_post', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -51,7 +45,7 @@ export default function ({ task }) {
     });
     if (res.ok) {
       const { fields, url } = await res.json();
-      console.log(fields, url);
+      console.log(fields);
 
       uploadToS3(url, fields);
     }
@@ -77,30 +71,36 @@ export default function ({ task }) {
     });
     if (res.ok) {
       const data = await res.json();
-      console.log(data);
     }
   }
 
   return (
-    <div className='image__form'>
-      <input type="file" name="file" onChange={changeHandler} />
+    < >
       {isFilePicked ? (
         <div>
           <p>Filename: {selectedFile.name}</p>
-          <p>Filetype: {selectedFile.type}</p>
-          <p>Size in bytes: {selectedFile.size}</p>
         </div>
-      ) : (
-        <p>Select a file to show details</p>
-      )}
+      ) : <></>
+        // (
+        //   <p>Select a file to show details</p>
+        // )
+      }
+      <input
+        type="file"
+        name="file"
+        style={{
+          'color': 'transparent',
+          'width': '90px'
+        }}
+        onChange={changeHandler} />
       <div>
         <button onClick={handleSubmission}>Submit</button>
-        <button onClick={handleGet}>Get Test</button>
-        <button onClick={handlePut}>Put Test</button>
+        {/* <button onClick={handleGet}>Get Test</button> */}
+        {/* <button onClick={handlePut}>Put Test</button> */}
       </div>
-      <img
+      {/* <img
         src={`${returnedGetUrl}`}
-      />
-    </div>
+      /> */}
+    </>
   )
 }
