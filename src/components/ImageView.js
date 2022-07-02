@@ -89,7 +89,7 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
         }}
         onChange={changeHandler} />
       <div>
-        <button onClick={handleSubmission}>Submit</button>
+        {/* <button onClick={handleSubmission}>Submit</button> */}
         {/* <button onClick={handleGet}>Get Test</button> */}
         {/* <button onClick={handlePut}>Put Test</button> */}
       </div>
