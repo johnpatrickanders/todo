@@ -26,7 +26,7 @@ export default function ({
         dueDate,
         remindDate,
         title,
-        fileName: selectedFile.name
+        fileName: selectedTask.id + "-task-image"
       })
     })
     if (res.ok) {
@@ -49,10 +49,7 @@ export default function ({
   const handleTaskDelete = async () => {
     const res = await fetch(`/task/${selectedTask.id}`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      // body: JSON.stringify({
-      //   taskId
-      // })
+      headers: { "Content-Type": "application/json" }
     });
     if (res.ok) {
       const { deletedTask } = await res.json();
@@ -73,6 +70,19 @@ export default function ({
     setDeleteStatus(!deleteStatus)
   };
 
+  const postFileName = async () => {
+    const res = await fetch(`/post_success/${selectedTask.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fileName: selectedTask.id + "-task-image"
+      })
+    })
+    if (res.ok) {
+      console.log("fileName added");
+    }
+  }
+
   const uploadToS3 = async (url, fields) => {
     const formData = new FormData();
     for (const [key, val] of Object.entries(fields)) {
@@ -86,7 +96,7 @@ export default function ({
     });
     if (res.ok) {
       console.log('uploaded...');
-
+      postFileName();
     }
   }
 

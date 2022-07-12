@@ -134,7 +134,7 @@ def delete_task(taskId):
 
     return {"deletedTask": taskTitle}
 
-# NOT IN USE: use if want to upload image directly via backent
+# NOT IN USE: use if want to upload image directly via backend
 @app.route('/put_s3/<fileName>', methods=['POST'])
 def put_s3(fileName):
     S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
@@ -214,3 +214,11 @@ def post_presigned_url():
 
     print("res", res)
     return res
+
+@app.route('/post_success/<taskId>', methods=["PUT"])
+def on_post_success(taskId):
+    data = request.json
+    task = Task.query.filter(Task.id == int(taskId)).first()
+    task.file_name = data["fileName"]
+    db.session.commit()
+    return {"updatedTask": task.title}
