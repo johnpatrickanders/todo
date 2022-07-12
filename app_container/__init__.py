@@ -144,7 +144,7 @@ def put_s3(fileName):
     s3.Bucket(S3_BUCKET_NAME).put_object(Key=fileName, Body=data)
     return {'data': fileName + ' uploaded successfully'}
 
-def create_presigned_url(object_name, expiration,bucket_name=os.environ.get('S3_BUCKET_NAME')):
+def create_presigned_url(object_name, expiration, bucket_name=os.environ.get('S3_BUCKET_NAME')):
     """Generate a presigned URL to share an S3 object
 
     :param bucket_name: string

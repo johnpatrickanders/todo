@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ImageView from './ImageView';
 
 export default function ({
-  task, selectedTask, setSelectedTask, setTasksState, tasksState, idx
+  task, selectedTask, setSelectedTask, setTasksState, tasksState
 }) {
   const [title, setTitle] = useState(selectedTask.title);
   const [tag, setTag] = useState(selectedTask.tag ? selectedTask.tag : '');
@@ -96,7 +96,7 @@ export default function ({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        fileName: selectedFile.name,
+        fileName: selectedTask.id + "-task-image",
         fileType: selectedFile.type
       })
     });
