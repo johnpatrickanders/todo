@@ -42,7 +42,7 @@ export default function ({
           position: 'fixed',
           top: '8%',
           right: '8%',
-          fontSize: '50px',
+          fontSize: '60px',
           color: 'red',
           fontWeight: 'bold'
         }}
