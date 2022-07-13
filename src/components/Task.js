@@ -2,10 +2,12 @@ import { useState, useContext } from 'react';
 import './Task.css';
 import { UserContext } from '../App';
 import SelectedTask from './SelectedTask';
+import ImageModal from './ImageModal';
 
 export default function ({ task, setTasksState, tasksState, idx }) {
   const [classNames, setClassNames] = useState(`tasks__task ${task.status === 'Complete' ? " task__done" : ""}`);
   const [taskTitle, setTaskTitle] = useState(task.title);
+  const [isOpen, setOpen] = useState(false);
   const { selectedTask, setSelectedTask } = useContext(UserContext);
   const handleTitleClick = async () => {
     if (selectedTask) return;
@@ -23,13 +25,19 @@ export default function ({ task, setTasksState, tasksState, idx }) {
     console.log(task.status, classNames)
   }
 
-  const handleDotsClick = async (event) => {
-    event.stopPropagation();
+  const handleDotsClick = async (e) => {
+    e.stopPropagation();
     if (selectedTask) {
       setSelectedTask(null);
     } else {
       setSelectedTask(task);
     }
+  }
+
+  const loadImageModal = (e) => {
+    e.stopPropagation();
+    console.log("loading image...");
+    setOpen(true);
   }
 
   return (
@@ -38,6 +46,7 @@ export default function ({ task, setTasksState, tasksState, idx }) {
       onClick={handleTitleClick}
     // onClick={select}
     >
+      {isOpen ? <ImageModal fileName={task.fileName} /> : <></>}
       <div className='task__title'>{taskTitle}</div>
       <div className='task__left'>
         <div className='task__dots'
@@ -47,7 +56,7 @@ export default function ({ task, setTasksState, tasksState, idx }) {
           <div className='task__dot'></div>
           <div className='task__dot'></div>
         </div>
-        {task.fileName ? <i className='fa task__file__icon'>&#xf15b;</i> : <></>}
+        {task.fileName ? <i onClick={(e) => loadImageModal(e)} className='fa task__file__icon'>&#xf15b;</i> : <></>}
         {selectedTask ? <SelectedTask
           task={task}
           idx={idx}

@@ -1,7 +1,7 @@
 import './Main.css';
 import './SelectedTask.css';
 import { useState } from 'react';
-import ImageView from './ImagePicker';
+import ImagePicker from './ImagePicker';
 
 export default function ({
   task,
@@ -156,7 +156,7 @@ export default function ({
             Remind: <input type="date" value={remindDate} onChange={(e) => handleChange(e, setRemindDate)} />
           </div>
           <div className='selectedtask__line image__form'>
-            File: <ImageView
+            File: <ImagePicker
               setSelectedFile={setSelectedFile}
               selectedFile={selectedFile}
               handleSubmission={handleSubmission}
