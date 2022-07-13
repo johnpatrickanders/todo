@@ -125,15 +125,6 @@ export default function ({
     }
   }
 
-  const handleGet = async () => {
-    const res = await fetch(`/sign_s3_get/${selectedFile.name}`);
-    if (res.ok) {
-      const data = await res.json();
-      console.log(data);
-      setReturnedGetUrl(data.url);
-    }
-  }
-
   return (
     selectedTask && selectedTask.id === task.id ?
       <div
