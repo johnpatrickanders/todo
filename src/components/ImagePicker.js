@@ -71,15 +71,6 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
 
   return (
     < >
-      {isFilePicked ? (
-        <div>
-          <p>Filename: {selectedFile.name}</p>
-        </div>
-      ) : <></>
-        // (
-        //   <p>Select a file to show details</p>
-        // )
-      }
       <input
         type="file"
         name="file"
@@ -88,14 +79,10 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
           'width': '90px'
         }}
         onChange={changeHandler} />
-      <div>
-        {/* <button onClick={handleSubmission}>Submit</button> */}
-        {/* <button onClick={handleGet}>Get Test</button> */}
-        {/* <button onClick={handlePut}>Put Test</button> */}
-      </div>
-      {/* <img
-        src={`${returnedGetUrl}`}
-      /> */}
+      {isFilePicked && selectedFile ? (
+        <> {selectedFile.name} </>
+      ) : <></>
+      }
     </>
   )
 }

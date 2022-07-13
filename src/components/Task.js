@@ -6,7 +6,6 @@ import SelectedTask from './SelectedTask';
 export default function ({ task, setTasksState, tasksState, idx }) {
   const [classNames, setClassNames] = useState(`tasks__task ${task.status === 'Complete' ? " task__done" : ""}`);
   const [taskTitle, setTaskTitle] = useState(task.title);
-  // const [hasFile, setHasFile] = useState(task.fileName);
   const { selectedTask, setSelectedTask } = useContext(UserContext);
   const handleTitleClick = async () => {
     if (selectedTask) return;
@@ -49,7 +48,15 @@ export default function ({ task, setTasksState, tasksState, idx }) {
           <div className='task__dot'></div>
         </div>
         {task.fileName ? <i className='fa task__file__icon'>&#xf15b;</i> : <></>}
-        {selectedTask ? <SelectedTask task={task} idx={idx} setTasksState={setTasksState} tasksState={tasksState} setTaskTitle={setTaskTitle} selectedTask={selectedTask} setSelectedTask={setSelectedTask} /> : <div />}
+        {selectedTask ? <SelectedTask
+          task={task}
+          idx={idx}
+          setTasksState={setTasksState}
+          tasksState={tasksState}
+          setTaskTitle={setTaskTitle}
+          selectedTask={selectedTask}
+          setSelectedTask={setSelectedTask}
+        /> : <div />}
       </div>
       <div className='task__right'>{task.dueWord}</div>
     </div>

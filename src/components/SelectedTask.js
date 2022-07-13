@@ -1,10 +1,14 @@
 import './Main.css';
 import './SelectedTask.css';
 import { useState } from 'react';
-import ImageView from './ImageView';
+import ImageView from './ImagePicker';
 
 export default function ({
-  task, selectedTask, setSelectedTask, setTasksState, tasksState
+  task,
+  selectedTask,
+  setSelectedTask,
+  setTasksState,
+  tasksState
 }) {
   const [title, setTitle] = useState(selectedTask.title);
   const [tag, setTag] = useState(selectedTask.tag ? selectedTask.tag : '');
@@ -32,7 +36,7 @@ export default function ({
     if (res.ok) {
       const { updatedTask, preSignedPostS3 } = await res.json();
       if (preSignedPostS3.url) {
-        uploadToS3(preSignedPostS3.url, preSignedPostS3.fields);
+        await uploadToS3(preSignedPostS3.url, preSignedPostS3.fields);
       }
       const newTasks = tasksState.map(el => {
         if (el.id === updatedTask.id) {
@@ -70,7 +74,8 @@ export default function ({
     setDeleteStatus(!deleteStatus)
   };
 
-  const postFileName = async () => {
+  // to modify for uploadToS3 error handle
+  const postFileName = async (fileName) => {
     const res = await fetch(`/post_success/${selectedTask.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -79,7 +84,7 @@ export default function ({
       })
     })
     if (res.ok) {
-      console.log("fileName added");
+      console.log("fileName added: ", fileName);
     }
   }
 
@@ -96,7 +101,9 @@ export default function ({
     });
     if (res.ok) {
       console.log('uploaded...');
-      postFileName();
+      // postFileName(fields.key);
+    } else {
+      // TODO: handle error by removing task's fileName in backend
     }
   }
 
@@ -132,33 +139,35 @@ export default function ({
       <div
         className="task__selectedtask"
       >
-        <div className='selectedtask__line' >
-          Title: <input type="text" value={title} onChange={(e) => handleChange(e, setTitle)} />
-        </div>
-        <div className='selectedtask__line' >
-          Tag: <input type="text" value={tag} onChange={(e) => handleChange(e, setTag)} />
-        </div>
-        <div className='selectedtask__line'>
-          Created: <input type="date" value={createDate} onChange={(e) => handleChange(e, setCreateDate)} />
-        </div>
-        <div className='selectedtask__line'>
-          Due: <input type="date" value={dueDate} onChange={(e) => handleChange(e, setDueDate)} />
-        </div>
-        <div className='selectedtask__line'>
-          Remind: <input type="date" value={remindDate} onChange={(e) => handleChange(e, setRemindDate)} />
-        </div>
-        <div className='selectedtask__line image__form'>
-          File: <ImageView
-            setSelectedFile={setSelectedFile}
-            selectedFile={selectedFile}
-            handleSubmission={handleSubmission}
-          />
-        </div>
-        {/* <div>
+        <div className='selectedtask__container'>
+          <div className='selectedtask__line' >
+            Title: <input type="text" value={title} onChange={(e) => handleChange(e, setTitle)} />
+          </div>
+          <div className='selectedtask__line' >
+            Tag: <input type="text" value={tag} onChange={(e) => handleChange(e, setTag)} />
+          </div>
+          <div className='selectedtask__line'>
+            Created: <input type="date" value={createDate} onChange={(e) => handleChange(e, setCreateDate)} />
+          </div>
+          <div className='selectedtask__line'>
+            Due: <input type="date" value={dueDate} onChange={(e) => handleChange(e, setDueDate)} />
+          </div>
+          <div className='selectedtask__line'>
+            Remind: <input type="date" value={remindDate} onChange={(e) => handleChange(e, setRemindDate)} />
+          </div>
+          <div className='selectedtask__line image__form'>
+            File: <ImageView
+              setSelectedFile={setSelectedFile}
+              selectedFile={selectedFile}
+              handleSubmission={handleSubmission}
+            />
+          </div>
+          {/* <div>
           Delete: < input type="checkbox" checked={deleteStatus} onChange={onDeleteClick} />
         </div> */}
-        <button className="lists__button" onClick={handleTaskUpdate}>Update Task</button>
-        <button className="selectedtask__delete" onClick={handleTaskDelete}>Delete Task</button>
+          <button className="lists__button" onClick={handleTaskUpdate}>Update Task</button>
+          <button className="selectedtask__delete" onClick={handleTaskDelete}>Delete Task</button>
+        </div>
       </div>
       :
       <></>

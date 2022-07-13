@@ -1,3 +1,3 @@
-/* .image__form {
-  display: inline-block
-} */
+.image__form {
+  text-overflow: ellipsis;
+}

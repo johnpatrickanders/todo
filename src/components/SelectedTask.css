@@ -7,7 +7,17 @@
   z-index: 1000;
   position: fixed;
   border-radius: 5px;
+  text-overflow: ellipsis;
   display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-right: 7px;
+  /* overflow-x: hidden */
+}
+
+/* TODO: ensure selectedTask does not overflow the right side of screen */
+.selectedtask__container {
+  overflow-x: hidden;
 }
 
 .selectedtask__delete {
