@@ -12,6 +12,7 @@ from flask_migrate import Migrate
 import boto3
 from botocore.config import Config as ConfigBoto
 from botocore.exceptions import ClientError
+from flask_login import LoginManager
 
 boto_config = ConfigBoto(
     region_name = 'us-east-1',
@@ -32,6 +33,20 @@ app.config.from_object(ConfigApp)
 db.init_app(app)
 Migrate(app, db)
 
+
+login = LoginManager(app)
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def react_root(path):
+    print("path", path)
+    if path == 'favicon.ico':
+        return app.send_static_file('favicon.ico')
+    return app.send_static_file('index.html')
+
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 def object_as_dict(obj):
     return {c.key: getattr(obj, c.key)

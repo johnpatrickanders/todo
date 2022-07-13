@@ -10,6 +10,7 @@ psycopg2-binary = "*"
 alembic = "*"
 flask-migrate = "*"
 boto3 = "*"
+flask-login = "*"
 
 [requires]
 python_version = "3.8"
