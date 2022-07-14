@@ -11,6 +11,8 @@ alembic = "*"
 flask-migrate = "*"
 boto3 = "*"
 flask-login = "*"
+flask-jwt-extended = "*"
+email-validator = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.8.3"

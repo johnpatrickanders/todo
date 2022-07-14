@@ -1,8 +1,8 @@
 from email.headerregistry import ContentTypeHeader
-import os
-from datetime import datetime
+import os, json
+from datetime import datetime, timedelta, timezone
 # import time
-from flask import Flask, json, request
+from flask import Flask, request, jsonify
 from sqlalchemy import inspect
 from app_container.config import ConfigApp
 # from flask_cors import CORS
@@ -13,6 +13,12 @@ import boto3
 from botocore.config import Config as ConfigBoto
 from botocore.exceptions import ClientError
 from flask_login import LoginManager
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
+                               unset_jwt_cookies, jwt_required, JWTManager, verify_jwt_in_request
+
+def object_as_dict(obj):
+    return {c.key: getattr(obj, c.key)
+            for c in inspect(obj).mapper.column_attrs}
 
 boto_config = ConfigBoto(
     region_name = 'us-east-1',
@@ -33,24 +39,73 @@ app.config.from_object(ConfigApp)
 db.init_app(app)
 Migrate(app, db)
 
-
 login = LoginManager(app)
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def react_root(path):
-    print("path", path)
-    if path == 'favicon.ico':
-        return app.send_static_file('favicon.ico')
-    return app.send_static_file('index.html')
+# login.login_view = 'auth.login'
+
+# from .auth import auth as auth_blueprint
+# app.register_blueprint(auth_blueprint)
+
+jwt = JWTManager(app)
+# verify_jwt_in_request(locations=['headers', 'cookies'], verify_type=False)
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            data = response.get_json()
+            if type(data) is dict:
+                data["access_token"] = access_token
+                response.data = json.dumps(data)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original respone
+        return response
+
+@app.route('/token', methods=["POST"])
+def create_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    if email != "test" or password != "test":
+        return {"msg": "Wrong email or password"}, 401
+
+    access_token = create_access_token(identity=email)
+    response = {"access_token":access_token}
+    return response
+
+@app.route('/profile')
+@jwt_required()
+def my_profile():
+    response_body = {
+        "name": "Nagato",
+        "about" :"Hello! I'm a full stack developer that loves python and javascript"
+    }
+
+    return response_body
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
+
+# @app.route('/', defaults={'path': ''})
+# @app.route('/<path:path>')
+# def react_root(path):
+#     print("path", path)
+#     if path == 'favicon.ico':
+#         return app.send_static_file('favicon.ico')
+#     return app.send_static_file('index.html')
 
 
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+# @login.user_loader
+# def load_user(id):
+#     return User.query.get(int(id))
 
-def object_as_dict(obj):
-    return {c.key: getattr(obj, c.key)
-            for c in inspect(obj).mapper.column_attrs}
+
 
 
 @app.route('/home')  # is used, do not change to "/"
@@ -61,6 +116,7 @@ def home():
 
 
 @app.route('/tasklists')
+@jwt_required()
 def get_tasklists():
     print(boto3.__version__)
     tasklists = TaskList.query.filter(TaskList.user_id == 1).all()

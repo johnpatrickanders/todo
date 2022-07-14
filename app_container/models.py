@@ -1,8 +1,9 @@
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-# from flask_login import UserMixin
+from flask_login import UserMixin
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
+# from .. import login
 
 db = SQLAlchemy()
 
@@ -37,6 +38,9 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+# @login.user_loader
+# def load_user(id):
+#     return User.query.get(int(id))
 
 class TaskList(db.Model):
     __tablename__ = "tasklists"
