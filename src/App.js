@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from './components/Login';
 import useToken from './components/useToken';
-import './App.css';
 import Main from './components/Main';
 
 function App() {
@@ -9,7 +8,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App">
+      <div >
         {
           !token && token !== "" && token !== undefined ?
             <Login setToken={setToken} /> :

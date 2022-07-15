@@ -39,7 +39,11 @@ function App({ token, setToken, removeToken }) {
   useEffect(() => {
     if (!user) return;
     async function fetchData() {
-      const res = await fetch('/tasklists');
+      const res = await fetch('/tasklists', {
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
+      });
       if (res.status >= 200 && res.status < 400) {
         const data = await res.json();
         setLists([...data.tasklists]);
