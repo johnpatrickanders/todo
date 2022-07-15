@@ -10,5 +10,7 @@ function updateOptions(options) {
 }
 
 export default function fetcher(url, options) {
+  console.log(url);
+  console.log(options);
   return fetch(url, updateOptions(options));
 }

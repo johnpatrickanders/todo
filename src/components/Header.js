@@ -12,7 +12,7 @@ export default function ({
   return (
     <div className="main__header">
       <div className="header__left" key={value.user}>
-        {`Welcome, ${value.user.firstname} ${value.user.lastname}`}
+        {`Welcome, ${value.user.email}`}
       </div>
       <div className="header__center">
         <img className="logo" src={todo}></img>

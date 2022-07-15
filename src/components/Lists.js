@@ -3,6 +3,7 @@ import './Lists.css';
 import Tasks from './Tasks';
 import DropDown from './DropDown';
 import { UserContext } from './Main';
+import fetcher from './fetcher';
 
 export default function () {
   const { lists } = useContext(UserContext);
@@ -15,8 +16,8 @@ export default function () {
     setListTitle(title);
   }
   const createList = async (title) => {
-    console.log("CREATE LIST")
-    const res = await fetch('/list', {
+    console.log("CREATE LIST");
+    const res = await fetcher('/list', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -3,6 +3,7 @@ import './Task.css';
 import { UserContext } from './Main';
 import SelectedTask from './SelectedTask';
 import ImageModal from './ImageModal';
+import fetcher from './fetcher';
 
 export default function ({ task, setTasksState, tasksState, idx }) {
   const [classNames, setClassNames] = useState(`tasks__task ${task.status === 'Complete' ? " task__done" : ""}`);
@@ -12,7 +13,7 @@ export default function ({ task, setTasksState, tasksState, idx }) {
   const handleTitleClick = async () => {
     if (selectedTask) return;
     task.status = task.status === 'Open' ? 'Complete' : 'Open';
-    await fetch(`tasks/${task.id}/status`, {
+    await fetcher(`tasks/${task.id}/status`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

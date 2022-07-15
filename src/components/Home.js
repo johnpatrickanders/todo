@@ -4,7 +4,7 @@ import Lists from './Lists';
 import Login from './Login'
 import useToken from './useToken';
 
-export default function ({ removeToken }) {
+export default function ({ removeToken, token, setToken }) {
   // const { removeToken } = useToken();
   return (
     <div
@@ -13,7 +13,7 @@ export default function ({ removeToken }) {
       >
       </Header>
       <Lists
-      // token={token} setToken={setToken}
+        token={token} setToken={setToken}
       ></Lists>
     </div>
   )

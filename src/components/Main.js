@@ -25,10 +25,11 @@ function App({ token, setToken, removeToken }) {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch('/home');
+      const res = await fetcher('/home');
       if (res.status >= 200 && res.status < 400) {
         const data = await res.json();
         setUser(data);
+        console.log(user)
       } else {
         console.error('Bad response');
       }

@@ -106,15 +106,15 @@ def signup():
     db.session.commit()
     return user.to_dict()
 
-@app.route('/profile')
-@jwt_required()
-def my_profile():
-    response_body = {
-        "name": "Nagato",
-        "about" :"Hello! I'm a full stack developer that loves python and javascript"
-    }
+# @app.route('/profile')
+# # @jwt_required()
+# def my_profile():
+#     response_body = {
+#         "name": "Nagato",
+#         "about" :"Hello! I'm a full stack developer that loves python and javascript"
+#     }
 
-    return response_body
+#     return response_body
 
 @app.route("/logout", methods=["POST"])
 def logout():
@@ -146,11 +146,9 @@ def home():
 
 
 @app.route('/tasklists')
-# @jwt_required()
 def get_tasklists():
     print(boto3.__version__)
     tasklists = TaskList.query.filter(TaskList.user_id == 1).all()
-    # res = [tasklist.to_dict() for tasklist in tasklists]
     res = [object_as_dict(tasklist) for tasklist in tasklists]
 
     return {'tasklists': res}
@@ -158,7 +156,8 @@ def get_tasklists():
 
 @app.route('/tasks/<taskListId>')
 def get_tasks(taskListId):
-    if not taskListId:
+    print(taskListId)
+    if not taskListId or taskListId is None:
         taskListId = 1
     tasks = Task.query.filter(Task.task_list_id == int(taskListId)).all()
     res = [task.to_dict() for task in tasks]

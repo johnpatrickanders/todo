@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import './ListForm.css'
-import './ImageView.css'
+import './ListForm.css';
+import './ImageView.css';
+import fetcher from './fetcher';
 
 export default function ({ task, setSelectedFile, selectedFile, handleSubmission }) {
   const [isFilePicked, setIsFilePicked] = useState(false)
@@ -17,7 +18,7 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
   //   }
   //   console.log(fields)
   //   formData.append('file', selectedFile);
-  //   const res = await fetch(url, {
+  //   const res = await fetcher(url, {
   //     method: "POST",
   //     body: formData
   //   });
@@ -28,7 +29,7 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
 
   // const handleSubmission = async () => {
   //   console.log(selectedFile.file);
-  //   const res = await fetch('/sign_s3_post', {
+  //   const res = await fetcher('/sign_s3_post', {
   //     method: "POST",
   //     headers: { "Content-Type": "application/json" },
   //     body: JSON.stringify({
@@ -45,7 +46,7 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
   // }
 
   // const handleGet = async () => {
-  //   const res = await fetch(`/sign_s3_get/${selectedFile.name}`);
+  //   const res = await fetcher(`/sign_s3_get/${selectedFile.name}`);
   //   if (res.ok) {
   //     const data = await res.json();
   //     console.log(data);
@@ -57,7 +58,7 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
   const handlePut = async (e) => {
     const formData = new FormData();
     formData.append('file', selectedFile)
-    const res = await fetch(`/put_s3/${selectedFile.name}`, {
+    const res = await fetcher(`/put_s3/${selectedFile.name}`, {
       method: "POST",
       headers: {
         'Enctype': 'multipart/form-data'
