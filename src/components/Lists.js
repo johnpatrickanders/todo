@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import './Lists.css';
 import Tasks from './Tasks';
 import DropDown from './DropDown';
-import { UserContext } from '../App';
+import { UserContext } from './Main';
 
 export default function () {
   const { lists } = useContext(UserContext);

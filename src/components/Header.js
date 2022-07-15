@@ -1,11 +1,12 @@
 import './Header.css';
 import todo from '../todo.png';
 import { useContext } from 'react';
-import { UserContext } from '../App';
+import { UserContext } from './Main';
+import Logout from './Logout'
 
-export default function (
-  // { user }
-) {
+export default function ({
+  token
+}) {
   const value = useContext(UserContext);
 
   return (
@@ -16,7 +17,9 @@ export default function (
       <div className="header__center">
         <img className="logo" src={todo}></img>
       </div>
-      <div className="header__right">Right</div>
+      <div className="header__right">
+        <Logout token={token} />
+      </div>
     </div>
   )
 }

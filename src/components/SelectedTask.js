@@ -1,4 +1,4 @@
-import './Main.css';
+import './Home.css';
 import './SelectedTask.css';
 import { useState } from 'react';
 import ImagePicker from './ImagePicker';

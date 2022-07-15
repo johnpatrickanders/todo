@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import './Task.css';
-import { UserContext } from '../App';
+import { UserContext } from './Main';
 import SelectedTask from './SelectedTask';
 import ImageModal from './ImageModal';
 
