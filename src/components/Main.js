@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Home from './Home';
 import './Home.css';
-import useToken from './useToken';
+import fetcher from './fetcher';
 
 export const UserContext = createContext({
   user: null,
@@ -39,11 +39,7 @@ function App({ token, setToken, removeToken }) {
   useEffect(() => {
     if (!user) return;
     async function fetchData() {
-      const res = await fetch('/tasklists', {
-        headers: {
-          Authorization: 'Bearer ' + token
-        }
-      });
+      const res = await fetcher('/tasklists');
       if (res.status >= 200 && res.status < 400) {
         const data = await res.json();
         setLists([...data.tasklists]);
