@@ -4,12 +4,12 @@ import Lists from './Lists';
 import Login from './Login'
 import useToken from './useToken';
 
-export default function () {
-  const { removeToken } = useToken();
+export default function ({ removeToken }) {
+  // const { removeToken } = useToken();
   return (
     <div
       className="main">
-      <Header //token={removeToken}
+      <Header token={removeToken}
       >
       </Header>
       <Lists

@@ -1,22 +1,20 @@
-function Header(props) {
+function Header({ token }) {
 
-  function logMeOut() {
-    fetch("/logout", {
+  async function logMeOut(e) {
+    e.preventDefault();
+    const res = await fetch("/logout", {
       method: "POST",
     })
-      .then((response) => {
-        props.token()
-      }).catch((error) => {
-        if (error.response) {
-          console.log(error.response)
-          console.log(error.response.status)
-          console.log(error.response.headers)
-        }
-      })
+    if (res.status >= 200 && res.status < 400) {
+      console.log('logging out...');
+      token();
+    } else {
+      console.log(res.status);
+    }
   }
 
   return (
-    <button onClick={logMeOut}>
+    <button onClick={e => logMeOut(e)}>
       Logout
     </button>
   )

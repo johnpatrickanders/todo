@@ -8,6 +8,7 @@ function Login(props) {
   })
 
   async function logMeIn(event) {
+    event.preventDefault()
     const res = await fetch("/token", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -17,8 +18,9 @@ function Login(props) {
       })
     })
     if (res.status >= 200 && res.status < 400) {
-      console.log(props.data)
-      props.setToken(res.data.access_token)
+      const data = await res.json();
+      console.log(data)
+      props.setToken(data.access_token)
     } else {
       console.log(res.status)
     }
@@ -27,8 +29,6 @@ function Login(props) {
       email: "",
       password: ""
     }))
-
-    event.preventDefault()
   }
 
   function handleChange(event) {

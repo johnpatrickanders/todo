@@ -17,8 +17,7 @@ export const UserContext = createContext({
   selectedTask: null
 });
 
-function App() {
-  const { token, removeToken, setToken } = useToken();
+function App({ token, setToken, removeToken }) {
   const [user, setUser] = useState({});
   const [lists, setLists] = useState([]);
   const [tasks, setTasks] = useState([]);
@@ -60,7 +59,7 @@ function App() {
           <Switch>
             <Route path="/">
               <UserContext.Provider value={{ user, lists, selectedTask, setSelectedTask }} >
-                <Home />
+                <Home removeToken={removeToken} token={token} setToken={setToken} />
               </UserContext.Provider>
             </Route>
           </Switch>

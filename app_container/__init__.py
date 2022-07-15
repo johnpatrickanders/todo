@@ -69,12 +69,26 @@ def refresh_expiring_jwts(response):
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    if email != "test" or password != "test":
-        return {"msg": "Wrong email or password"}, 401
-
+    user = User.query.filter(User.email == email).first()
+    if not user or not user.check_password(password):
+        return {"error": "No match found for username and password."}
     access_token = create_access_token(identity=email)
     response = {"access_token":access_token}
     return response
+
+@app.route('/signup', methods=["POST"])
+def signup():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    if not email or not password:
+        return {"error": "enter valid email and password"}
+    user = User(
+            email=email,
+            password=password,
+        )
+    db.session.add(user)
+    db.session.commit()
+    return user.to_dict()
 
 @app.route('/profile')
 @jwt_required()

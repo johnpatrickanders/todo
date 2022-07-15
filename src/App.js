@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from './components/Login';
 import useToken from './components/useToken';
 import './App.css';
@@ -13,7 +13,11 @@ function App() {
         {
           !token && token !== "" && token !== undefined ?
             <Login setToken={setToken} /> :
-            <Main token={token} />
+            <Switch>
+              <Route path="/" >
+                <Main removeToken={removeToken} token={token} setToken={setToken} />
+              </Route>
+            </Switch>
         }
       </div>
     </BrowserRouter>
