@@ -54,8 +54,9 @@ export default function ({ taskListId, taskListTitle }) {
       });
       if (res.ok) {
         const { tasks } = await res.json();
-        sortByStatus([...tasks]);
+        tasks ? sortByStatus([...tasks]) : sortByStatus([]);
       } else {
+        console.log("Tasks else");
       }
     }
     fetchData();

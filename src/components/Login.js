@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function Login(props) {
-
+  const history = useHistory();
   const [loginForm, setloginForm] = useState({
     email: "",
     password: ""
@@ -19,8 +20,11 @@ function Login(props) {
     })
     if (res.status >= 200 && res.status < 400) {
       const data = await res.json();
-      console.log(data)
-      props.setToken(data.access_token)
+      console.log(data);
+      props.setToken({
+        type: "login",
+        payload: data.access_token
+      });
     } else {
       console.log(res.status)
     }
@@ -29,6 +33,7 @@ function Login(props) {
       email: "",
       password: ""
     }))
+    history.push('/home');
   }
 
   function handleChange(event) {

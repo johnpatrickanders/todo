@@ -59,7 +59,10 @@ def check_login():
         try:
             verify_jwt_in_request()
         except:
-            abort(401)
+            response = jsonify({"msg": "logout successful"})
+            unset_jwt_cookies(response)
+            return response
+            # abort(401)
 
 
 @app.after_request

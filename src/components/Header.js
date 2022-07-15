@@ -5,7 +5,7 @@ import { UserContext } from './Main';
 import Logout from './Logout'
 
 export default function ({
-  token
+  removeToken
 }) {
   const value = useContext(UserContext);
 
@@ -18,7 +18,7 @@ export default function ({
         <img className="logo" src={todo}></img>
       </div>
       <div className="header__right">
-        <Logout token={token} />
+        <Logout removeToken={removeToken} />
       </div>
     </div>
   )

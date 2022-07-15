@@ -1,13 +1,15 @@
-function Header({ token }) {
+import removeToken from './useToken';
+import fetcher from './fetcher';
+function Header() {
 
   async function logMeOut(e) {
     e.preventDefault();
-    const res = await fetch("/logout", {
+    const res = await fetcher("/logout", {
       method: "POST",
     })
     if (res.status >= 200 && res.status < 400) {
       console.log('logging out...');
-      token();
+      removeToken();
     } else {
       console.log(res.status);
     }

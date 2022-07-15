@@ -53,19 +53,19 @@ function App({ token, setToken, removeToken }) {
 
   return (
     <>
-      <Router>
-        <div>
-          {/* A <Switch> looks through its children <Route>s and
+      {/* <Router> */}
+      <div>
+        {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/">
-              <UserContext.Provider value={{ user, lists, selectedTask, setSelectedTask }} >
-                <Home removeToken={removeToken} token={token} setToken={setToken} />
-              </UserContext.Provider>
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+        {/* <Switch>
+            <Route path="/"> */}
+        <UserContext.Provider value={{ user, lists, selectedTask, setSelectedTask }} >
+          <Home removeToken={removeToken} token={token} setToken={setToken} />
+        </UserContext.Provider>
+        {/* </Route>
+          </Switch> */}
+      </div>
+      {/* </Router> */}
     </>
   );
 }

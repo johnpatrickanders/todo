@@ -5,15 +5,15 @@ import Login from './Login'
 import useToken from './useToken';
 
 export default function ({ removeToken, token, setToken }) {
-  // const { removeToken } = useToken();
   return (
     <div
       className="main">
-      <Header token={removeToken}
-      >
+      <Header
+        removeToken={removeToken}>
       </Header>
       <Lists
-        token={token} setToken={setToken}
+        token={token}
+        setToken={setToken}
       ></Lists>
     </div>
   )

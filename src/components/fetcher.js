@@ -9,8 +9,15 @@ function updateOptions(options) {
   return update;
 }
 
-export default function fetcher(url, options) {
+export default async function fetcher(url, options) {
   console.log(url);
   console.log(options);
-  return fetch(url, updateOptions(options));
+  const res = await fetch(url, updateOptions(options));
+  // const data = await res.json();
+  if (url === "logout") {
+    console.log("reroute");
+    return res;
+  } else {
+    return res;
+  }
 }
