@@ -2,7 +2,7 @@ from email.headerregistry import ContentTypeHeader
 import os, json
 from datetime import datetime, timedelta, timezone
 # import time
-from flask import Flask, request, jsonify
+from flask import Flask, abort, request, jsonify
 from sqlalchemy import inspect
 from app_container.config import ConfigApp
 # from flask_cors import CORS
@@ -15,6 +15,11 @@ from botocore.exceptions import ClientError
 from flask_login import LoginManager
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
                                unset_jwt_cookies, jwt_required, JWTManager, verify_jwt_in_request
+
+def public_endpoint(function):
+    function.is_public = True
+    return function
+
 
 def object_as_dict(obj):
     return {c.key: getattr(obj, c.key)
@@ -46,7 +51,16 @@ login = LoginManager(app)
 # app.register_blueprint(auth_blueprint)
 
 jwt = JWTManager(app)
-# verify_jwt_in_request(locations=['headers', 'cookies'], verify_type=False)
+
+@app.before_request
+def check_login():
+    if (request.endpoint and 'static' not in request.endpoint
+            and not getattr(app.view_functions[request.endpoint], 'is_public', False)):
+        try:
+            verify_jwt_in_request()
+        except:
+            abort(401)
+
 
 @app.after_request
 def refresh_expiring_jwts(response):
@@ -66,6 +80,7 @@ def refresh_expiring_jwts(response):
         return response
 
 @app.route('/token', methods=["POST"])
+@public_endpoint
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
@@ -77,6 +92,7 @@ def create_token():
     return response
 
 @app.route('/signup', methods=["POST"])
+@public_endpoint
 def signup():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
@@ -130,7 +146,7 @@ def home():
 
 
 @app.route('/tasklists')
-@jwt_required()
+# @jwt_required()
 def get_tasklists():
     print(boto3.__version__)
     tasklists = TaskList.query.filter(TaskList.user_id == 1).all()
