@@ -1,15 +1,17 @@
-import removeToken from './useToken';
 import fetcher from './fetcher';
-function Header() {
-
+import { useContext } from 'react';
+import { UserContext } from './Main';
+function Logout() {
+  const { dispatchToken } = useContext(UserContext);
   async function logMeOut(e) {
     e.preventDefault();
     const res = await fetcher("/logout", {
       method: "POST",
     })
     if (res.status >= 200 && res.status < 400) {
-      console.log('logging out...');
-      removeToken();
+      dispatchToken({
+        type: "logout", payload: null
+      });
     } else {
       console.log(res.status);
     }
@@ -22,4 +24,4 @@ function Header() {
   )
 }
 
-export default Header;
+export default Logout;

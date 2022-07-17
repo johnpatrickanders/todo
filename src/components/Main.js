@@ -17,12 +17,14 @@ export const UserContext = createContext({
   selectedTask: null
 });
 
-function App({ token, setToken, removeToken }) {
+function Main({
+  token,
+  dispatchToken
+}) {
   const [user, setUser] = useState({});
   const [lists, setLists] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
-
   useEffect(() => {
     async function fetchData() {
       const res = await fetcher('/home');
@@ -35,6 +37,7 @@ function App({ token, setToken, removeToken }) {
       }
     }
     fetchData();
+    console.log(token)
   }, [])
 
   useEffect(() => {
@@ -55,12 +58,15 @@ function App({ token, setToken, removeToken }) {
     <>
       {/* <Router> */}
       <div>
+        <button onClick={() => dispatchToken({ type: 'logout' })}></button>
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         {/* <Switch>
             <Route path="/"> */}
-        <UserContext.Provider value={{ user, lists, selectedTask, setSelectedTask }} >
-          <Home removeToken={removeToken} token={token} setToken={setToken} />
+        <UserContext.Provider value={{ user, lists, selectedTask, setSelectedTask, dispatchToken }} >
+          <Home
+            token={token}
+          />
         </UserContext.Provider>
         {/* </Route>
           </Switch> */}
@@ -70,4 +76,4 @@ function App({ token, setToken, removeToken }) {
   );
 }
 
-export default App;
+export default Main;

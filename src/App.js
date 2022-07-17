@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Login from './components/Login';
-import useToken from './components/useToken';
+import localToken from './localToken';
 import Main from './components/Main';
 import { useReducer } from 'react';
 
@@ -15,45 +15,42 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   )
 }
 
-function App() {
-  const { saveToken, removeToken, getToken } = useToken();
-  const initialState = { token: null };
-
-  function tokenReducer(state, action) {
-    switch (action.type) {
-      case 'logout':
-        removeToken();
-        return { token: null };
-      case 'login':
-        const newToken = saveToken(action.payload);
-        console.log(newToken)
-        return { token: newToken };
-      case 'get':
-        return { token: getToken() }
-      default:
-        throw new Error();
-    }
+const initialState = { token: null };
+function tokenReducer(state, action) {
+  const { saveToken, removeToken, getToken } = localToken;
+  switch (action.type) {
+    case 'logout':
+      removeToken()
+      return { token: null };
+    case 'login':
+      const newToken = saveToken(action.payload);
+      return { token: newToken };
+    case 'get':
+      return { token: getToken() }
+    default:
+      throw new Error();
   }
+}
+function App() {
+
   const [tokenState, dispatchToken] = useReducer(tokenReducer, initialState);
 
   return (
     <BrowserRouter>
       <div >
         {
-          !tokenState.token && tokenState.token !== "" && tokenState.token !== undefined ?
-            <Route path="/login">
-              <Login setToken={dispatchToken} />
-            </Route>
-            :
-            <Switch>
-              <PrivateRoute
-                path="/home" exact={true}
-                removeToken={removeToken}
-                token={tokenState.token}
-                setToken={dispatchToken}
-                component={Main}
-              />
-            </Switch>
+          // !(tokenState.token && tokenState.token !== "" && tokenState.token !== undefined) ?
+          !tokenState.token && (<Route exact={true} path="*">
+            <Login dispatchToken={dispatchToken} />
+          </Route>)}
+        {/* // : */}
+        {tokenState.token &&
+          <Route path="/home" exact={true}>
+            <Main
+              dispatchToken={dispatchToken}
+              token={tokenState.token}
+            ></Main>
+          </Route>
         }
       </div>
     </BrowserRouter>
