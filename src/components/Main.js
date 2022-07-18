@@ -55,24 +55,13 @@ function Main({
   }, [])
 
   return (
-    <>
-      {/* <Router> */}
-      <div>
-        <button onClick={() => dispatchToken({ type: 'logout' })}></button>
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        {/* <Switch>
-            <Route path="/"> */}
-        <UserContext.Provider value={{ user, lists, selectedTask, setSelectedTask, dispatchToken }} >
-          <Home
-            token={token}
-          />
-        </UserContext.Provider>
-        {/* </Route>
-          </Switch> */}
-      </div>
-      {/* </Router> */}
-    </>
+    <div>
+      <UserContext.Provider value={{ user, lists, selectedTask, setSelectedTask, dispatchToken }} >
+        <Home
+          token={token}
+        />
+      </UserContext.Provider>
+    </div>
   );
 }
 
