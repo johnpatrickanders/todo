@@ -1,7 +1,8 @@
 from flask import Blueprint, Flask, request, jsonify
 from flask_login import login_user
 # from flask_cors import CORS
-from app_container.models import db, User
+from app_container.models import TaskList, db, User
+from app_container.user.utils import object_as_dict
 from flask_jwt_extended import create_access_token, unset_jwt_cookies
 
 
@@ -21,7 +22,13 @@ def create_token():
         return {"error": "No match found for username and password."}
     access_token = create_access_token(identity=email)
     login_user(user)
-    response = {"token":access_token, 'user': user.to_dict()}
+    tasklists = TaskList.query.filter(TaskList.user_id == user.id).all()
+    tasklists = [object_as_dict(tasklist) for tasklist in tasklists]
+    response = {
+        "token":access_token,
+        'user': user.to_dict(),
+        'tasklists': tasklists
+        }
     return response
 
 @user_routes.route('/signup', methods=["POST"])

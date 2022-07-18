@@ -19,13 +19,14 @@ function Login({ dispatch }) {
       })
     })
     if (res.status >= 200 && res.status < 400) {
-      const { token, user } = await res.json();
-      console.log(token, user);
+      const { token, user, tasklists } = await res.json();
+      console.log(token, user, tasklists);
       dispatch({
         type: "login",
         payload: {
           token,
-          user
+          user,
+          lists: tasklists
         }
       });
     } else {
