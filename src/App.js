@@ -2,20 +2,18 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Login from './components/Login';
 import localToken from './localToken';
 import Main from './components/Main';
-import { useReducer } from 'react';
+import { useReducer, useState, createContext } from 'react';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  return (
-    <Route {...rest} render={(props) => (
-      !rest.token
-        ? <Redirect to='/login' />
-        : <Component {...props} />
-    )
-    } />
-  )
-}
+export const UserContext = createContext({
+  user: {},
+  lists: [],
+  tasks: null,
+  value: null,
+  selectedTask: null
+});
 
 const initialState = { token: null };
+
 function tokenReducer(state, action) {
   const { saveToken, removeToken, getToken } = localToken;
   switch (action.type) {
@@ -23,34 +21,44 @@ function tokenReducer(state, action) {
       removeToken()
       return { token: null };
     case 'login':
-      const newToken = saveToken(action.payload);
-      return { token: newToken };
+      const newToken = saveToken(action.payload.token);
+      return {
+        token: newToken,
+        user: action.payload.user
+      };
     case 'get':
       return { token: getToken() }
     default:
       throw new Error();
   }
-}
-function App() {
+};
 
-  const [tokenState, dispatchToken] = useReducer(tokenReducer, initialState);
+function App() {
+  // const [user, setUser] = useState({})
+  const [userState, dispatch] = useReducer(tokenReducer, initialState);
+
+  const [lists, setLists] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   return (
     <BrowserRouter>
       <div >
         {
-          // !(tokenState.token && tokenState.token !== "" && tokenState.token !== undefined) ?
-          !tokenState.token && (<Route exact={true} path="*">
-            <Login dispatchToken={dispatchToken} />
+          // !(userState.token && userState.token !== "" && userState.token !== undefined) ?
+          !userState.token && (<Route exact={true} path="*">
+            <Login dispatch={dispatch} />
           </Route>)}
         {/* // : */}
-        {tokenState.token &&
-          <Route path="/home" exact={true}>
-            <Main
-              dispatchToken={dispatchToken}
-              token={tokenState.token}
-            ></Main>
-          </Route>
+        {userState.token &&
+          <UserContext.Provider value={{ user: userState.user, lists, selectedTask, setSelectedTask, dispatch }} >
+            <Route path="/home" exact={true}>
+              <Main
+                dispatch={dispatch}
+                token={userState.token}
+              ></Main>
+            </Route>
+          </UserContext.Provider>
         }
       </div>
     </BrowserRouter>

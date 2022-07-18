@@ -1,15 +1,15 @@
 import fetcher from './fetcher';
 import { useContext } from 'react';
-import { UserContext } from './Main';
+import { UserContext } from '../App';
 function Logout() {
-  const { dispatchToken } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   async function logMeOut(e) {
     e.preventDefault();
     const res = await fetcher("/logout", {
       method: "POST",
     })
     if (res.status >= 200 && res.status < 400) {
-      dispatchToken({
+      dispatch({
         type: "logout", payload: null
       });
     } else {

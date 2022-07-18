@@ -1,12 +1,12 @@
 import { Route } from "react-router-dom"
 import Login from "./components/Login"
 
-export default function LoggedOutView({ dispatchToken }) {
+export default function LoggedOutView({ dispatch }) {
   return (
     <Route
       exact={true}
       path="*">
-      <Login dispatchToken={dispatchToken} />
+      <Login dispatch={dispatch} />
     </Route>
   )
 }

@@ -1,4 +1,5 @@
 from flask import Blueprint, Flask, request, jsonify
+from flask_login import login_user
 # from flask_cors import CORS
 from app_container.models import db, User
 from flask_jwt_extended import create_access_token, unset_jwt_cookies
@@ -19,7 +20,8 @@ def create_token():
     if not user or not user.check_password(password):
         return {"error": "No match found for username and password."}
     access_token = create_access_token(identity=email)
-    response = {"access_token":access_token}
+    login_user(user)
+    response = {"token":access_token, 'user': user.to_dict()}
     return response
 
 @user_routes.route('/signup', methods=["POST"])

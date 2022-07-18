@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-function Login({ dispatchToken }) {
+function Login({ dispatch }) {
   const history = useHistory();
   const [loginForm, setloginForm] = useState({
     email: "",
@@ -19,11 +19,14 @@ function Login({ dispatchToken }) {
       })
     })
     if (res.status >= 200 && res.status < 400) {
-      const data = await res.json();
-      console.log(data);
-      dispatchToken({
+      const { token, user } = await res.json();
+      console.log(token, user);
+      dispatch({
         type: "login",
-        payload: data.access_token
+        payload: {
+          token,
+          user
+        }
       });
     } else {
       console.log(res.status)

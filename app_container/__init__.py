@@ -1,11 +1,11 @@
-import json
+import os, json
 from app_container.user.user_routes import user_routes
 from app_container.user.task_routes import task_routes
 from datetime import datetime, timedelta, timezone
 from flask import Flask, abort, request, jsonify
 from app_container.config import ConfigApp
 # from flask_cors import CORS
-from app_container.models import db
+from app_container.models import db, User
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
@@ -57,6 +57,9 @@ def refresh_expiring_jwts(response):
         # Case where there is not a valid JWT. Just return the original respone
         return response
 
+@login.user_loader
+def load_user(id):
+    return User.query.get(id)
 
 # @app.route('/', defaults={'path': ''})
 # @app.route('/<path:path>')

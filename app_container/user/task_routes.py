@@ -4,7 +4,8 @@ from app_container.models import db, User, TaskList, Task
 import boto3
 from botocore.config import Config as ConfigBoto
 from botocore.exceptions import ClientError
-from app_container.user.tool import object_as_dict
+from app_container.user.utils import object_as_dict
+from flask_login import current_user
 
 task_routes = Blueprint('task', __name__)
 
@@ -19,15 +20,17 @@ boto_config = ConfigBoto(
 
 @task_routes.route('/home')  # is used, do not change to "/"
 def home():
-    user = User.query.get(int(1)).to_dict()
+    user = User.query.get(current_user.id).to_dict()
     print("Home User:", user)
-    return user
+    tasklists = TaskList.query.filter(TaskList.user_id == user['id']).all()
+    tasklists = [object_as_dict(tasklist) for tasklist in tasklists]
+    return {'userId': user['id'], 'email': user['email'], 'tasklists': tasklists}
 
 
 @task_routes.route('/tasklists')
 def get_tasklists():
     print(boto3.__version__)
-    tasklists = TaskList.query.filter(TaskList.user_id == 1).all()
+    tasklists = TaskList.query.filter(TaskList.user_id == current_user.id).all()
     res = [object_as_dict(tasklist) for tasklist in tasklists]
 
     return {'tasklists': res}

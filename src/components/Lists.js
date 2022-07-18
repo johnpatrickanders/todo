@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import './Lists.css';
 import Tasks from './Tasks';
 import DropDown from './DropDown';
-import { UserContext } from './Main';
+import { UserContext } from '../App';
 import fetcher from './fetcher';
 
 export default function () {
@@ -12,6 +12,8 @@ export default function () {
   const [liveLists, setLiveLists] = useState(lists);
   const grabListInfo = (id, title) => {
     console.log("KEY:", id)
+    console.log("KEY:", title)
+
     setListId(id);
     setListTitle(title);
   }
