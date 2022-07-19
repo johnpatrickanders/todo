@@ -3,6 +3,7 @@ import Login from './components/Login';
 import localToken from './localToken';
 import Main from './components/Main';
 import LoggedOutView from './LoggedOutView';
+import Signup from './components/Signup';
 import { useReducer, useState, createContext, useEffect } from 'react';
 
 export const UserContext = createContext({
@@ -49,7 +50,14 @@ function App() {
       <div >
         {
           !userState.token &&
-          <LoggedOutView dispatch={dispatch} />
+          <Switch>
+            <Route path="/signup">
+              <Signup />
+            </Route>
+            <Route path="*">
+              <LoggedOutView dispatch={dispatch} />
+            </Route>
+          </Switch>
         }
         {userState.token &&
 
