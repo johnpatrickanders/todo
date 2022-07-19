@@ -51,24 +51,19 @@ function Signup({ dispatch }) {
   const validateInput = () => {
     const validationState = { ...errors };
     console.log(signupForm.password, signupForm.confirmPassword)
-    if (signupForm.password !== signupForm.confirmPassword) {
-      validationState["confirmPassword"] = "Password and Confirm Password does not match.";
+    if (!signupForm.email) {
+      validationState.email = "Please enter email."
+    }
+    if (!signupForm.password) {
+      validationState.password = "Please enter password."
+    }
+    if (signupForm.password !== signupForm.confirmPassword || !signupForm.confirmPassword) {
+      validationState.confirmPassword = "Password and Confirm Password does not match.";
     } else {
-      validationState["confirmPassword"] = "";
+      validationState.confirmPassword = "";
     }
     setErrors(validationState);
-    // break;
 
-    // case "confirmPassword":
-    //   if (!value) {
-    //     validationState[name] = "Please enter Confirm Password.";
-    //   } else if (signupForm.password && value !== signupForm.password) {
-    //     validationState[name] = "Password and Confirm Password does not match.";
-    //   }
-    //   break;
-
-    // default:
-    // break;
     return validationState;
   };
 
