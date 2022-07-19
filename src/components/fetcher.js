@@ -6,18 +6,12 @@ function updateOptions(options) {
       Authorization: `Bearer ${localStorage.token}`,
     };
   }
+
   return update;
 }
 
 export default async function fetcher(url, options) {
-  console.log(url);
-  console.log(options);
   const res = await fetch(url, updateOptions(options));
-  // const data = await res.json();
-  if (url === "logout") {
-    console.log("reroute");
-    return res;
-  } else {
-    return res;
-  }
+  // const data = await res.clone();
+  return res;
 }

@@ -114,7 +114,7 @@ export default function ({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        fileName: selectedTask.id + "-task-image",
+        fileName: selectedTask.id + selectedFile.name,
         fileType: selectedFile.type
       })
     });
