@@ -5,7 +5,7 @@ export default function ({
   fileName,
   setOpen
 }) {
-  const [imgSrc, setImgSrc] = useState("...");
+  const [imgSrc, setImgSrc] = useState("");
   const handleShowDialog = (e) => {
     e.stopPropagation();
     setOpen(false)
