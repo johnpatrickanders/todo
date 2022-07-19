@@ -6,7 +6,7 @@ import { UserContext } from '../App';
 import fetcher from './fetcher';
 
 export default function () {
-  const { lists } = useContext(UserContext);
+  const { lists, user } = useContext(UserContext);
   const [listId, setListId] = useState();
   const [listTitle, setListTitle] = useState('Select A List')
   const [liveLists, setLiveLists] = useState(lists);
@@ -23,7 +23,7 @@ export default function () {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        userId: 1,
+        userId: user.id,
         title
       })
     })
