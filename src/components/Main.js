@@ -14,45 +14,36 @@ import fetcher from './fetcher';
 
 
 function Main({
-  token,
+  userState,
   dispatch
 }) {
   const [user, setUser] = useState({});
   const [lists, setLists] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const res = await fetcher('/home');
-  //     if (res.status >= 200 && res.status < 400) {
-  //       const data = await res.json();
-  //       setUser(data);
-  //       console.log(user)
-  //     } else {
-  //       console.error('Bad response');
-  //     }
-  //   }
-  //   fetchData();
-  //   console.log(token)
-  // }, [])
+  useEffect(() => {
+    // if (!userState.token || userState.lists) return;
+    async function fetchData() {
+      const res = await fetcher('/home');
+      if (res.status >= 200 && res.status < 400) {
+        const { user, tasklists } = await res.json();
+        // setUser(data);
+        console.log(user)
+        dispatch({
+          type: 'get', payload: {
+            user,
+            lists: tasklists
+          }
+        })
+      } else {
+        console.error('Bad response');
+      }
+    }
+    fetchData();
+  }, [userState.token])
 
-  // useEffect(() => {
-  //   if (!user) return;
-  //   async function fetchData() {
-  //     const res = await fetcher('/tasklists');
-  //     if (res.status >= 200 && res.status < 400) {
-  //       const data = await res.json();
-  //       if (data.tasklists) {
-  //         setLists([...data.tasklists]);
-  //         console.log(data);
-  //         setUser({ ...data.user })
-  //       } else {
-  //         console.error('Bad response');
-  //       }
-  //     }
-  //     fetchData();
-  //   }
-  // }, []);
+
+
 
   return (
     <div>

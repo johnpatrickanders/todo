@@ -24,7 +24,7 @@ def home():
     print("Home User:", user)
     tasklists = TaskList.query.filter(TaskList.user_id == user['id']).all()
     tasklists = [object_as_dict(tasklist) for tasklist in tasklists]
-    return {'userId': user['id'], 'email': user['email'], 'tasklists': tasklists}
+    return {'user': user.to_dict(), 'tasklists': tasklists}
 
 
 @task_routes.route('/tasklists')

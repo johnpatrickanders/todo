@@ -2,7 +2,8 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Login from './components/Login';
 import localToken from './localToken';
 import Main from './components/Main';
-import { useReducer, useState, createContext } from 'react';
+import LoggedOutView from './LoggedOutView';
+import { useReducer, useState, createContext, useEffect } from 'react';
 
 export const UserContext = createContext({
   user: {},
@@ -12,10 +13,10 @@ export const UserContext = createContext({
   selectedTask: null
 });
 
-const initialState = { token: null, user: {}, lists: [] };
+const { saveToken, removeToken, getToken } = localToken;
+const initialState = { token: getToken(), user: {}, lists: [] };
 
 function tokenReducer(state, action) {
-  const { saveToken, removeToken, getToken } = localToken;
   switch (action.type) {
     case 'logout':
       removeToken()
@@ -28,7 +29,11 @@ function tokenReducer(state, action) {
         lists: action.payload.lists
       };
     case 'get':
-      return { token: getToken() }
+      return {
+        token: getToken(),
+        user: action.payload.user,
+        lists: action.payload.lists
+      }
     default:
       throw new Error();
   }
@@ -38,14 +43,16 @@ function App() {
   const [userState, dispatch] = useReducer(tokenReducer, initialState);
   const [selectedTask, setSelectedTask] = useState(null);
 
+
   return (
     <BrowserRouter>
       <div >
         {
-          !userState.token && (<Route exact={true} path="*">
-            <Login dispatch={dispatch} />
-          </Route>)}
+          !userState.token &&
+          <LoggedOutView dispatch={dispatch} />
+        }
         {userState.token &&
+
           <UserContext.Provider value={{
             user: userState.user,
             lists: userState.lists,
@@ -53,12 +60,17 @@ function App() {
             setSelectedTask,
             dispatch
           }} >
-            <Route path="/home" exact={true}>
-              <Main
-                dispatch={dispatch}
-                token={userState.token}
-              ></Main>
-            </Route>
+            <Switch>
+              <Route path="/home" exact={true}>
+                <Main
+                  dispatch={dispatch}
+                  userState={userState}
+                ></Main>
+              </Route>
+              <Route path="*">
+                <Redirect to="/home" />
+              </Route>
+            </Switch>
           </UserContext.Provider>
         }
       </div>
