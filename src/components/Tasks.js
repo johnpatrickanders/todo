@@ -2,7 +2,6 @@ import './Tasks.css';
 import Task from './Task';
 import DropDown from './DropDown';
 import React, { useEffect, useState } from 'react';
-import fetcher from './fetcher';
 
 export default function ({ taskListId, taskListTitle }) {
   const [tasksState, setTasksState] = useState([]);
@@ -23,7 +22,7 @@ export default function ({ taskListId, taskListTitle }) {
 
   const createTask = async (title) => {
     console.log(taskListId)
-    const res = await fetcher(`/task/${taskListId}`, {
+    const res = await fetch(`/task/${taskListId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -48,7 +47,7 @@ export default function ({ taskListId, taskListTitle }) {
   useEffect(() => {
     if (!taskListId) return;
     async function fetchData() {
-      const res = await fetcher(`/tasks/${taskListId}`, {
+      const res = await fetch(`/tasks/${taskListId}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
       });

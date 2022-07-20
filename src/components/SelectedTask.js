@@ -1,8 +1,6 @@
-import './Home.css';
 import './SelectedTask.css';
 import { useState } from 'react';
 import ImagePicker from './ImagePicker';
-import fetcher from './fetcher';
 
 export default function ({
   task,
@@ -15,14 +13,12 @@ export default function ({
   const [tag, setTag] = useState(selectedTask.tag ? selectedTask.tag : '');
   const [createDate, setCreateDate] = useState(selectedTask.createDate ? selectedTask.createDate : '');
   const [dueDate, setDueDate] = useState(selectedTask.dueDate ? selectedTask.dueDate : '');
-  // const [dueWord, setDueWord] = useState(selectedTask.dueWord ? selectedTask.dueWord : '');
   const [remindDate, setRemindDate] = useState(selectedTask.remindDate ? selectedTask.remindDate : '');
   const [deleteStatus, setDeleteStatus] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
-  const [returnedGetUrl, setReturnedGetUrl] = useState();
   const handleTaskUpdate = async () => {
     console.log("UPDATE TASK");
-    const res = await fetcher(`/tasks/${selectedTask.id}`, {
+    const res = await fetch(`/tasks/${selectedTask.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -52,7 +48,7 @@ export default function ({
     }
   }
   const handleTaskDelete = async () => {
-    const res = await fetcher(`/task/${selectedTask.id}`, {
+    const res = await fetch(`/task/${selectedTask.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }
     });
@@ -77,7 +73,7 @@ export default function ({
 
   // to modify for uploadToS3 error handle
   const postFileName = async (fileName) => {
-    const res = await fetcher(`/post_success/${selectedTask.id}`, {
+    const res = await fetch(`/post_success/${selectedTask.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -110,7 +106,7 @@ export default function ({
 
   const handleSubmission = async () => {
     console.log(selectedFile.file);
-    const res = await fetcher('/sign_s3_post', {
+    const res = await fetch('/sign_s3_post', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

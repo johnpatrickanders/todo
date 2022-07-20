@@ -14,7 +14,7 @@ function Signup() {
     event.preventDefault();
     validateInput();
     console.log(errors)
-    if (errors) {
+    if (errors.confirmPassword) {
       return;
     }
 

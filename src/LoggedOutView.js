@@ -7,7 +7,6 @@ export default function LoggedOutView({ dispatch }) {
     <Route
       exact={true}
       path="*">
-      {/* <Redirect to='/login' /> */}
       <Login dispatch={dispatch} />
     </Route>
   )

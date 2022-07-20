@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import fetcher from './fetcher';
 
 export default function ({
   fileName,
@@ -12,7 +11,7 @@ export default function ({
   };
   useEffect(() => {
     const getPresignedUrl = async () => {
-      const res = await fetcher(`/sign_s3_get/${fileName}`);
+      const res = await fetch(`/sign_s3_get/${fileName}`);
       if (res.ok) {
         const data = await res.json();
         setImgSrc(data.url);
