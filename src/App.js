@@ -13,15 +13,22 @@ export const UserContext = createContext({
   selectedTask: null
 });
 
-const initialState = { user: {}, lists: [] };
+const initialState = {
+  user: {
+    id: null
+  },
+  lists: []
+};
 
 function userReducer(state, action) {
   switch (action.type) {
     case 'logout':
       return {
-        user: {},
+        user: {
+          id: null
+        },
         lists: []
-      };
+      }
     case 'login':
       return {
         user: action.payload.user,
@@ -41,6 +48,23 @@ function App() {
   const [userState, dispatch] = useReducer(userReducer, initialState);
   const [selectedTask, setSelectedTask] = useState(null);
 
+  // useEffect(() => {
+  //   const loadUser = async () => {
+  //     const res = await fetch('/loaduser')
+  //     if (res.ok) {
+  //       const { user, tasklists } = await res.json()
+  //       dispatch({
+  //         type: 'get',
+  //         payload: {
+  //           user: user,
+  //           lists: tasklists
+  //         }
+  //       })
+  //     }
+  //   }
+  //   loadUser();
+  //   // eslint-disable-next-line
+  // }, [userState.user.id])
 
   return (
     <BrowserRouter>

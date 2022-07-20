@@ -68,12 +68,16 @@ def signup():
 
 @user_routes.route("/logout", methods=["POST"])
 def logout():
+    logout_user()
     response = jsonify({"msg": "logout successful"})
-    unset_jwt_cookies(response)
     return response
 
 @user_routes.route("/loaduser")
 def load_user():
     if current_user.is_authenticated:
-        return { 'user': current_user.to_dict() }
+        tasklists = TaskList.query.filter(TaskList.user_id == current_user.id).all()
+        tasklists = [object_as_dict(tasklist) for tasklist in tasklists]
+        return {
+            'user': current_user.to_dict(),
+            'tasklists': tasklists }
     return {}
