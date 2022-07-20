@@ -118,6 +118,17 @@ def delete_task(taskId):
 
     return {"deletedTask": taskTitle}
 
+
+@task_routes.route('/list/<listId>', methods=["DELETE"])
+def delete_list(listId):
+    # taskId = request.json["taskId"]
+    listToDelete = TaskList.query.filter(TaskList.id == int(listId)).first()
+    listTitle = listToDelete.title
+    db.session.delete(listToDelete)
+    db.session.commit()
+
+    return {"deletedList": listTitle}
+
 # NOT IN USE: use if want to upload image directly via backend
 @task_routes.route('/put_s3/<fileName>', methods=['POST'])
 def put_s3(fileName):
