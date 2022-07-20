@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Login from './components/Login';
-import localToken from './localToken';
 import Main from './components/Main';
 import LoggedOutView from './LoggedOutView';
 import Signup from './components/Signup';
@@ -14,24 +13,22 @@ export const UserContext = createContext({
   selectedTask: null
 });
 
-const { saveToken, removeToken, getToken } = localToken;
-const initialState = { token: getToken(), user: {}, lists: [] };
+const initialState = { user: {}, lists: [] };
 
-function tokenReducer(state, action) {
+function userReducer(state, action) {
   switch (action.type) {
     case 'logout':
-      removeToken()
-      return { token: null, user: {}, lists: [] };
-    case 'login':
-      const newToken = saveToken(action.payload.token);
       return {
-        // token: newToken,
+        user: {},
+        lists: []
+      };
+    case 'login':
+      return {
         user: action.payload.user,
         lists: action.payload.lists
       };
     case 'get':
       return {
-        token: getToken(),
         user: action.payload.user,
         lists: action.payload.lists
       }
@@ -41,7 +38,7 @@ function tokenReducer(state, action) {
 };
 
 function App() {
-  const [userState, dispatch] = useReducer(tokenReducer, initialState);
+  const [userState, dispatch] = useReducer(userReducer, initialState);
   const [selectedTask, setSelectedTask] = useState(null);
 
 

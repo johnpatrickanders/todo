@@ -10,7 +10,7 @@ function Logout() {
     })
     if (res.status >= 200 && res.status < 400) {
       dispatch({
-        type: "logout", payload: null
+        type: "logout"
       });
     } else {
       console.log(res.status);
