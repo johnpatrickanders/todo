@@ -3,6 +3,7 @@ import './Lists.css';
 import Tasks from './Tasks';
 import DropDown from './DropDown';
 import { UserContext } from '../App';
+import List from './List';
 
 export default function () {
   const { lists, user } = useContext(UserContext);
@@ -44,13 +45,12 @@ export default function () {
           <DropDown createList={createList} buttonLabel="Add List" />
         </h3>
         {liveLists.map((list) => (
-          <div
+          <List
             listid={list.id}
             key={String(list.id) + String(list.updateDate)}
-            onClick={() => grabListInfo(list.id, list.title)}
-            className="lists__title">
-            {list.title}
-          </div>
+            list={list}
+            grabListInfo={grabListInfo}
+          />
         ))}
       </div>
       {<Tasks taskListId={listId} taskListTitle={listTitle} ></Tasks>}
