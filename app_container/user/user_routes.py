@@ -4,7 +4,7 @@ from flask_login import login_user
 from app_container.models import TaskList, db, User
 from app_container.user.utils import object_as_dict
 from flask_jwt_extended import create_access_token, unset_jwt_cookies
-
+from ..forms import LoginForm, SignUpForm
 
 user_routes = Blueprint('user', __name__)
 
@@ -12,7 +12,13 @@ def public_endpoint(function):
     function.is_public = True
     return function
 
-@user_routes.route('/token', methods=["POST"])
+@user_routes.route("/get_csrf")
+@public_endpoint
+def get_csrf_token():
+    form = LoginForm()
+    return {"csrfT": form.csrf_token._value()}
+
+@user_routes.route('/login', methods=["POST"])
 @public_endpoint
 def create_token():
     email = request.json.get("email", None)

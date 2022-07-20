@@ -13,6 +13,7 @@ boto3 = "*"
 flask-login = "*"
 flask-jwt-extended = "*"
 email-validator = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.8.3"

@@ -10,14 +10,44 @@ function Login({ dispatch }) {
 
   async function logMeIn(event) {
     event.preventDefault()
-    const res = await fetch("/token", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+
+    // const res = await fetch("/token", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     email: loginForm.email,
+    //     password: loginForm.password
+    //   })
+    // })
+    // if (res.status >= 200 && res.status < 400) {
+    //   const { token, user, tasklists } = await res.json();
+    //   console.log(token, user, tasklists);
+    //   dispatch({
+    //     type: "login",
+    //     payload: {
+    //       token,
+    //       user,
+    //       lists: tasklists
+    //     }
+    //   });
+    // } else {
+    //   console.log(res.status)
+    // }
+
+    const XSRFTOKEN = await fetch('/get_csrf')
+    const token = (await XSRFTOKEN.json())
+
+    const res = await fetch(`/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': token.csrfT
+      },
       body: JSON.stringify({
         email: loginForm.email,
         password: loginForm.password
-      })
-    })
+      }),
+    });
     if (res.status >= 200 && res.status < 400) {
       const { token, user, tasklists } = await res.json();
       console.log(token, user, tasklists);
@@ -32,6 +62,8 @@ function Login({ dispatch }) {
     } else {
       console.log(res.status)
     }
+
+
 
     setloginForm(({
       email: "",

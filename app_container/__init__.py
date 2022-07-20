@@ -11,6 +11,9 @@ from flask_login import LoginManager
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
                                unset_jwt_cookies, JWTManager, verify_jwt_in_request
 
+from flask_cors import CORS
+from flask_wtf.csrf import CSRFProtect, generate_csrf
+
 
 app = Flask(__name__)
 if __name__ == "__main__":
@@ -23,6 +26,7 @@ db.init_app(app)
 Migrate(app, db)
 
 login = LoginManager(app)
+CORS(app)
 
 jwt = JWTManager(app)
 
@@ -39,6 +43,15 @@ def check_login():
             return response
             # abort(401)
 
+@app.after_request
+def inject_csrf_token(response):
+    response.set_cookie('csrf_token',
+                        generate_csrf(),
+                        secure=True if os.environ.get('FLASK_ENV') else False,
+                        samesite='Strict' if os.environ.get(
+                            'FLASK_ENV') else None,
+                        httponly=True)
+    return response
 
 @app.after_request
 def refresh_expiring_jwts(response):

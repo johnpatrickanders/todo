@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-function Signup({ dispatch }) {
+function Signup() {
   const history = useHistory();
   const [signupForm, setSignupForm] = useState({
     email: "",

@@ -25,7 +25,7 @@ function tokenReducer(state, action) {
     case 'login':
       const newToken = saveToken(action.payload.token);
       return {
-        token: newToken,
+        // token: newToken,
         user: action.payload.user,
         lists: action.payload.lists
       };
@@ -49,7 +49,7 @@ function App() {
     <BrowserRouter>
       <div >
         {
-          !userState.token &&
+          !userState.user.id &&
           <Switch>
             <Route path="/signup">
               <Signup />
@@ -59,7 +59,7 @@ function App() {
             </Route>
           </Switch>
         }
-        {userState.token &&
+        {userState.user.id &&
 
           <UserContext.Provider value={{
             user: userState.user,
