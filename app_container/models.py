@@ -49,6 +49,7 @@ class TaskList(db.Model):
         db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     user = db.relationship("User", back_populates="tasklists")
+    tasks = db.relationship("Task", cascade="all")
 
     def to_dict(self):
         return {

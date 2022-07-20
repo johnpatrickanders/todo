@@ -50,6 +50,8 @@ export default function () {
             key={String(list.id) + String(list.updateDate)}
             list={list}
             grabListInfo={grabListInfo}
+            setLiveLists={setLiveLists}
+            liveLists={liveLists}
           />
         ))}
       </div>
