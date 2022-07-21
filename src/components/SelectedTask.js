@@ -9,13 +9,14 @@ export default function ({
   setTasksState,
   tasksState
 }) {
-  const [title, setTitle] = useState(selectedTask.title);
-  const [tag, setTag] = useState(selectedTask.tag ? selectedTask.tag : '');
-  const [createDate, setCreateDate] = useState(selectedTask.createDate ? selectedTask.createDate : '');
-  const [dueDate, setDueDate] = useState(selectedTask.dueDate ? selectedTask.dueDate : '');
-  const [remindDate, setRemindDate] = useState(selectedTask.remindDate ? selectedTask.remindDate : '');
-  const [deleteStatus, setDeleteStatus] = useState(false);
+  const [title, setTitle] = useState(selectedTask.title || '');
+  const [tag, setTag] = useState(selectedTask.tag || '');
+  const [createDate, setCreateDate] = useState(selectedTask.createDate || '');
+  const [dueDate, setDueDate] = useState(selectedTask.dueDate || '');
+  const [remindDate, setRemindDate] = useState(selectedTask.remindDate || '');
+
   const [selectedFile, setSelectedFile] = useState();
+
   const handleTaskUpdate = async () => {
     console.log("UPDATE TASK");
     const res = await fetch(`/tasks/${selectedTask.id}`, {
@@ -35,12 +36,11 @@ export default function ({
       if (preSignedPostS3.url) {
         await uploadToS3(preSignedPostS3.url, preSignedPostS3.fields);
       }
-      const newTasks = tasksState.map(el => {
-        if (el.id === updatedTask.id) {
-          console.log("MATCH");
+      const newTasks = tasksState.map(task => {
+        if (task.id === updatedTask.id) {
           return Object.assign({}, updatedTask);
         } else {
-          return el;
+          return task;
         }
       })
       setTasksState([...newTasks]);
@@ -67,11 +67,8 @@ export default function ({
   const handleChange = (e, setCallback) => {
     setCallback(e.target.value);
   }
-  const onDeleteClick = () => {
-    setDeleteStatus(!deleteStatus)
-  };
 
-  // to modify for uploadToS3 error handle
+  // TODO: to modify for uploadToS3 on error
   const postFileName = async (fileName) => {
     const res = await fetch(`/post_success/${selectedTask.id}`, {
       method: "PUT",
@@ -101,6 +98,7 @@ export default function ({
       // postFileName(fields.key);
     } else {
       // TODO: handle error by removing task's fileName in backend
+      // postFileName('')
     }
   }
 
@@ -116,8 +114,6 @@ export default function ({
     });
     if (res.ok) {
       const { fields, url } = await res.json();
-      console.log(fields);
-
       uploadToS3(url, fields);
     }
   }
@@ -150,9 +146,6 @@ export default function ({
               handleSubmission={handleSubmission}
             />
           </div>
-          {/* <div>
-          Delete: < input type="checkbox" checked={deleteStatus} onChange={onDeleteClick} />
-        </div> */}
           <button className="lists__button" onClick={handleTaskUpdate}>Update Task</button>
           <button className="selectedtask__delete" onClick={handleTaskDelete}>Delete Task</button>
         </div>

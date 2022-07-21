@@ -58,7 +58,6 @@ function userReducer(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(userReducer, initialState);
-  const [selectedTask, setSelectedTask] = useState(null);
 
   // useEffect(() => {
   //   const loadUser = async () => {
@@ -97,8 +96,6 @@ function App() {
           <UserContext.Provider value={{
             user: state.user,
             lists: state.lists,
-            selectedTask,
-            setSelectedTask,
             dispatch
           }} >
             <Switch>
