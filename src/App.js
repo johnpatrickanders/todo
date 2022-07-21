@@ -1,9 +1,10 @@
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import Login from './components/Login';
-import Main from './components/Main';
+import Header from './components/Header';
+import Lists from './components/Lists';
 import LoggedOutView from './LoggedOutView';
 import Signup from './components/Signup';
 import { useReducer, useState, createContext, useEffect } from 'react';
+import './App.css'
 
 export const UserContext = createContext({
   user: {},
@@ -91,10 +92,18 @@ function App() {
           }} >
             <Switch>
               <Route path="/home" exact={true}>
-                <Main
+                {/* <Main
                   dispatch={dispatch}
                   userState={userState}
-                ></Main>
+                ></Main> */}
+                <div
+                  className="main">
+                  <Header
+                    dispatch={dispatch}>
+                  </Header>
+                  <Lists
+                  ></Lists>
+                </div>
               </Route>
               <Route path="*">
                 <Redirect to="/home" />
