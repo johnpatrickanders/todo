@@ -89,7 +89,7 @@ def add_list():
     db.session.add(task_list)
     db.session.commit()
 
-    return {"title": task_list.title, }
+    return task_list.to_dict()
 
 
 # may want to reviese model to use userId
