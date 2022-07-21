@@ -18,7 +18,8 @@ const initialState = {
   user: {
     id: null
   },
-  lists: []
+  lists: [],
+  tasks: []
 };
 
 function userReducer(state, action) {
@@ -42,8 +43,13 @@ function userReducer(state, action) {
       }
     case 'lists':
       return {
-        user: state.user,
+        ...state,
         lists: action.payload.lists
+      }
+    case 'tasks':
+      return {
+        ...state,
+        tasks: []
       }
     default:
       throw new Error();
@@ -51,7 +57,7 @@ function userReducer(state, action) {
 };
 
 function App() {
-  const [userState, dispatch] = useReducer(userReducer, initialState);
+  const [state, dispatch] = useReducer(userReducer, initialState);
   const [selectedTask, setSelectedTask] = useState(null);
 
   // useEffect(() => {
@@ -70,13 +76,13 @@ function App() {
   //   }
   //   loadUser();
   //   // eslint-disable-next-line
-  // }, [userState.user.id])
+  // }, [state.user.id])
 
   return (
     <BrowserRouter>
       <div >
         {
-          !userState.user.id &&
+          !state.user.id &&
           <Switch>
             <Route path="/signup">
               <Signup />
@@ -86,11 +92,11 @@ function App() {
             </Route>
           </Switch>
         }
-        {userState.user.id &&
+        {state.user.id &&
 
           <UserContext.Provider value={{
-            user: userState.user,
-            lists: userState.lists,
+            user: state.user,
+            lists: state.lists,
             selectedTask,
             setSelectedTask,
             dispatch
@@ -99,7 +105,7 @@ function App() {
               <Route path="/home" exact={true}>
                 {/* <Main
                   dispatch={dispatch}
-                  userState={userState}
+                  state={state}
                 ></Main> */}
                 <div
                   className="main">

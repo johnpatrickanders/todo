@@ -17,7 +17,8 @@ export default function List({ list, grabListInfo, lists, dispatch }) {
     };
   }
 
-  const handleDotsClick = () => {
+  const handleDotsClick = (e) => {
+    e.stopPropagation();
     deleteList();
   }
 
@@ -27,7 +28,6 @@ export default function List({ list, grabListInfo, lists, dispatch }) {
       listid={list.id}
       key={String(list.id) + String(list.updateDate)}
       onClick={() => grabListInfo(list.id, list.title)}
-      // onMouseOver={() => deleteList()}
       className="lists__list">
       <div className='list__title'>
         {list.title}

@@ -7,11 +7,10 @@ import List from './List';
 
 export default function () {
   const { lists, user, dispatch } = useContext(UserContext);
-  const [listId, setListId] = useState();
-  const [listTitle, setListTitle] = useState('Select A List')
+  const initialListState = { id: null, title: 'Select a List' }
+  const [selectedList, setSelectedList] = useState(lists[0] ? lists[0] : initialListState)
   const grabListInfo = (id, title) => {
-    setListId(id);
-    setListTitle(title);
+    setSelectedList({ id, title })
   }
   const createList = async (title) => {
     console.log("CREATE LIST");
@@ -35,6 +34,12 @@ export default function () {
     }
   }
 
+  useEffect(() => {
+    if (!lists.length) {
+      setSelectedList(initialListState)
+    }
+  }, [lists])
+
   return (
     <>
       <div className="main__lists lists">
@@ -53,7 +58,8 @@ export default function () {
           />
         ))}
       </div>
-      {<Tasks taskListId={listId} taskListTitle={listTitle} ></Tasks>}
+
+      {<Tasks taskListId={selectedList.id} taskListTitle={selectedList.title} ></Tasks>}
     </>
   )
 }
