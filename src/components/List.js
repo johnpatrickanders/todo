@@ -1,17 +1,19 @@
 import './Lists.css';
 
-export default function List({ list, grabListInfo, setLiveLists, liveLists }) {
+export default function List({ list, grabListInfo, lists, dispatch }) {
 
   const deleteList = async () => {
-    console.log(liveLists)
     const res = await fetch(`/list/${list.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }
     });
     if (res.ok) {
-      setLiveLists(
-        liveLists.filter(displayedList => displayedList.id !== list.id)
-      )
+      dispatch({
+        type: 'lists',
+        payload: {
+          lists: lists.filter(displayedList => displayedList.id !== list.id)
+        }
+      })
     };
   }
 

@@ -40,6 +40,11 @@ function userReducer(state, action) {
         user: action.payload.user,
         lists: action.payload.lists
       }
+    case 'lists':
+      return {
+        user: state.user,
+        lists: action.payload.lists
+      }
     default:
       throw new Error();
   }

@@ -6,14 +6,10 @@ import { UserContext } from '../App';
 import List from './List';
 
 export default function () {
-  const { lists, user } = useContext(UserContext);
+  const { lists, user, dispatch } = useContext(UserContext);
   const [listId, setListId] = useState();
   const [listTitle, setListTitle] = useState('Select A List')
-  const [liveLists, setLiveLists] = useState(lists);
   const grabListInfo = (id, title) => {
-    console.log("KEY:", id)
-    console.log("KEY:", title)
-
     setListId(id);
     setListTitle(title);
   }
@@ -30,12 +26,14 @@ export default function () {
     if (res.ok) {
       const list = await res.json();
       console.log(list);
-      setLiveLists([...lists, list]);
+      dispatch({
+        type: 'lists',
+        payload: {
+          lists: [...lists, list]
+        }
+      })
     }
   }
-  useEffect(() => {
-    setLiveLists(lists);
-  }, [lists]);
 
   return (
     <>
@@ -44,14 +42,14 @@ export default function () {
           My Lists
           <DropDown createList={createList} buttonLabel="Add List" />
         </h3>
-        {liveLists.map((list) => (
+        {lists.map((list) => (
           <List
             listid={list.id}
             key={String(list.id) + String(list.updateDate)}
             list={list}
             grabListInfo={grabListInfo}
-            setLiveLists={setLiveLists}
-            liveLists={liveLists}
+            lists={lists}
+            dispatch={dispatch}
           />
         ))}
       </div>
