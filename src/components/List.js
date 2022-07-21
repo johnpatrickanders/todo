@@ -1,4 +1,4 @@
-
+import './Lists.css';
 
 export default function List({ list, grabListInfo, setLiveLists, liveLists }) {
 
@@ -15,15 +15,26 @@ export default function List({ list, grabListInfo, setLiveLists, liveLists }) {
     };
   }
 
+  const handleDotsClick = () => {
+    deleteList();
+  }
+
+
   return (
     <div
       listid={list.id}
       key={String(list.id) + String(list.updateDate)}
       onClick={() => grabListInfo(list.id, list.title)}
-      onMouseOver={() => deleteList()}
-      className="lists__title">
-      {list.title}
-
+      // onMouseOver={() => deleteList()}
+      className="lists__list">
+      <div className='list__title'>
+        {list.title}
+      </div>
+      <div className='list__dot'
+        onClick={(e) => handleDotsClick(e)}
+      >
+        <div className='dot__dash'>-</div>
+      </div>
     </div>
   )
 }
