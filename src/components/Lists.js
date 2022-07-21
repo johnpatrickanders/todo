@@ -45,7 +45,7 @@ export default function () {
       <div className="main__lists lists">
         <h3 className="lists__header">
           My Lists
-          <DropDown createList={createList} buttonLabel="Add List" />
+          <DropDown handleCreate={createList} buttonLabel="Add List" />
         </h3>
         {lists.map((list) => (
           <List

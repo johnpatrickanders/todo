@@ -24,15 +24,16 @@
 
 .main__lists {
   background-color: blue;
-  /* align-self: stretch; */
   height: calc(100vh - 71px);
   padding: 0px 7px 0px 7px;
+  overflow-y: scroll;
 }
 
 .main__tasks {
   background-color: green;
   height: calc(100vh - 71px);
   padding: 0px 7px 0px 7px;
+  overflow-y: scroll;
 }
 
 button {

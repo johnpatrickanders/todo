@@ -31,7 +31,7 @@ export default function ({ taskListId, taskListTitle }) {
     })
     if (res.ok) {
       const { task } = await res.json();
-      setTasksState([...tasksState, task]);
+      sortByStatus([...tasksState, task]);
     } else {
     }
   }
@@ -80,7 +80,7 @@ export default function ({ taskListId, taskListTitle }) {
           onClick={(e) => toggleCompleted(e)}
           onChange={updateCompletedClass}
         />
-        <DropDown createList={createTask} buttonLabel="Add Task" />
+        <DropDown handleCreate={createTask} buttonLabel="Add Task" />
       </h3>
       {
         tasksState.map((task, idx) => (
