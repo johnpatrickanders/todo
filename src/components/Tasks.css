@@ -4,6 +4,12 @@
   align-content: center;
 }
 
+.tasks__list__title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 80%;
+}
+
 .tasks__button {
   color: green;
 }

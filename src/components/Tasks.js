@@ -68,8 +68,9 @@ export default function ({ taskListId, taskListTitle }) {
       onClick={() => sortByStatus(tasksState)}
     >
       <h3 className="tasks__header">
-        {taskListTitle}
-
+        <div className='tasks__list__title'>
+          {taskListTitle}
+        </div>
         <label className='toggle__completed' htmlFor='showCompleted'>Hide Completed</label>
         <input
           type='checkbox'
