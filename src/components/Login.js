@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import '../LoggedOutView.css'
 
 function Login({ dispatch }) {
   const history = useHistory();
@@ -54,9 +55,9 @@ function Login({ dispatch }) {
   }
 
   return (
-    <div>
+    <div className='form'>
       <h1>Login</h1>
-      <form className="login">
+      <form>
         <input onChange={handleChange}
           type="email"
           text={loginForm.email}
@@ -73,7 +74,6 @@ function Login({ dispatch }) {
         <button onClick={logMeIn}>Submit</button>
       </form>
       <Link
-        className='signup'
         to="/signup">
         Sign Up
       </Link>

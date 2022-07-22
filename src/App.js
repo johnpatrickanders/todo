@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Lists from './components/Lists';
 import LoggedOutView from './LoggedOutView';
 import Signup from './components/Signup';
+import Login from './components/Login';
 import { useReducer, useState, createContext, useEffect } from 'react';
 import './App.css'
 
@@ -84,10 +85,14 @@ function App() {
           !state.user.id &&
           <Switch>
             <Route path="/signup">
-              <Signup />
+              <LoggedOutView componentToPassDown={
+                <Signup />
+              } />
             </Route>
             <Route path="*">
-              <LoggedOutView dispatch={dispatch} />
+              <LoggedOutView componentToPassDown={
+                <Login dispatch={dispatch} />
+              } />
             </Route>
           </Switch>
         }
@@ -100,10 +105,6 @@ function App() {
           }} >
             <Switch>
               <Route path="/home" exact={true}>
-                {/* <Main
-                  dispatch={dispatch}
-                  state={state}
-                ></Main> */}
                 <div
                   className="main">
                   <Header

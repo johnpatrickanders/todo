@@ -51,3 +51,7 @@ button:hover {
 .error {
   color: red;
 }
+
+.signup {
+  z-index: 2000;
+}

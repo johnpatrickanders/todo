@@ -75,9 +75,9 @@ function Signup() {
 
   return (
     <>
-      <div>
+      <div className="form">
         <h1>Signup</h1>
-        <form className="signup">
+        <form >
           <input onChange={handleChange}
             type="email"
             text={signupForm.email}
