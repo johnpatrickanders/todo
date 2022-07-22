@@ -88,7 +88,15 @@ class Task(db.Model):
                 due_date_word = 'Tomorrow'
             else:
                 day_count = (due_date - today).days + 1
-                due_date_word = str(day_count) + ' days' if day_count > 1 else 'Tomorrow'
+                # due_date_word = str(day_count) + ' days' if day_count > 1 else 'Tomorrow'
+                if day_count > 1:
+                    due_date_word = str(day_count) + ' days'
+                elif day_count < 0 and day_count >= -1:
+                    due_date_word = 'Yesderday'
+                elif day_count < 0:
+                    due_date_word = str(day_count) + ' days'
+                else:
+                    due_date_word = 'Tomorrow'
         return due_date_word
 
     def to_dict(self):

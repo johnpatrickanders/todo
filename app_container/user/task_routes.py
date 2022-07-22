@@ -1,5 +1,6 @@
 import os
 from flask import Blueprint, request
+from sqlalchemy import asc
 from app_container.models import db, User, TaskList, Task
 import boto3
 from botocore.config import Config as ConfigBoto
@@ -42,7 +43,7 @@ def get_tasks(taskListId):
     print(taskListId)
     # if not taskListId or taskListId is None:
     #     taskListId = 1
-    tasks = Task.query.filter(Task.task_list_id == int(taskListId)).all()
+    tasks = Task.query.filter(Task.task_list_id == int(taskListId)).order_by(asc(Task.due_date)).all()
     res = [task.to_dict() for task in tasks]
     return {'tasks': res}
 
