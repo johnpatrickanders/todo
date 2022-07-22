@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 function Signup() {
   const history = useHistory();
@@ -98,12 +98,16 @@ function Signup() {
             value={signupForm.confirmPassword} />
           <button onClick={signMeUp}>Submit</button>
         </form>
+        <Link
+          to="/login">
+          Login
+        </Link>
       </div>
-      {
+      {/* {
         Object.values(errors).map(msg =>
           <p key={msg} className='error'>{msg}</p>
         )
-      }
+      } */}
     </>
   );
 }
