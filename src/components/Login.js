@@ -10,8 +10,8 @@ function Login({ dispatch }) {
   })
 
   async function logMeIn(event) {
-    event.preventDefault()
-    const XSRFTOKEN = await fetch('/get_csrf')
+    event.preventDefault();
+    const XSRFTOKEN = await fetch('/get_csrf');
     const token = await XSRFTOKEN.json()
     console.log(token)
     const res = await fetch(`/login`, {
@@ -54,6 +54,15 @@ function Login({ dispatch }) {
     )
   }
 
+  const popDemoUser = e => {
+    console.log(e)
+    e.preventDefault();
+    setloginForm({
+      email: "testing@example.com",
+      password: "test"
+    })
+  }
+
   return (
     <div className='form'>
       <h1>Login</h1>
@@ -76,6 +85,9 @@ function Login({ dispatch }) {
       <Link
         to="/signup">
         Sign Up
+      </Link>
+      <Link onClick={(e) => popDemoUser(e)} to="login">
+        Set Demo User
       </Link>
     </div>
   );
