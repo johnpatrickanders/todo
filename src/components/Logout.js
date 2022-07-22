@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { UserContext } from '../App';
 function Logout() {
   const { dispatch } = useContext(UserContext);
+
   async function logMeOut(e) {
     e.preventDefault();
     const res = await fetch("/logout", {

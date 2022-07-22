@@ -7,13 +7,6 @@ import Login from './components/Login';
 import { useReducer, useState, createContext, useEffect } from 'react';
 import './App.css'
 
-export const UserContext = createContext({
-  user: {},
-  lists: [],
-  tasks: null,
-  value: null,
-  selectedTask: null
-});
 
 const initialState = {
   user: {
@@ -22,29 +15,28 @@ const initialState = {
   lists: [],
   tasks: []
 };
+export const UserContext = createContext({
+  user: {},
+  lists: [],
+  tasks: null,
+  value: null,
+  selectedTask: null
+});
 
 function userReducer(state, action) {
   switch (action.type) {
     case 'logout':
-      return {
-        user: {
-          id: null
-        },
-        lists: []
-      }
+      return initialState
     case 'login':
       return {
-        user: action.payload.user,
+        ...state,
+        user: { ...action.payload.user },
         lists: action.payload.lists
       };
-    case 'get':
-      return {
-        user: action.payload.user,
-        lists: action.payload.lists
-      }
     case 'lists':
       return {
         ...state,
+        user: { ...state.user },
         lists: action.payload.lists
       }
     case 'tasks':
@@ -60,30 +52,30 @@ function userReducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(userReducer, initialState);
 
-  // useEffect(() => {
-  //   const loadUser = async () => {
-  //     const res = await fetch('/loaduser')
-  //     if (res.ok) {
-  //       const { user, tasklists } = await res.json()
-  //       dispatch({
-  //         type: 'get',
-  //         payload: {
-  //           user: user,
-  //           lists: tasklists
-  //         }
-  //       })
-  //     }
-  //   }
-  //   loadUser();
-  //   // eslint-disable-next-line
-  // }, [state.user.id])
+  useEffect(() => {
+    const loadUser = async () => {
+      const res = await fetch('/loaduser')
+      if (res.ok) {
+        const { user, tasklists } = await res.json()
+        dispatch({
+          type: 'login',
+          payload: {
+            user,
+            lists: tasklists
+          }
+        })
+      }
+    }
+    loadUser();
+    // eslint-disable-next-line
+  }, [state.user.id])
 
   return (
     <BrowserRouter>
       <div >
         {
           !state.user.id &&
-          <Switch>
+          < Switch >
             <Route path="/signup">
               <LoggedOutView componentToPassDown={
                 <Signup />
@@ -98,7 +90,7 @@ function App() {
         }
         {state.user.id &&
 
-          <UserContext.Provider value={{
+          < UserContext.Provider value={{
             user: state.user,
             lists: state.lists,
             dispatch
@@ -121,7 +113,7 @@ function App() {
           </UserContext.Provider>
         }
       </div>
-    </BrowserRouter>
+    </BrowserRouter >
   );
 }
 

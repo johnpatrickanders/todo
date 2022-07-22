@@ -36,7 +36,6 @@ export default function ({ task, setTasksState, tasksState, idx }) {
 
   const loadImageModal = (e) => {
     e.stopPropagation();
-    console.log("loading image...");
     setOpen(true);
   }
 
@@ -44,7 +43,6 @@ export default function ({ task, setTasksState, tasksState, idx }) {
     <div
       className={classNames}
       onClick={handleTitleClick}
-    // onClick={select}
     >
       {isOpen ? <ImageModal fileName={task.fileName} setOpen={setOpen} /> : <></>}
       <div className='task__title'>{taskTitle}</div>

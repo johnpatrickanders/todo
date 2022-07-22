@@ -31,7 +31,7 @@ function Login({ dispatch }) {
       dispatch({
         type: "login",
         payload: {
-          user,
+          user: { ...user },
           lists: tasklists
         }
       });
