@@ -1,6 +1,5 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import './Task.css';
-import { UserContext } from '../App';
 import SelectedTask from './SelectedTask';
 import ImageModal from './ImageModal';
 
@@ -38,6 +37,7 @@ export default function ({ task, setTasksState, tasksState, idx }) {
     e.stopPropagation();
     setOpen(true);
   }
+
 
   return (
     <div

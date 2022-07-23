@@ -1,6 +1,13 @@
 import './Lists.css';
 
-export default function List({ list, grabListInfo, lists, dispatch }) {
+export default function List({
+  list,
+  grabListInfo,
+  lists,
+  dispatch,
+  selectedListId,
+  resetListState
+}) {
 
   const deleteList = async () => {
     const res = await fetch(`/list/${list.id}`, {
@@ -8,12 +15,16 @@ export default function List({ list, grabListInfo, lists, dispatch }) {
       headers: { "Content-Type": "application/json" }
     });
     if (res.ok) {
+      console.log(res);
       dispatch({
         type: 'lists',
         payload: {
           lists: lists.filter(displayedList => displayedList.id !== list.id)
         }
-      })
+      });
+      if (selectedListId == list.id) {
+        resetListState();
+      }
     };
   }
 

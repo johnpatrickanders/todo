@@ -45,7 +45,10 @@ export default function ({ taskListId, taskListTitle }) {
   }
 
   useEffect(() => {
-    if (!taskListId) return;
+    if (!taskListId) {
+      setTasksState([]);
+      return;
+    }
     async function fetchData() {
       const res = await fetch(`/tasks/${taskListId}`, {
         method: "GET",

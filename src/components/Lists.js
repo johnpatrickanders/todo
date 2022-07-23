@@ -34,11 +34,15 @@ export default function () {
     }
   }
 
+  const resetListState = () => {
+    setSelectedList(initialListState);
+  }
+
   useEffect(() => {
     if (!lists.length) {
-      setSelectedList(initialListState)
+      resetListState();
     }
-  }, [lists])
+  }, [lists]);
 
   return (
     <>
@@ -55,6 +59,8 @@ export default function () {
             grabListInfo={grabListInfo}
             lists={lists}
             dispatch={dispatch}
+            selectedListId={selectedList.id}
+            resetListState={resetListState}
           />
         ))}
       </div>

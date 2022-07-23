@@ -136,9 +136,9 @@ export default function ({
           <div className='selectedtask__line'>
             Due: <input type="date" value={dueDate} onChange={(e) => handleChange(e, setDueDate)} />
           </div>
-          <div className='selectedtask__line'>
+          {/* <div className='selectedtask__line'>
             Remind: <input type="date" value={remindDate} onChange={(e) => handleChange(e, setRemindDate)} />
-          </div>
+          </div> */}
           <div className='selectedtask__line image__form'>
             File: <ImagePicker
               setSelectedFile={setSelectedFile}

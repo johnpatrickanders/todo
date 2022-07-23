@@ -35,9 +35,9 @@ function userReducer(state, action) {
       };
     case 'lists':
       return {
-        ...state,
         user: { ...state.user },
-        lists: action.payload.lists
+        lists: action.payload.lists,
+        tasks: action.payload.tasks ? action.payload.tasks : state.tasks
       }
     case 'tasks':
       return {
@@ -102,8 +102,7 @@ function App() {
                   <Header
                     dispatch={dispatch}>
                   </Header>
-                  <Lists
-                  ></Lists>
+                  <Lists />
                 </div>
               </Route>
               <Route path="*">
