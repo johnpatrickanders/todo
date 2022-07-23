@@ -28,12 +28,12 @@ export default function ({
         dueDate,
         remindDate,
         title,
-        fileName: selectedTask.id + "-task-image"
+        fileName: selectedFile ? selectedTask.id + "-task-image" : null
       })
     })
     if (res.ok) {
       const { updatedTask, preSignedPostS3 } = await res.json();
-      if (preSignedPostS3.url) {
+      if (preSignedPostS3) {
         await uploadToS3(preSignedPostS3.url, preSignedPostS3.fields);
       }
       const newTasks = tasksState.map(task => {
@@ -136,7 +136,9 @@ export default function ({
           <div className='selectedtask__line'>
             Due: <input type="date" value={dueDate} onChange={(e) => handleChange(e, setDueDate)} />
           </div>
-          {/* <div className='selectedtask__line'>
+
+          {/* // TODO: implement reminders
+          <div className='selectedtask__line'>
             Remind: <input type="date" value={remindDate} onChange={(e) => handleChange(e, setRemindDate)} />
           </div> */}
           <div className='selectedtask__line image__form'>

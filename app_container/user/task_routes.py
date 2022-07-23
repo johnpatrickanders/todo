@@ -75,6 +75,8 @@ def update_task(taskId):
     if data["fileName"]:
         post_contents = create_presigned_post(data['fileName'])
         task.file_name = data["fileName"]
+    else:
+        task.file_name = None
     # task.update_date = datetime.now()
     db.session.commit()
     return {"updatedTask": task.to_dict(), 'preSignedPostS3':post_contents}
