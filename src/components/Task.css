@@ -11,8 +11,6 @@
   /* adding a third auto makes the end of the line move back left */
 
   text-overflow: ellipsis;
-  overflow-x: hidden;
-  max-height: 20.8;
 }
 
 
