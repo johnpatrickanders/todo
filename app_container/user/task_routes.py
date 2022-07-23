@@ -23,7 +23,7 @@ boto_config = ConfigBoto(
 def home():
     user = User.query.get(current_user.id)
     print("Home User:", user)
-    tasklists = TaskList.query.filter(TaskList.user_id == user.id).all()
+    tasklists = TaskList.query.filter(TaskList.user_id == current_user.id).order_by(TaskList.title).all()
     tasklists = [object_as_dict(tasklist) for tasklist in tasklists]
     return {'user': user.to_dict(), 'tasklists': tasklists}
 
@@ -31,7 +31,8 @@ def home():
 @task_routes.route('/tasklists')
 def get_tasklists():
     print(boto3.__version__)
-    tasklists = TaskList.query.filter(TaskList.user_id == current_user.id).all()
+    tasklists = TaskList.query.filter(TaskList.user_id == current_user.id).order_by(TaskList.title).all()
+    print(tasklists)
     res = [object_as_dict(tasklist) for tasklist in tasklists]
 
 
