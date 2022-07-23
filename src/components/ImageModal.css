@@ -1,0 +1,39 @@
+#image__modal {
+  display: 'fixed';
+  /* bottom: 0;
+  right: 0; */
+  background: "rgba(0,0,0,0.5)";
+  justify-content: 'center';
+  align-items: 'center';
+  position: 'fixed';
+  top: '-50%';
+  left: '-50%';
+  z-index: '70000'
+}
+
+.image__dialog {
+  position: absolute;
+}
+
+.image__x {
+  position: 'fixed';
+  top: '8%';
+  right: '8%';
+  font-size: '60px';
+  color: 'red';
+  font-weight: 'bold'
+}
+
+.image__wrapper {
+  display: 'flex';
+  position: "absolute";
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: '50vw';
+  height: '50vw';
+  background: "rgba(0,0,0,0.5)";
+  justify-content: 'center';
+  align-items: 'center'
+}
