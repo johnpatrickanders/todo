@@ -7,6 +7,7 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
 
   const changeHandler = (e) => {
     setIsFilePicked(true);
+    console.log(selectedFile)
     setSelectedFile(e.target.files[0]);
   };
 
