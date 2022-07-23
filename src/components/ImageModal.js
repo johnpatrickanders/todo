@@ -33,46 +33,43 @@ export default function ({
     }}
       onClick={handleShowDialog}
     >
-      <dialog
-        className="dialog"
-        style={{ position: 'absolute' }}
-        open
+      <div style={{
+        position: 'fixed',
+        top: '9%',
+        right: '9%',
+        fontSize: '60px',
+        color: 'red',
+        fontWeight: 'bold'
+      }}
       >
-        <div style={{
-          position: 'fixed',
-          top: '8%',
-          right: '8%',
-          fontSize: '60px',
-          color: 'red',
-          fontWeight: 'bold'
-        }}
-        >
-          X
-        </div>
-        <div
+        X
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          position: "fixed",
+          top: '50%',
+          // bottom: 0,
+          left: '50%',
+          // right: 0,
+          width: '20vw',
+          height: '20vh',
+          marginLeft: '-20vw',
+          marginTop: '-10vh',
+          backgroundColor: "rgba(0,0,0,0.5)",
+          justifyItems: 'center',
+          alignItems: 'center'
+        }}>
+        <img
+          src={imgSrc}
           style={{
-            display: 'flex',
-            position: "absolute",
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            width: '50vw',
-            height: '50vw',
-            backgroundColor: "rgba(0,0,0,0.5)",
-            justifyContent: 'center', alignItems: 'center'
-          }}>
-          <img
-            src={imgSrc}
-            style={{
-              flex: 1,
-              maxWidth: '75vh',
-              maxHeight: '75vh',
-            }}
-            alt="no image"
-          />
-        </div>
-      </dialog>
+            flex: 1,
+            maxWidth: '75vh',
+            maxHeight: '75vh',
+          }}
+          alt="no image"
+        />
+      </div>
     </div>
   );
 }
