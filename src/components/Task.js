@@ -3,11 +3,17 @@ import './Task.css';
 import SelectedTask from './SelectedTask';
 import ImageModal from './ImageModal';
 
-export default function ({ task, setTasksState, tasksState, idx }) {
+export default function ({
+  task,
+  setTasksState,
+  tasksState,
+  idx,
+  selectedTask,
+  setSelectedTask
+}) {
   const [classNames, setClassNames] = useState(`tasks__task ${task.status === 'Complete' ? " task__done" : ""}`);
   const [taskTitle, setTaskTitle] = useState(task.title);
   const [isOpen, setOpen] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
   const [leftPropertySelectedTask, setLeftPropertySelectedTask] = useState(0);
   const handleTitleClick = async () => {
     if (selectedTask) return;

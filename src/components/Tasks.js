@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 export default function ({ taskListId, taskListTitle }) {
   const [tasksState, setTasksState] = useState([]);
   const [showCompleted, setShowCompleted] = useState(true);
+  const [selectedTask, setSelectedTask] = useState(null);
   const sortByStatus = (tasks) => {
     const tempNorm = [];
     const tempStatus = [];
@@ -94,6 +95,8 @@ export default function ({ taskListId, taskListTitle }) {
             setTasksState={setTasksState}
             tasksState={tasksState}
             idx={idx}
+            selectedTask={selectedTask}
+            setSelectedTask={setSelectedTask}
           />
         ))
       }
