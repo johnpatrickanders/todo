@@ -2,7 +2,6 @@
   margin: 7px;
   /* margin-right: 0; */
   border-bottom: 0.25px solid white;
-  overflow: hidden;
 
   position: relative;
   top: 0;
@@ -13,6 +12,7 @@
   /* adding a third auto makes the end of the line move back left */
 
   text-overflow: ellipsis;
+  max-width: 72vw;
 }
 
 .task__dots {
@@ -50,6 +50,7 @@
 .task__right {
   display: inline-block;
   align-self: right;
+  overflow-x: hidden;
 }
 
 .task__left {
@@ -59,7 +60,7 @@
 .task__title {
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: 65vw;
+  max-width: 58vw;
 }
 
 .task__done {

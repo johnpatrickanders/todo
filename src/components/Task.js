@@ -8,6 +8,7 @@ export default function ({ task, setTasksState, tasksState, idx }) {
   const [taskTitle, setTaskTitle] = useState(task.title);
   const [isOpen, setOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [leftPropertySelectedTask, setLeftPropertySelectedTask] = useState(0);
   const handleTitleClick = async () => {
     if (selectedTask) return;
     task.status = task.status === 'Open' ? 'Complete' : 'Open';
@@ -26,6 +27,15 @@ export default function ({ task, setTasksState, tasksState, idx }) {
 
   const handleDotsClick = async (e) => {
     e.stopPropagation();
+    console.log(e.target)
+    const rect = e.target.getBoundingClientRect();
+    const width = window.innerWidth - 35;
+    const selectedTaskWidth = 364;
+    const listsMainWidth = 385;
+    const leftValueToSet = Math.min(width - (selectedTaskWidth) * 2, rect.left - listsMainWidth);
+    console.log(leftValueToSet);
+    setLeftPropertySelectedTask(leftValueToSet);
+
     if (selectedTask) {
       setSelectedTask(null);
     } else {
@@ -38,6 +48,8 @@ export default function ({ task, setTasksState, tasksState, idx }) {
     setOpen(true);
   }
 
+  // var rect = document.body.getElementsByClassName('tasks__task')[idx]//.getBoundingClientRect();
+  // console.log(rect)
 
   return (
     <div
@@ -56,6 +68,7 @@ export default function ({ task, setTasksState, tasksState, idx }) {
         </div>
         {task.fileName ? <i onClick={(e) => loadImageModal(e)} className='fa task__file__icon'>&#xf15b;</i> : <></>}
         {selectedTask ? <SelectedTask
+          leftPropertySelectedTask={leftPropertySelectedTask}
           task={task}
           idx={idx}
           setTasksState={setTasksState}

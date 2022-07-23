@@ -5,6 +5,7 @@
   padding-left: 7px;
   /* overflow: hidden; */
 
+
   display: grid;
   grid-template-columns: 1fr auto;
 

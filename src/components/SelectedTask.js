@@ -7,7 +7,8 @@ export default function ({
   selectedTask,
   setSelectedTask,
   setTasksState,
-  tasksState
+  tasksState,
+  leftPropertySelectedTask
 }) {
   const [title, setTitle] = useState(selectedTask.title || '');
   const [tag, setTag] = useState(selectedTask.tag || '');
@@ -122,6 +123,7 @@ export default function ({
     selectedTask && selectedTask.id === task.id ?
       <div
         className="task__selectedtask"
+        style={{ left: leftPropertySelectedTask }}
       >
         <div className='selectedtask__container'>
           <div className='selectedtask__line' >

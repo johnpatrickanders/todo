@@ -5,11 +5,13 @@
   padding: 7px;
   color: green;
   z-index: 1000;
-  position: fixed;
+  position: absolute;
+  top: 20.5px;
+
   border-radius: 5px;
   text-overflow: ellipsis;
   display: block;
-  overflow: hidden;
+  overflow: clip;
   white-space: nowrap;
   margin-right: 7px;
   /* overflow-x: hidden */
