@@ -22,18 +22,15 @@ export default function ({ task, setTasksState, tasksState, idx }) {
       })
     })
     setClassNames(`tasks__task ${task.status === 'Complete' ? "task__done " : ""}`);
-    console.log(task.status, classNames)
   }
 
   const handleDotsClick = async (e) => {
     e.stopPropagation();
-    console.log(e.target)
     const rect = e.target.getBoundingClientRect();
     const width = window.innerWidth - 35;
     const selectedTaskWidth = 364;
     const listsMainWidth = 385;
     const leftValueToSet = Math.min(width - (selectedTaskWidth) * 2, rect.left - listsMainWidth);
-    console.log(leftValueToSet);
     setLeftPropertySelectedTask(leftValueToSet);
 
     if (selectedTask) {

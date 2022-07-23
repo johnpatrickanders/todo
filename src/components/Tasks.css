@@ -6,7 +6,7 @@
 
 .tasks__list__title {
   text-overflow: ellipsis;
-  overflow: hidden;
+  /* overflow: hidden; */
   max-width: 80%;
 }
 
