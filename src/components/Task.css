@@ -9,8 +9,12 @@
   transition: top ease 0.5s;
 
   display: grid;
-  grid-template-columns: auto auto 1fr;
+  grid-template-columns: 1fr auto;
   /* adding a third auto makes the end of the line move back left */
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 72vw;
 }
 
 .task__dots {
@@ -46,16 +50,26 @@
 }
 
 .task__right {
-  justify-self: right;
+  display: inline-block;
+  align-self: right;
 }
 
-.task__left {}
+.task__left {
+  display: flex;
+}
+
+.task__title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 65vw;
+}
 
 .task__done {
   font-weight: normal;
 }
 
-.task__done>.task__title {
+.task__done>.task__left,
+.task__done>.task__dots {
   text-decoration: line-through;
   text-decoration-color: red;
   font-style: italic;
