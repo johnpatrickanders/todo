@@ -39,7 +39,8 @@ export default function ({
         right: '9%',
         fontSize: '60px',
         color: 'red',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        margin: 'auto'
       }}
       >
         X
