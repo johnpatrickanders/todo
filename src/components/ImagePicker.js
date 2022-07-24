@@ -3,56 +3,18 @@ import './ListForm.css';
 import './ImageView.css';
 
 export default function ({ task, setSelectedFile, selectedFile, handleSubmission }) {
-  const [isFilePicked, setIsFilePicked] = useState(false)
+  const [isFilePicked, setIsFilePicked] = useState(false);
+  const [uploadError, setUploadError] = useState('');
 
   const changeHandler = (e) => {
     setIsFilePicked(true);
-    console.log(selectedFile)
-    setSelectedFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file.size < 1000000) {
+      setSelectedFile(file);
+    } else {
+      setUploadError("File must < 1mb");
+    }
   };
-
-  // const uploadToS3 = async (url, fields) => {
-  //   const formData = new FormData();
-  //   for (const [key, val] of Object.entries(fields)) {
-  //     formData.append(key, val);
-  //   }
-  //   console.log(fields)
-  //   formData.append('file', selectedFile);
-  //   const res = await fetch(url, {
-  //     method: "POST",
-  //     body: formData
-  //   });
-  //   if (res.ok) {
-  //     console.log('uploaded...')
-  //   }
-  // }
-
-  // const handleSubmission = async () => {
-  //   console.log(selectedFile.file);
-  //   const res = await fetch('/sign_s3_post', {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       fileName: selectedFile.name,
-  //       fileType: selectedFile.type
-  //     })
-  //   });
-  //   if (res.ok) {
-  //     const { fields, url } = await res.json();
-  //     console.log(fields);
-
-  //     uploadToS3(url, fields);
-  //   }
-  // }
-
-  // const handleGet = async () => {
-  //   const res = await fetch(`/sign_s3_get/${selectedFile.name}`);
-  //   if (res.ok) {
-  //     const data = await res.json();
-  //     console.log(data);
-  //     setReturnedGetUrl(data.url);
-  //   }
-  // }
 
   // NOT IN USE: use if want to upload via backend instead of presigned post url
   const handlePut = async (e) => {
@@ -82,7 +44,7 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
         onChange={changeHandler} />
       {isFilePicked && selectedFile ? (
         <> {selectedFile.name} </>
-      ) : <></>
+      ) : <span className='error'> {uploadError} </span>
       }
     </>
   )
