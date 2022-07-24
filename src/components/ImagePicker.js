@@ -9,10 +9,13 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
   const changeHandler = (e) => {
     setIsFilePicked(true);
     const file = e.target.files[0];
-    if (file.size < 1000000) {
-      setSelectedFile(file);
+    console.log(file.type)
+    if (file.size > 1000000) {
+      setUploadError("No files > 1mb");
+    } else if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+      setUploadError("PNG or JPEG only");
     } else {
-      setUploadError("File must < 1mb");
+      setSelectedFile(file);
     }
   };
 
