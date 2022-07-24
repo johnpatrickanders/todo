@@ -13,7 +13,6 @@ function Signup() {
   async function signMeUp(event) {
     event.preventDefault();
     validateInput();
-    console.log(errors)
     if (errors.confirmPassword) {
       return;
     }
@@ -52,11 +51,9 @@ function Signup() {
     setSignupForm(prevNote => ({
       ...prevNote, [name]: value
     }))
-    console.log(name, value)
   }
   const validateInput = () => {
     const validationState = { ...errors };
-    console.log(signupForm.password, signupForm.confirmPassword)
     if (!signupForm.email) {
       validationState.email = "Please enter email."
     }

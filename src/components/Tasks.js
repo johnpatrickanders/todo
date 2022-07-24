@@ -22,7 +22,6 @@ export default function ({ taskListId, taskListTitle }) {
   }
 
   const createTask = async (title) => {
-    console.log(taskListId)
     const res = await fetch(`/task/${taskListId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -58,8 +57,6 @@ export default function ({ taskListId, taskListTitle }) {
       if (res.ok) {
         const { tasks } = await res.json();
         tasks ? sortByStatus([...tasks]) : sortByStatus([]);
-      } else {
-        console.log("Tasks else");
       }
     }
     fetchData();

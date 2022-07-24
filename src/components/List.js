@@ -15,7 +15,6 @@ export default function List({
       headers: { "Content-Type": "application/json" }
     });
     if (res.ok) {
-      console.log(res);
       dispatch({
         type: 'lists',
         payload: {

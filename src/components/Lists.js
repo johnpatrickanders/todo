@@ -13,7 +13,6 @@ export default function () {
     setSelectedList({ id, title })
   }
   const createList = async (title) => {
-    console.log("CREATE LIST");
     const res = await fetch('/list', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -24,7 +23,6 @@ export default function () {
     })
     if (res.ok) {
       const list = await res.json();
-      console.log(list);
       dispatch({
         type: 'lists',
         payload: {

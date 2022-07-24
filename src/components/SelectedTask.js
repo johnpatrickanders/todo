@@ -19,7 +19,6 @@ export default function ({
   const [selectedFile, setSelectedFile] = useState();
 
   const handleTaskUpdate = async () => {
-    console.log("UPDATE TASK");
     const res = await fetch(`/tasks/${selectedTask.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -88,14 +87,12 @@ export default function ({
     for (const [key, val] of Object.entries(fields)) {
       formData.append(key, val);
     }
-    console.log(fields)
     formData.append('file', selectedFile);
     const res = await fetch(url, {
       method: "POST",
       body: formData
     });
     if (res.ok) {
-      console.log('uploaded...');
       // postFileName(fields.key);
     } else {
       // TODO: handle error by removing task's fileName in backend
@@ -104,7 +101,6 @@ export default function ({
   }
 
   const handleSubmission = async () => {
-    console.log(selectedFile.file);
     const res = await fetch('/sign_s3_post', {
       method: "POST",
       headers: { "Content-Type": "application/json" },

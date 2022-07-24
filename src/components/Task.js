@@ -51,9 +51,6 @@ export default function ({
     setOpen(true);
   }
 
-  // var rect = document.body.getElementsByClassName('tasks__task')[idx]//.getBoundingClientRect();
-  // console.log(rect)
-
   return (
     <div
       className={classNames}

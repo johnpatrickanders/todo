@@ -13,7 +13,6 @@ function Login({ dispatch }) {
     event.preventDefault();
     const XSRFTOKEN = await fetch('/get_csrf');
     const token = await XSRFTOKEN.json()
-    console.log(token)
     const res = await fetch(`/login`, {
       method: 'POST',
       headers: {
@@ -27,7 +26,6 @@ function Login({ dispatch }) {
     });
     if (res.status >= 200 && res.status < 400) {
       const { user, tasklists } = await res.json();
-      console.log(user, tasklists);
       dispatch({
         type: "login",
         payload: {
@@ -55,7 +53,6 @@ function Login({ dispatch }) {
   }
 
   const popDemoUser = e => {
-    console.log(e)
     e.preventDefault();
     setloginForm({
       email: "testing@example.com",
