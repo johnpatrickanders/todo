@@ -76,9 +76,7 @@ def logout():
 def load_user():
     if current_user.is_authenticated:
         tasklists = TaskList.query.filter(TaskList.user_id == current_user.id).order_by(TaskList.title).all()
-        print(tasklists)
         tasklists = [object_as_dict(tasklist) for tasklist in tasklists]
-        print(tasklists)
         return {
             'user': current_user.to_dict(),
             'tasklists': tasklists }

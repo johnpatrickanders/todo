@@ -11,9 +11,19 @@ from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 
 
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
+
 app = Flask(__name__)
 if __name__ == "__main__":
     app.run(debug=True)
+
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["300 per day", "75 per hour"]
+)
 
 app.config.from_object(ConfigApp)
 app.register_blueprint(user_routes, url_prefix='/')
@@ -26,6 +36,7 @@ CORS(app)
 
 
 @app.after_request
+@limiter.exempt
 def inject_csrf_token(response):
     response.set_cookie('csrf_token',
                         generate_csrf(),
@@ -37,5 +48,6 @@ def inject_csrf_token(response):
 
 
 @login.user_loader
+@limiter.exempt
 def load_user(id):
     return User.query.get(id)
