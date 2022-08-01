@@ -7,8 +7,11 @@ from botocore.config import Config as ConfigBoto
 from botocore.exceptions import ClientError
 from app_container.user.utils import object_as_dict
 from flask_login import current_user
+from app_container.utils import limiter
 
 task_routes = Blueprint('task', __name__)
+
+# limiter.limit("500/minute")(task_routes)
 
 boto_config = ConfigBoto(
     region_name = 'us-east-1',
@@ -57,8 +60,8 @@ def update_status(taskId):
     db.session.commit()
     return {"updatedTask": task.title}
 
-
 @task_routes.route('/tasks/<taskId>', methods=["PUT"])
+@limiter.limit("4 per day", deduct_when=lambda res: request.json["fileName"])
 def update_task(taskId):
     data = request.json
     task = Task.query.filter(Task.id == int(taskId)).first()
