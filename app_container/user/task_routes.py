@@ -61,7 +61,7 @@ def update_status(taskId):
     return {"updatedTask": task.title}
 
 @task_routes.route('/tasks/<taskId>', methods=["PUT"])
-@limiter.limit("4 per day", deduct_when=lambda res: request.json["fileName"])
+@limiter.limit("7 per day", deduct_when=lambda res: request.json["fileName"])
 def update_task(taskId):
     data = request.json
     task = Task.query.filter(Task.id == int(taskId)).first()
