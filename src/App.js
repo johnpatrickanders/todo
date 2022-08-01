@@ -56,7 +56,7 @@ function App() {
     const loadUser = async () => {
       const res = await fetch('/loaduser')
       if (res.ok) {
-        const { user, tasklists } = await res.json()
+        const { user, tasklists } = await res.json();
         dispatch({
           type: 'login',
           payload: {

@@ -28,7 +28,7 @@ Migrate(app, db)
 login = LoginManager(app)
 CORS(app)
 
-jwt = JWTManager(app)
+# jwt = JWTManager(app)
 
 
 # @app.before_request

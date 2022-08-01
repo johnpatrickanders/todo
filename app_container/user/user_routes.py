@@ -41,7 +41,7 @@ def login():
     if not user or not user.check_password(password):
         return {"error": "No match found for username and password."}
     login_user(user)
-    tasklists = TaskList.query.filter(TaskList.user_id == user.id).all()
+    tasklists = TaskList.query.filter(TaskList.user_id == current_user.id).order_by(TaskList.title).all()
     tasklists = [object_as_dict(tasklist) for tasklist in tasklists]
     response = {
         'user': user.to_dict(),
@@ -76,7 +76,9 @@ def logout():
 def load_user():
     if current_user.is_authenticated:
         tasklists = TaskList.query.filter(TaskList.user_id == current_user.id).order_by(TaskList.title).all()
+        print(tasklists)
         tasklists = [object_as_dict(tasklist) for tasklist in tasklists]
+        print(tasklists)
         return {
             'user': current_user.to_dict(),
             'tasklists': tasklists }
