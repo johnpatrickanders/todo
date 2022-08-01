@@ -51,8 +51,11 @@ export default function ({
           position: "fixed",
           top: '50%',
           // bottom: 0,
-          left: '50%',
+          left: '700px',
           // right: 0,
+          marginBlockStart: '9%',
+          // marginLeft: 0,
+          // marginRight: 0,
           width: '20vw',
           height: '20vh',
           marginLeft: '-20vw',
@@ -71,6 +74,6 @@ export default function ({
           alt="no image"
         />
       </div>
-    </div>
+    </div >
   );
 }
