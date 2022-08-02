@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: 57184da021d2
-Revises: 
+Revises:
 Create Date: 2021-01-18 17:02:46.514113
 
 """
@@ -23,27 +23,27 @@ def upgrade():
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('firstname', sa.String(length=40), nullable=False),
     sa.Column('lastname', sa.String(length=40), nullable=False),
-    sa.Column('hashed_password', sa.String(length=100), nullable=False),
+    sa.Column('hashed_password', sa.String(length=500), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
     op.create_table('tasklists',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('userId', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=1000), nullable=False),
     sa.Column('created_on', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_on', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('tasks',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('taskListId', sa.Integer(), nullable=False),
+    sa.Column('task_list_id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=1000), nullable=False),
     sa.Column('done', sa.Boolean(), nullable=True),
     sa.Column('created_on', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_on', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.ForeignKeyConstraint(['taskListId'], ['tasklists.id'], ),
+    sa.ForeignKeyConstraint(['task_list_id'], ['tasklists.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
