@@ -1,4 +1,4 @@
-from flask import Blueprint, Flask, request, jsonify
+from flask import Blueprint, Flask, abort, request, jsonify
 from flask_login import login_user
 # from flask_cors import CORS
 from app_container.models import TaskList, db, User
@@ -39,7 +39,7 @@ def login():
     password = request.json.get("password", None)
     user = User.query.filter(User.email == email).first()
     if not user or not user.check_password(password):
-        return {"error": "No match found for username and password."}
+        return abort(401) #{"error": "No match found for username and password."}
     login_user(user)
     tasklists = TaskList.query.filter(TaskList.user_id == current_user.id).order_by(TaskList.title).all()
     tasklists = [object_as_dict(tasklist) for tasklist in tasklists]
