@@ -14,7 +14,7 @@ export default function ({
         `}
       </div>
       <div className="header__center">
-        <img className="logo" src='/favicon.ico'></img>
+        <img className="logo" src='/assets/favicon.ico'></img>
       </div>
       <div className="header__right">
         <Logout dispatch={dispatch} />
