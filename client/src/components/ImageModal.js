@@ -11,7 +11,7 @@ export default function ({
   };
   useEffect(() => {
     const getPresignedUrl = async () => {
-      const res = await fetch(`/sign_s3_get/${fileName}`);
+      const res = await fetch(`/api/sign_s3_get/${fileName}`);
       if (res.ok) {
         const data = await res.json();
         setImgSrc(data.url);

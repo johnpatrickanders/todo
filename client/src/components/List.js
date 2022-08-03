@@ -10,7 +10,7 @@ export default function List({
 }) {
 
   const deleteList = async () => {
-    const res = await fetch(`/list/${list.id}`, {
+    const res = await fetch(`/api/list/${list.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }
     });

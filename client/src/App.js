@@ -54,7 +54,7 @@ function App() {
 
   useEffect(() => {
     const loadUser = async () => {
-      const res = await fetch('/loaduser')
+      const res = await fetch('/api/loaduser')
       if (res.ok) {
         const { user, tasklists } = await res.json();
         dispatch({

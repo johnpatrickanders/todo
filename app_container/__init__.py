@@ -23,8 +23,8 @@ if __name__ == "__main__":
 
 
 app.config.from_object(ConfigApp)
-app.register_blueprint(user_routes, url_prefix='/')
-app.register_blueprint(task_routes, url_prefix='/')
+app.register_blueprint(user_routes, url_prefix='/api')
+app.register_blueprint(task_routes, url_prefix='/api')
 db.init_app(app)
 Migrate(app, db)
 

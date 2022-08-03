@@ -22,7 +22,7 @@ export default function ({ task, setSelectedFile, selectedFile, handleSubmission
   const handlePut = async (e) => {
     const formData = new FormData();
     formData.append('file', selectedFile)
-    const res = await fetch(`/put_s3/${selectedFile.name}`, {
+    const res = await fetch(`/api/put_s3/${selectedFile.name}`, {
       method: "POST",
       headers: {
         'Enctype': 'multipart/form-data'

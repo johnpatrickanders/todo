@@ -18,7 +18,7 @@ export default function ({
   const handleTitleClick = async () => {
     if (selectedTask) return;
     task.status = task.status === 'Open' ? 'Complete' : 'Open';
-    await fetch(`tasks/${task.id}/status`, {
+    await fetch(`/api/tasks/${task.id}/status`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

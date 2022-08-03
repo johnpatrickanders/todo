@@ -11,9 +11,9 @@ function Login({ dispatch }) {
 
   async function logMeIn(event) {
     event.preventDefault();
-    const XSRFTOKEN = await fetch('/get_csrf');
+    const XSRFTOKEN = await fetch('/api/get_csrf');
     const token = await XSRFTOKEN.json()
-    const res = await fetch(`/login`, {
+    const res = await fetch(`/api/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

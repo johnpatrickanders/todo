@@ -5,7 +5,7 @@ function Logout() {
 
   async function logMeOut(e) {
     e.preventDefault();
-    const res = await fetch("/logout", {
+    const res = await fetch("/api/logout", {
       method: "POST",
     })
     if (res.status >= 200 && res.status < 400) {

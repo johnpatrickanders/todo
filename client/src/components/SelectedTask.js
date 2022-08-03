@@ -19,7 +19,7 @@ export default function ({
   const [selectedFile, setSelectedFile] = useState();
 
   const handleTaskUpdate = async () => {
-    const res = await fetch(`/tasks/${selectedTask.id}`, {
+    const res = await fetch(`/api/tasks/${selectedTask.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -48,7 +48,7 @@ export default function ({
     }
   }
   const handleTaskDelete = async () => {
-    const res = await fetch(`/task/${selectedTask.id}`, {
+    const res = await fetch(`/api/task/${selectedTask.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }
     });
@@ -70,7 +70,7 @@ export default function ({
 
   // TODO: to modify for uploadToS3 on error
   const postFileName = async (fileName) => {
-    const res = await fetch(`/post_success/${selectedTask.id}`, {
+    const res = await fetch(`/api/post_success/${selectedTask.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -101,7 +101,7 @@ export default function ({
   }
 
   const handleSubmission = async () => {
-    const res = await fetch('/sign_s3_post', {
+    const res = await fetch('/api/sign_s3_post', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -17,9 +17,9 @@ function Signup() {
       return;
     }
 
-    const XSRFTOKEN = await fetch('/get_csrf')
+    const XSRFTOKEN = await fetch('/api/get_csrf')
     const token = (await XSRFTOKEN.json())
-    const res = await fetch("/signup", {
+    const res = await fetch("/api/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

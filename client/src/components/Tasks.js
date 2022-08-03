@@ -22,7 +22,7 @@ export default function ({ taskListId, taskListTitle }) {
   }
 
   const createTask = async (title) => {
-    const res = await fetch(`/task/${taskListId}`, {
+    const res = await fetch(`/api/task/${taskListId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -50,7 +50,7 @@ export default function ({ taskListId, taskListTitle }) {
       return;
     }
     async function fetchData() {
-      const res = await fetch(`/tasks/${taskListId}`, {
+      const res = await fetch(`/api/tasks/${taskListId}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
       });
