@@ -55,5 +55,5 @@ def not_found(e):
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static', 'images'),
-                               'favicon.ico', mimetype='image/png')
+    return send_from_directory(os.path.join(app.root_path, 'static', 'media'),
+                               'favicon.94f73c5fdbf413877b74.ico', mimetype='image/png')
