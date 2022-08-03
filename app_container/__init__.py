@@ -48,3 +48,7 @@ def inject_csrf_token(response):
 @limiter.exempt
 def load_user(id):
     return User.query.get(id)
+
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
