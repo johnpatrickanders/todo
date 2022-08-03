@@ -72,16 +72,21 @@ export default function ({ taskListId, taskListTitle }) {
         <div className='tasks__list__title'>
           {taskListTitle}
         </div>
-        <label className='toggle__completed' htmlFor='showCompleted'>Hide Completed</label>
-        <input
-          type='checkbox'
-          name='showCompleted'
-          checked={!showCompleted}
-          value='Toggle Completed'
-          onClick={(e) => toggleCompleted(e)}
-          onChange={updateCompletedClass}
-        />
-        <DropDown handleCreate={createTask} buttonLabel="Add Task" />
+        {taskListId &&
+          <>
+            <label className='toggle__completed' htmlFor='showCompleted'>Hide Completed</label>
+            <input
+              type='checkbox'
+              name='showCompleted'
+              checked={!showCompleted}
+              value='Toggle Completed'
+              onClick={(e) => toggleCompleted(e)}
+              onChange={updateCompletedClass}
+            />
+            <DropDown handleCreate={createTask} buttonLabel="Add Task" />
+          </>
+        }
+
       </h3>
       {
         tasksState.map((task, idx) => (
