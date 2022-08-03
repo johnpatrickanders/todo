@@ -62,7 +62,9 @@ function Login({ dispatch }) {
 
   return (
     <div className='form'>
-      <h1>Login</h1>
+      <h1>TO DO<br></br>
+        <div className='login__tagline'>get it done with images and due dates</div>
+      </h1>
       <form>
         <input onChange={handleChange}
           type="email"

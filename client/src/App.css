@@ -55,3 +55,8 @@ button:hover {
 .signup {
   z-index: 2000;
 }
+
+.login__tagline {
+  font-weight: 200;
+  font-style: italic;
+}
