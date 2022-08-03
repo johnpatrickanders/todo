@@ -1,7 +1,9 @@
 import { useContext } from 'react';
 import { UserContext } from '../App';
+import { useHistory } from 'react-router-dom';
 function Logout() {
   const { dispatch } = useContext(UserContext);
+  const history = useHistory();
 
   async function logMeOut(e) {
     e.preventDefault();
@@ -12,6 +14,7 @@ function Logout() {
       dispatch({
         type: "logout"
       });
+      history.push('/login');
     } else {
       console.log(res.status);
     }
