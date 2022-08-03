@@ -51,7 +51,7 @@ export default function ({
           position: "fixed",
           top: '50%',
           // bottom: 0,
-          left: '700px',
+          left: '50%',
           // right: 0,
           marginBlockStart: '9%',
           // marginLeft: 0,
