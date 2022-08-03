@@ -1,5 +1,5 @@
 .main__header {
-  background-color: red;
+  background-color: black;
   height: 50px;
   grid-area: header;
   grid-column-start: 1;
