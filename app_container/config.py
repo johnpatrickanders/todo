@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 class ConfigApp:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace("://", "ql://", 1) #os.environ.get('DATABASE_URL')
     SQLALCHEMY_ECHO = True
     FLASK_ENV = os.environ.get('FLASK_ENV')
     JWT_SECRET_KEY = os.environ.get('SECRET_KEY')
