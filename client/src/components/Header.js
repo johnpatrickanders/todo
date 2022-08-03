@@ -1,5 +1,4 @@
 import './Header.css';
-import todo from '../todo.png';
 import { useContext } from 'react';
 import { UserContext } from '../App';
 import Logout from './Logout'
@@ -15,7 +14,7 @@ export default function ({
         `}
       </div>
       <div className="header__center">
-        <img className="logo" src={todo}></img>
+        <img className="logo" src='/favicon.ico'></img>
       </div>
       <div className="header__right">
         <Logout dispatch={dispatch} />
