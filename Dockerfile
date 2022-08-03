@@ -18,7 +18,7 @@ RUN ["npm", "run", "build", "--prefix", "client"]
 RUN ["cp", "-r", "client/build", "app_container/static"]
 RUN ["cp", "-r", "app_container/static/static/js", "app_container/static"]
 RUN ["cp", "-r", "app_container/static/static/css", "app_container/static"]
-RUN ["cp", "-r", "app_container/static/static/media", "app_container/static"]
+# RUN ["cp", "-r", "app_container/static/static/media", "app_container/static"]
 
 # Setup Flask environment
 ENV FLASK_APP=app_container
