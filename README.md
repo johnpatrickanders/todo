@@ -1,7 +1,7 @@
 ## todoView 
 I'm glad you stopped by! 🙂
 
-I made [todoView](https://todoview.herokuapp.com/) because I've always been fascinated with todo applications—see [here](https://johnpatrickanders.medium.com/new-year-new-list-choosing-a-to-do-app-that-fits-your-life-765620c99bab) for my favorite todo apps. I also needed an excuse to incorporate AWS into a personal project, which I've done here in order to associate files with tasks. I hope you enjoy checking it out, and please let me know how it can be better! 
+I made todoView ([live link here](https://todoview.herokuapp.com/) because I've always been fascinated with todo applications—see [here](https://johnpatrickanders.medium.com/new-year-new-list-choosing-a-to-do-app-that-fits-your-life-765620c99bab) for my favorite todo apps. I also needed an excuse to incorporate AWS into a personal project, which I've done here in order to associate files with tasks. I hope you enjoy checking it out, and please let me know how it can be better! 
 
 I've only just finished MVP. In the near future, I'd love to:
 1. Add the ability to archive lists and tasks,
